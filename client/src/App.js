@@ -1,11 +1,12 @@
 import { useEffect, useLayoutEffect, useState } from "react"
 import { BrowserRouter } from 'react-router-dom';
 
-import './App.css';
+import './styles/App.css';
 import AppRouter from './components/AppRouter';
 import AuthRouter from './components/AuthRouter';
 
 import {TokenContext} from './context/tokenContext';
+import {UsernameContext} from './context/usernameContext';
 
 function App() {
 	const [isAuth, setIsAuth] = useState(false);

@@ -1,0 +1,24 @@
+.wrapperMenu {
+    background-color:rgb(249, 251, 255);
+    border-bottom: solid 1px;
+    border-color: lightgray;
+}
+
+.elementsMenu {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content:space-between;
+}
+
+.elementsMenu :nth-child(n) {
+    flex: 1;
+    border-right: solid 1px lightgray;
+    border-left: solid 1px lightgray;
+    border-radius: 0%;
+}
+
+.elementsMenu :last-child {
+    margin-left: auto;
+    flex: 0;
+}
