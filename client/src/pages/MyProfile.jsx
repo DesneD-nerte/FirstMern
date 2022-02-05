@@ -1,7 +1,9 @@
-import { Avatar, CircularProgress } from '@mui/material';
+import { Avatar, Button, CircularProgress, MenuItem } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import MenuComponent from '../components/MenuComponent';
+import Menu from '@mui/material/Menu';
 import $api from '../http';
+import "../styles/MyProfile.css";
 
 //#region Разный цвет на основе букв
 function stringToColor(string) {
@@ -26,7 +28,10 @@ function stringAvatar(nameAndSurname) {
     const name = nameAndSurname.nameAndSurname;
     return {
         sx: {
-        bgcolor: stringToColor(name),
+            bgcolor: stringToColor(name),
+            width: 100,
+            height: 100,
+            fontSize: 40
         },
         children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
@@ -39,6 +44,14 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
     const [nameAndSurname, setNameAndSurname] = useState('');
     const [roles, setRoles] = useState([]);
 
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     useEffect(() => {
         $api.get(`http://localhost:5000/myprofile`)
@@ -56,16 +69,42 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
 
             {isLoading 
                 ? 
-                    <CircularProgress></CircularProgress>
+                    <div className='loading'>
+                        <CircularProgress></CircularProgress>
+                    </div>
                 :
                     <div className='mainBoard'>
-                    <div className='avatar'>
-                        <Avatar alt="user" {...stringAvatar({nameAndSurname})}></Avatar>
-                    </div>
-                    <div className='myData'>
-                        <a>Пользователь: {nameAndSurname}</a>
-                        <a>Статус: {roles}</a>
-                    </div>
+                        <div className='info'>
+                            <div className='avatar'>
+                                <Avatar alt="user" {...stringAvatar({nameAndSurname})}></Avatar>
+                            </div>
+                            <div className='myData'>
+                                <div>Пользователь: {nameAndSurname}</div>
+                                <div>Статус: {roles}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <Button 
+                                id='options-Button'
+                                aria-controls='demo-customized-menu'
+                                variant='contained'
+                                onClick={handleClick}
+                            >
+                                Настройки
+                            </Button>
+                            <Menu 
+                                id='options-Menu'
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                MenuListProps={{
+                                    "aria-labelledby": "options-Button"
+                                }}
+                            >
+                                <MenuItem onClick={handleClose}>Edit</MenuItem>
+                                <MenuItem onClick={handleClose}>More</MenuItem>
+                            </Menu>
+                        </div>
                     </div>
             }
             
