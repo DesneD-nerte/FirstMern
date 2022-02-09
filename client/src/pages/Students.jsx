@@ -8,16 +8,11 @@ const Students = () => {
     const [totalPages, setTotalPages] = useState(10);
 
     // useEffect( async () => {
-    //     try {
-    //         // const response = await axios.get("http://localhost:5000/api/students", {
-    //         //     params: {
+    //     const response = await axios.get("http://localhost:5000/api/users/students", {
+    //         params: {
 
-    //         //     }
-    //         // })
-    //     }
-    //     catch (e) {
-
-    //     }
+    //         }
+    //     })
     // }, [])
 
     return(
