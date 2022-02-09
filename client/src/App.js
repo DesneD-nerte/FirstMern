@@ -1,3 +1,5 @@
+import 'devextreme/dist/css/dx.common.css';
+import 'devextreme/dist/css/dx.light.css';
 import { useEffect, useLayoutEffect, useState } from "react"
 import { BrowserRouter } from 'react-router-dom';
 
