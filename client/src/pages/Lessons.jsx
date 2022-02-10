@@ -1,7 +1,9 @@
 import MenuComponent from "../components/MenuComponent";
 import Scheduler, { Resource, View } from 'devextreme-react/scheduler';
+import ruMessages from "devextreme/localization/messages/ru.json";
 import { useEffect, useState } from "react";
 import $api from "../http";
+import { loadMessages, locale } from "devextreme/localization";
 
  const classRooms = [{
     text: '451',
@@ -15,6 +17,16 @@ import $api from "../http";
 
 const currentDate = new Date();
 const Lessons = () => {
+    loadMessages(ruMessages);
+    locale(navigator.language);
+
+    const onAppointmentFormOpeningAction = (e) => {
+        const form = e.form;
+        let mainGroupitems = form.itemOption('mainGroup').items;
+        form.itemOption("mainGroupitems.allDay", "visible", false);
+        //form.itemOption("mainGroupitems.repeat", "visible", false);
+    }
+
     const [allowActions, setAllowActions] = useState({
         allowUpdating: true,
         allowAdding: true,
@@ -45,6 +57,8 @@ const Lessons = () => {
             })
 	}, [])
 
+    const views = ['agenda', 'month', 'week', 'day'];
+
      return(
         <div>
             <MenuComponent></MenuComponent>
@@ -54,38 +68,23 @@ const Lessons = () => {
                 defaultCurrentDate={currentDate}
 				// onCellClick={e=> }
                 // timeCellTemplate={e =>new Date(e.date).toLocaleString("en-GB", {hour: "2-digit", minute: "2-digit"})}
-
+                onAppointmentFormOpening={onAppointmentFormOpeningAction}
+                views={views}
                 startDayHour={8}
                 endDayHour={22}
                 editing={allowActions}
                 >
-                <View 
-                    type="agenda">
-                        {/* БАГ С НАЗВАНИЕМ */}
-                </View>
-                <View
-                    type="month"
-                    name="Месяц"> 
-                </View>
-                <View
-                    type="week"
-                    name="Неделя"> 
-                </View>
-                <View
-                    type="day"
-                    name="День"> 
-                </View>
                 <Resource
                     dataSource={teachers}
                     allowMultiple={true}
                     fieldExpr="teacherId"
-                    label="Teacher"
+                    label="Преподаватель"
                     useColorAsDefault={true}>
                 </Resource>
                 <Resource
                     dataSource={classRooms}
                     fieldExpr="classRoomId"
-                    label="ClassRoom">
+                    label="Аудитория">
                 </Resource>
             </Scheduler>
         </div>
