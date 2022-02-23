@@ -21,32 +21,32 @@ const Login = () => {
         setPassword(e.target.value);
     }
 
-    //const navigate = useNavigate();
-
     const loginEnter = async (event) => {
         event.preventDefault();
 
-        await AuthService.login(username, password);
-
-        console.log(localStorage.getItem('token'));
-        
-        setUsername('');
-        setPassword('');
-
-        setIsAuth(true);
-        //navigate('/', {replace: true});
+        await AuthService.login(username, password)
+        .then(response => {
+            setIsAuth(true);
+            setUsername('');
+            setPassword('');
+        })
+        .catch(error => {
+            setIsAuth(false);
+            alert("Неправильный логин или пароль");
+        });
     }
 
     return(
         <div className="loginDiv">
             <h1>Логин</h1>
 
-            <form className="formDiv" onSubmit={loginEnter}>
+            <form className="formDiv">
                 <TextField 
                     value={username}
                     onChange={handleUsernameInput} 
                     type="text" 
                     placeholder="Введите логин"
+                    onKeyDown={e => {if(e.key ==="Enter") loginEnter(e)}}
                     sx={{width: 450, marginTop: 2}}>
                 </TextField>
                 <TextField 
@@ -54,6 +54,7 @@ const Login = () => {
                     onChange={handlePasswordInput}
                     type="password" 
                     placeholder="Введите пароль"
+                    onKeyDown={e => {if(e.key ==="Enter") loginEnter(e)}}
                     sx={{width: 450, marginTop: 1}}>
                 </TextField>
 

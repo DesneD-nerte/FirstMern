@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { TokenContext } from "../context/tokenContext";
 import $api from "../http";
 
     // const requestOptions = {
@@ -11,9 +13,10 @@ import $api from "../http";
     // .then(dataJson => console.log(dataJson));
 
 class AuthService {
-    static login (username, password) { //response.data.token
+
+    static login (username, password) {
         return $api.post("http://localhost:5000/api/auth/login", {username: username, password: password})
-        .then(response => localStorage.setItem('token', response.data.token));
+        .then(response => localStorage.setItem('token', response.data.token))
     }
 
     static logout () {
