@@ -1,4 +1,4 @@
-import { Avatar, Button, CircularProgress, MenuItem } from '@mui/material';
+import { Avatar, Button, CircularProgress, Input, MenuItem } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import MenuComponent from '../components/MenuComponent';
 import Menu from '@mui/material/Menu';
@@ -41,9 +41,12 @@ function stringAvatar(nameAndSurname) {
 export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ershov, string: role
 
     const [isLoading, setIsLoading] = useState(true);
+    const [id, setId] = useState();
     const [nameAndSurname, setNameAndSurname] = useState('');
     const [roles, setRoles] = useState([]);
+    const [uriImagePath, setUriImagePath] = useState();
 
+    //#region Menu 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -52,16 +55,37 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
     const handleClose = () => {
         setAnchorEl(null);
     };
+    //#endregion
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const data = new FormData();
+        data.append('file', e.target.files[0]);
+        data.append('id', id);
+
+        $api.post('http://localhost:5000/upload', data);
+    }
 
     useEffect(() => {
         $api.get(`http://localhost:5000/myprofile`)
         .then(response => {
+                setId(response.data.id);
                 setNameAndSurname(response.data.name);
                 setRoles(response.data.roles);
 
+                //$api.get(`http://localhost:5000/api/users/61dd80af4b4cec30d30ab908/avatar/61dd80af4b4cec30d30ab908.jpeg`)
+                    //.then(response => {
+                        setUriImagePath(`http://localhost:5000/api/users/${response.data.id}/avatar/${response.data.id}.jpeg`);
+                        //console.log(response);
+                    //})
                 setIsLoading(false);
             })
     }, [])
+
+    const handle = () => {
+        $api.get(`http://localhost:5000/api/users/61dd80af4b4cec30d30ab908/avatar/61dd80af4b4cec30d30ab908.jpeg`)
+    }
 
     return(
         <div className='wrapperProfile'>
@@ -76,11 +100,12 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
                     <div className='mainBoard'>
                         <div className='info'>
                             <div className='avatar'>
-                                <Avatar alt="user" {...stringAvatar({nameAndSurname})}></Avatar>
+                                <Avatar alt="user" {...stringAvatar({nameAndSurname})} src={uriImagePath} ></Avatar>
                             </div>
                             <div className='myData'>
                                 <div>Пользователь: {nameAndSurname}</div>
                                 <div>Статус: {roles}</div>
+                                {/* <button onClick={handle}> 12312312</button> */}
                             </div>
                         </div>
                         <div>
@@ -101,8 +126,20 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
                                     "aria-labelledby": "options-Button"
                                 }}
                             >
-                                <MenuItem onClick={handleClose}>Edit</MenuItem>
-                                <MenuItem onClick={handleClose}>More</MenuItem>
+                                <MenuItem type='file' style={{padding: 0}}>
+                                    <label htmlFor="upload-photo">
+                                        <Input type="file"
+                                            id="upload-photo"
+                                            name="upload-photo"
+                                            style={{display: "none"}}
+                                            onChange={handleSubmit}>
+                                        </Input>
+                                        <Button component="span" style={{padding: '5px 15px 5px 15px'}}>
+                                            Изменить аватар
+                                        </Button>{" "}
+                                    </label>
+                                </MenuItem>
+                                <MenuItem>More</MenuItem>
                             </Menu>
                         </div>
                     </div>
