@@ -11,7 +11,7 @@ type newsArrayProps = {
 	news: Array<News>
 };
 
-const NewsList = (props: newsArrayProps) => {
+const NewsList = (props) => {
 	const {news} = props;
 
 	return (

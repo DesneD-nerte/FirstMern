@@ -7,7 +7,7 @@ type News = {
 	createdAt: Date	
 }
 
-const OneNews = (props: News) => {
+const OneNews = (props) => {
 
 	const {name, content, createdAt} = props;
 

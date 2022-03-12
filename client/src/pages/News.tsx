@@ -3,7 +3,8 @@ import MenuComponent from '../components/MenuComponent';
 import { BottomNavigation, Button, Pagination } from "@mui/material";
 import CreateNews from '../components/NewsComponents/CreateNews';
 import $api from '../http';
-const NewsList = require('../components/NewsComponents/NewsList');
+import NewsList from '../components/NewsComponents/NewsList';
+
 function News() {
 
 	const [totalPages, setTotalPages] = useState(10);
@@ -16,6 +17,7 @@ function News() {
 			setNews(response.data);
 			console.log(response.data);
 		})
+		.catch(error => console.log(error))
 	}, [])
 
 	return (
@@ -28,7 +30,7 @@ function News() {
 
 			<CreateNews visible={modal} setVisible={setModal}></CreateNews>
 
-			<NewsList news={news}></NewsList>
+			{/* <NewsList news={news}></NewsList> */}
 			
 			<Pagination disabled={modal} style={{paddingTop: 15}} count={totalPages} onChange={e => console.log(123)} color="primary" size="large"></Pagination>
 		</div>
