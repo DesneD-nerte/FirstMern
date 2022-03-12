@@ -21,7 +21,7 @@ const Students = () => {
             <h1>
                 Страница со студентами
             </h1>
-            <Pagination count={totalPages} onChange={e => console.log(123)} color="primary" size="large"></Pagination>
+            <Pagination style={{paddingTop: 15}} count={totalPages} onChange={e => console.log(123)} color="primary" size="large"></Pagination>
         </div>
         
     );

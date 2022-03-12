@@ -18,7 +18,7 @@ export default function MenuComponent() {
 	}
 
 	const news = (event) => {
-		navigate('/students');
+		navigate('/news');
 	}
 	
 	const myProfile = (event) => {

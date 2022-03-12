@@ -1,0 +1,17 @@
+.mainOneNewsContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: lightskyblue;
+    border-radius: 5px;
+}
+
+.headOneNewsContainer {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.contentOneNewsContainer {
+    padding: 10px;
+    font-size: 18px;
+}

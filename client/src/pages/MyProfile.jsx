@@ -57,6 +57,7 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
     };
     //#endregion
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -65,6 +66,8 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
         data.append('id', id);
 
         $api.post('http://localhost:5000/upload', data);
+        
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -74,18 +77,10 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
                 setNameAndSurname(response.data.name);
                 setRoles(response.data.roles);
 
-                //$api.get(`http://localhost:5000/api/users/61dd80af4b4cec30d30ab908/avatar/61dd80af4b4cec30d30ab908.jpeg`)
-                    //.then(response => {
-                        setUriImagePath(`http://localhost:5000/api/users/${response.data.id}/avatar/${response.data.id}.jpeg`);
-                        //console.log(response);
-                    //})
+                setUriImagePath(`http://localhost:5000/api/users/${response.data.id}/avatar/${response.data.id}.jpeg`);
                 setIsLoading(false);
             })
     }, [])
-
-    const handle = () => {
-        $api.get(`http://localhost:5000/api/users/61dd80af4b4cec30d30ab908/avatar/61dd80af4b4cec30d30ab908.jpeg`)
-    }
 
     return(
         <div className='wrapperProfile'>
@@ -105,7 +100,6 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
                             <div className='myData'>
                                 <div>Пользователь: {nameAndSurname}</div>
                                 <div>Статус: {roles}</div>
-                                {/* <button onClick={handle}> 12312312</button> */}
                             </div>
                         </div>
                         <div>
