@@ -88,8 +88,8 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
 
             {isLoading 
                 ? 
-                    <div className='loading'>
-                        <CircularProgress></CircularProgress>
+                    <div className='loadingProfile'>
+                        <CircularProgress size={100}></CircularProgress>
                     </div>
                 :
                     <div className='mainBoard'>

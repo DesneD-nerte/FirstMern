@@ -1,24 +1,25 @@
-import Login from "../pages/Login";
-import Main from "../pages/Main";
-import Students from "../pages/Students";
-import Lessons from "../pages/Lessons";
-import Error from "../pages/Error";
-import MyProfile from "../pages/MyProfile";
-import StudentProfile from "../pages/StudentProfile";
-import News from "../pages/News";
+import LoginPage from "../pages/LoginPage";
+import MainPage from "../pages/MainPage";
+import StudentsPage from "../pages/StudentsPage";
+import LessonsPage from "../pages/LessonsPage";
+import ErrorPage from "../pages/ErrorPage";
+import MyProfilePage from "../pages/MyProfilePage";
+import StudentProfilePage from "../pages/StudentProfilePage";
+import NewsPage from "../pages/NewsPage";
 
 
 export const privateRoutes = [
-    {path: '/', component: Main},
-    {path: '/lessons', component: Lessons},
-    {path: '/news', component: News},
-    {path: '/students', component: Students},
-    {path: '/myProfile', component: MyProfile},
-    {path: '/users/:id', component: StudentProfile},
-    {path: '/login', component: Login},
-    {path: '/error', component: Error}
+    {path: '/', component: MainPage},
+    {path: '/lessons', component: LessonsPage},
+    {path: '/news', component: NewsPage},
+    {path: '/students', component: StudentsPage},
+    {path: '/myProfile', component: MyProfilePage},
+    {path: '/users/:id', component: StudentProfilePage},
+    // {path: '/admin', component: AdminPage},
+    {path: '/login', component: LoginPage},
+    {path: '/error', component: ErrorPage}
 ]
 
 export const publicRoutes = [
-    {path: '/login', component: Login}
+    {path: '/login', component: LoginPage}
 ]

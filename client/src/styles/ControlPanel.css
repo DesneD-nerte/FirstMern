@@ -1,0 +1,38 @@
+.panelComponent {
+    display: flex;
+    flex-direction: column;
+    flex: 0.35;
+    margin-top: 40px;
+}
+
+.mainPanelContainer {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+}
+
+
+.mainPanelLimitOptions {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 85%;
+    margin-top: 20px;
+}
+
+.buttonAddNews {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 55%;
+    margin-top: 30px;
+}
+
+.deleteContainer {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 85%;
+    margin-top: 10px;
+}

@@ -1,10 +1,10 @@
 import {useNavigate, Route, Routes, Navigate} from 'react-router-dom'
-import Error from '../pages/Error';
-import Main from '../pages/Main';
-import Students from '../pages/Students';
-import Lessons from "../pages/Lessons";
-import MyProfile from '../pages/MyProfile';
-import Login from "../pages/Login";
+import ErrorPage from '../pages/ErrorPage';
+import MainPage from '../pages/MainPage';
+import StudentsPage from '../pages/StudentsPage';
+import LessonsPage from "../pages/LessonsPage";
+import MyProfilePage from '../pages/MyProfilePage';
+import LoginPage from "../pages/LoginPage";
 import { useContext, useEffect, useState } from 'react';
 import { TokenContext } from '../context/tokenContext';
 import { privateRoutes } from '../router/routes';
@@ -86,7 +86,7 @@ const AppRouter = () => {
             <Routes>
                 <Route
                     path="*"
-                    element={<Login/>}>
+                    element={<LoginPage/>}>
                 </Route>
             </Routes>
     )

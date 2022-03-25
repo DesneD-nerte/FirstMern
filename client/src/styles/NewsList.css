@@ -1,0 +1,11 @@
+.newsListComponent {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 75%;
+}
+
+.separator {
+    height: 1px;
+    background-color: lightskyblue;
+}

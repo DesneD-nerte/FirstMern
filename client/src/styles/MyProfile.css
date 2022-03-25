@@ -16,6 +16,12 @@
     margin-top: 15px;
 }
 
+.loadingProfile {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
 #options-Button {
     margin: 15px 0px 0px 130px;
 }
