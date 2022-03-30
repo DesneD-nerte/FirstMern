@@ -4,13 +4,21 @@ import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from 'react';
 import OneNews from './OneNews';
 import '../../styles/ControlPanel.css';
+import $api from '../../http';
 
-const ControlPanel = ({filter, setFilter, limit, setLimit, deleteMode, setDeleteMode, setModal}) => {
+const ControlPanel = ({arrayToDelete, filter, setFilter, limit, setLimit, deleteMode, setDeleteMode, setModal}) => {
 
 	const handleChange = (event, newLimit) => {
 		if (newLimit !== null) {
 			setLimit(newLimit);
 		}
+	}
+
+	const handleDelete = () => {
+		$api.delete('http://localhost:5000/news/deletenews', {data: {oldNews: arrayToDelete}})
+		.then(response => {
+			setDeleteMode(false);
+		})
 	}
 
 	return (
@@ -50,9 +58,8 @@ const ControlPanel = ({filter, setFilter, limit, setLimit, deleteMode, setDelete
 				</div>
 
 				<div className='deleteContainer'>
-					<FormGroup>
-						<FormControlLabel control={<Switch value={deleteMode} onChange={() => setDeleteMode(!deleteMode)} defaultChecked={false}/>} label="Режим удаления" />
-					</FormGroup>
+					<FormControlLabel control={<Switch value={deleteMode} onChange={() => setDeleteMode(!deleteMode)} defaultChecked={false}/>} label="Режим удаления" />
+					<Button variant="contained" onClick={handleDelete} disabled={!deleteMode}>Удалить выделенное</Button>
 				</div>
 
 				<div className='buttonAddNews'>

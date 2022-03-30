@@ -1,44 +1,16 @@
 import { Avatar, Button, CircularProgress, Input, MenuItem } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import MenuComponent from '../components/MenuComponent';
+import { TokenContext } from "../context/tokenContext";
 import Menu from '@mui/material/Menu';
 import $api from '../http';
 import "../styles/MyProfile.css";
+import { stringAvatar } from '../services/AvatarLetters';
 
-//#region Разный цвет на основе букв
-function stringToColor(string) {
-    let hash = 0;
-    let i;
-
-    for (i = 0; i < string.length; i += 1) {
-        hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let color = '#';
-
-    for (i = 0; i < 3; i += 1) {
-        const value = (hash >> (i * 8)) & 0xff;
-        color += `00${value.toString(16)}`.substr(-2);
-    }
-
-    return color;
-}
-
-function stringAvatar(nameAndSurname) { 
-    const name = nameAndSurname.nameAndSurname;
-    return {
-        sx: {
-            bgcolor: stringToColor(name),
-            width: 100,
-            height: 100,
-            fontSize: 40
-        },
-        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-    };
-}
-//#endregion
 
 export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ershov, string: role
+
+    const {isAuth, setIsAuth} = useContext(TokenContext);
 
     const [isLoading, setIsLoading] = useState(true);
     const [id, setId] = useState();
@@ -73,13 +45,17 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
     useEffect(() => {
         $api.get(`http://localhost:5000/myprofile`)
         .then(response => {
-                setId(response.data.id);
-                setNameAndSurname(response.data.name);
-                setRoles(response.data.roles);
+            setId(response.data.id);
+            setNameAndSurname(response.data.name);
+            setRoles(response.data.roles);
 
-                setUriImagePath(`http://localhost:5000/api/users/${response.data.id}/avatar/${response.data.id}.jpeg`);
-                setIsLoading(false);
-            })
+            setUriImagePath(`http://localhost:5000/api/users/${response.data.id}/avatar/${response.data.id}.jpeg`);
+            setIsLoading(false);
+        })
+        .catch(error => {
+            alert(error.response.data.message);
+            setIsAuth(false);
+        })
     }, [])
 
     return(

@@ -32,7 +32,11 @@ const Login = () => {
         })
         .catch(error => {
             setIsAuth(false);
-            alert("Неправильный логин или пароль");
+            if(error.response) {
+                alert(error.response.data.message);
+            } else if (error.request) {
+                alert('Сервер не отвечает');
+            }
         });
     }
 

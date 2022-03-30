@@ -1,7 +1,8 @@
 import MenuComponent from "../components/MenuComponent";
 import Scheduler, { Resource, View } from 'devextreme-react/scheduler';
 import ruMessages from "devextreme/localization/messages/ru.json";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { TokenContext } from "../context/tokenContext";
 import $api from "../http";
 import { loadMessages, locale } from "devextreme/localization";
 
@@ -17,6 +18,9 @@ import { loadMessages, locale } from "devextreme/localization";
 
 const currentDate = new Date();
 const Lessons = () => {
+
+    const {isAuth, setIsAuth} = useContext(TokenContext);
+
     loadMessages(ruMessages);
     locale(navigator.language);
 
@@ -50,11 +54,15 @@ const Lessons = () => {
 	}])
 
 	useEffect(() => {
-		$api.get(`http://localhost:5000/api/lesson/`)
+		$api.get(`http://localhost:5000/api/lessons/`)
         .then(response => {
-                setLessons(...response.data);
-				console.log(lessons);
-            })
+            setLessons(...response.data);
+            console.log(lessons);
+        })
+        .catch(error => {
+            alert(error.response.data.message);
+            setIsAuth(false);
+        })
 	}, [])
 
     const views = ['agenda', 'month', 'week', 'day'];

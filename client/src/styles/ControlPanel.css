@@ -26,13 +26,13 @@
     flex-direction: column;
     align-self: center;
     width: 55%;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .deleteContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-self: center;
     width: 85%;
-    margin-top: 10px;
+    margin-top: 20px;
 }

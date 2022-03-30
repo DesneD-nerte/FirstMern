@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import MenuComponent from '../components/MenuComponent';
 import { BottomNavigation, Button, CircularProgress, Pagination } from "@mui/material";
 import CreateNews from '../components/NewsComponents/CreateNews';
+import { TokenContext } from "../context/tokenContext";
 import $api from '../http';
 import NewsList from '../components/NewsComponents/NewsList';
 import ControlPanel from '../components/NewsComponents/ControlPanel';
@@ -10,6 +11,8 @@ import { News } from '../types';
 import { useNews } from '../hooks/useNews';
 
 function NewsPage() {
+
+    const {isAuth, setIsAuth} = useContext(TokenContext);
 
 	const [totalPages, setTotalPages] = useState(1);
 	const [modal, setModal] = useState(false);
@@ -27,10 +30,13 @@ function NewsPage() {
 	useEffect(() => {
 		$api.get('http://localhost:5000/news/getnews')
 		.then(response => {
-			const ratio = Math.ceil(response.data.length / limit); // 29 / 10 = 3 страницы (2,9)
+			const ratio = Math.ceil(response.data.length / limit); // 29 / 10 = 3 страницы
 			setTotalPages(ratio);
 		})
-		.catch(error => console.log(error))
+		.catch(error => {
+			alert(error.response.data.message);
+			setIsAuth(false);
+		})
 
 		$api.get('http://localhost:5000/news/getnews', {params: {limit: limit, page: page}})
 		.then(response => {
@@ -38,7 +44,7 @@ function NewsPage() {
 		})
 		.catch(error => console.log(error))
 
-	}, [page, limit])
+	}, [page, limit])//news
 
 	useEffect(() => {
 		if(deleteMode) {
@@ -50,11 +56,13 @@ function NewsPage() {
 	}, [deleteMode])
 
 	const createNewNews = (newNews: News) => {
-		setNews([...news, newNews]);
-
-		$api.post('http://localhost:5000/news/postnews', {newNews: newNews})
+		$api.post('http://localhost:5000/news/postnews', {data: {newNews: newNews}})
 		.then(response => {
-			console.log('ok');
+			$api.get('http://localhost:5000/news/getnews', {params: {limit: limit, page: page}})
+			.then(response => {
+				setNews(response.data);
+			})
+			.catch(error => console.log(error))
 		})
 		.catch(error => alert('Ошибка загрузки на сервер' + error));
 
@@ -76,7 +84,7 @@ function NewsPage() {
 
 				<div className='separatorColumn'></div>
 
-				<ControlPanel setModal={setModal} filter={filter} setFilter={setFilter} limit={limit} setLimit={setLimit} deleteMode={deleteMode} setDeleteMode={setDeleteMode}></ControlPanel>
+				<ControlPanel arrayToDelete={arrayToDelete} setModal={setModal} filter={filter} setFilter={setFilter} limit={limit} setLimit={setLimit} deleteMode={deleteMode} setDeleteMode={setDeleteMode}></ControlPanel>
 			</div>
 
 			<Pagination disabled={modal} style={{paddingTop: 15, paddingBottom: 15}} count={totalPages} page={page} onChange={handleChangePage} color="primary" size="large"></Pagination>
