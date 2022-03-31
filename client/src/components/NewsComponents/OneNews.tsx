@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import '../../styles/OneNews.css';
 import moment from 'moment';
 import 'moment/min/locales';
-import { News } from '../../types'
+import { News } from '../../../types'
 import { Checkbox } from '@mui/material';
 import { array } from 'prop-types';
 

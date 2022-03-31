@@ -1,7 +1,7 @@
 import { Button, Input } from '@mui/material'
 import React, { useState } from 'react'
 import '../../styles/CreateNews.css';
-import { News } from '../../types';
+import { News } from '../../../types';
 
 function CreateNews({visible, setVisible, createNewNews}) {
 

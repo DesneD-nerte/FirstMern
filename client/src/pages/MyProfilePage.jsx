@@ -6,17 +6,17 @@ import Menu from '@mui/material/Menu';
 import $api from '../http';
 import "../styles/MyProfile.css";
 import { stringAvatar } from '../services/AvatarLetters';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { changeProfileData } from '../store/profileDataReducer';
 
 export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ershov, string: role
 
     const {isAuth, setIsAuth} = useContext(TokenContext);
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [id, setId] = useState();
-    const [nameAndSurname, setNameAndSurname] = useState('');
-    const [roles, setRoles] = useState([]);
-    const [uriImagePath, setUriImagePath] = useState();
+	const myData = useSelector((state) => ({...state.profileData}));
+    const dispatch = useDispatch();
+
+    const [isLoading, setIsLoading] = useState(false);
 
     //#region Menu 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -35,28 +35,42 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
 
         const data = new FormData();
         data.append('file', e.target.files[0]);
-        data.append('id', id);
+        data.append('id', myData._id)
 
         $api.post('http://localhost:5000/upload', data);
         
-        window.location.reload();
+        setIsLoading(true);
     }
 
-    useEffect(() => {
-        $api.get(`http://localhost:5000/myprofile`)
-        .then(response => {
-            setId(response.data.id);
-            setNameAndSurname(response.data.name);
-            setRoles(response.data.roles);
+    // useEffect(() => {
+    //     $api.get(`http://localhost:5000/myprofile`)
+    //     .then(response => {
+    //         setId(response.data.id);
+    //         setNameAndSurname(response.data.name);
+    //         setRoles(response.data.roles);
 
-            setUriImagePath(`http://localhost:5000/api/users/${response.data.id}/avatar/${response.data.id}.jpeg`);
-            setIsLoading(false);
-        })
-        .catch(error => {
-            alert(error.response.data.message);
-            setIsAuth(false);
-        })
-    }, [])
+    //         setUriImagePath(`http://localhost:5000/api/users/${response.data.id}/avatar/${response.data.id}.jpeg`);
+    //         setIsLoading(false);
+    //     })
+    //     .catch(error => {
+    //         alert(error.response.data.message);
+    //         setIsAuth(false);
+    //     })
+    // }, [])
+
+    useEffect(() => {
+        if(isLoading === true) {
+            $api.get(`http://localhost:5000/myprofile`)
+            .then(response => {
+                window.location.reload();
+                dispatch(changeProfileData(response.data))
+            })
+            .catch(error => {
+                alert(error.response.data.message);
+                setIsAuth(false);
+            })
+        }
+    }, [isLoading])
 
     return(
         <div className='wrapperProfile'>
@@ -71,11 +85,11 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
                     <div className='mainBoard'>
                         <div className='info'>
                             <div className='avatar'>
-                                <Avatar alt="user" {...stringAvatar({nameAndSurname})} src={uriImagePath} ></Avatar>
+                                <Avatar alt="user" {...stringAvatar(myData.name)} src={myData.imageUri} ></Avatar>
                             </div>
                             <div className='myData'>
-                                <div>Пользователь: {nameAndSurname}</div>
-                                <div>Статус: {roles}</div>
+                                <div>Пользователь: {myData.name}</div>
+                                <div>Статус: {myData.roles}</div>
                             </div>
                         </div>
                         <div>

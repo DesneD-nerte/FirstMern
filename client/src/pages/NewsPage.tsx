@@ -7,7 +7,7 @@ import $api from '../http';
 import NewsList from '../components/NewsComponents/NewsList';
 import ControlPanel from '../components/NewsComponents/ControlPanel';
 import '../styles/NewsPage.css';
-import { News } from '../types';
+import { News } from '../../types';
 import { useNews } from '../hooks/useNews';
 
 function NewsPage() {

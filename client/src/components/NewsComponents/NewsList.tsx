@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import OneNews from './OneNews';
 import '../../styles/NewsList.css';
-import { News } from '../../types'
+import { News } from '../../../types'
 
 interface myCallbackType { (myArray: React.SetStateAction<News[]>): Array<News> }
 

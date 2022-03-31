@@ -8,12 +8,15 @@ import AppRouter from './components/AppRouter';
 import AuthRouter from './components/AuthRouter';
 
 import {TokenContext} from './context/tokenContext';
-import {UsernameContext} from './context/usernameContext';
+
+import { Provider } from 'react-redux';
+import {store, persistor} from './store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {
 	const [isAuth, setIsAuth] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-
+	
 	useEffect(() => {
         if(localStorage.getItem('token')) {
             setIsAuth(true);
@@ -21,15 +24,19 @@ function App() {
     }, [])
 
 	return (
-		<TokenContext.Provider value={{
-			isAuth,
-			setIsAuth: setIsAuth,
-			isLoading
-		}}>
-			<BrowserRouter>
-				<AppRouter></AppRouter>
-			</BrowserRouter>
-		</TokenContext.Provider>
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={persistor}>
+				<TokenContext.Provider value={{
+					isAuth,
+					setIsAuth: setIsAuth,
+					isLoading
+				}}>
+					<BrowserRouter>
+						<AppRouter></AppRouter>
+					</BrowserRouter>
+				</TokenContext.Provider>
+			</PersistGate>
+		</Provider>
   	);
 }
 

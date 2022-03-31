@@ -4,9 +4,13 @@ import axios from 'axios';
 import AuthService from '../services/AuthService';
 import { TokenContext } from "../context/tokenContext";
 import { Button, TextField } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { changeProfileData } from "../store/profileDataReducer";
 import '../styles/Login.css';
 
 const Login = () => {
+
+    const dispatch = useDispatch();
 
     const {isAuth, setIsAuth} = useContext(TokenContext);
 
@@ -27,8 +31,13 @@ const Login = () => {
         await AuthService.login(username, password)
         .then(response => {
             setIsAuth(true);
-            setUsername('');
-            setPassword('');
+
+            const {_id, username, name, roles, email, imageUri} = response.data;
+            const storeData = {_id, username, name, roles, email, imageUri};
+            console.log(storeData);
+            dispatch(changeProfileData(storeData));
+
+            localStorage.setItem('token', response.data.token)
         })
         .catch(error => {
             setIsAuth(false);

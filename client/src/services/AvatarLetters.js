@@ -17,7 +17,7 @@ function stringToColor(string) {
 }
 
 export function stringAvatar(nameAndSurname) { 
-    const name = nameAndSurname.nameAndSurname;
+    const name = nameAndSurname;
     return {
         sx: {
             bgcolor: stringToColor(name),

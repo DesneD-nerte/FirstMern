@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { News } from '../types';
+import { News } from '../../types';
 
 export const useNews = (posts: Array<News>, query: string) => {
 
