@@ -1,9 +1,15 @@
 .mainBoard {
-    margin: 15px 15px 15px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 15px 15px 15px;
+    /* background-color: currentColor; */
 }
 
 .info {
     display: flex;
+    align-items: center;
 }
 
 .myData {
@@ -12,16 +18,38 @@
     font-size: 18px;
 }
 
-.myData :nth-child(n) {
+/* .myData :nth-child(n) {
     margin-top: 15px;
-}
+} */
 
 .loadingProfile {
-    margin-top: 20px;
+    /* margin-top: 20px;
     display: flex;
     justify-content: center;
+    align-self: center; */
+
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.oneProperty {
+    margin-bottom: 10px;
+    font-size: 20px;
+    /* color: white; */
+    /* display: flex;
+    align-items: center; */
+}
+
+.propertyName {
+    margin: 0;
+    font-size: 20;
 }
 
 #options-Button {
-    margin: 15px 0px 0px 130px;
+    /* margin: 15px 0px 0px 130px; */
+    align-self: flex-end;
 }

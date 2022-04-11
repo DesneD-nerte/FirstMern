@@ -7,6 +7,8 @@ import { Button, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { changeProfileData } from "../store/profileDataReducer";
 import '../styles/Login.css';
+import { changeInformationData } from "../store/informationReducer";
+import $api from "../http";
 
 const Login = () => {
 
@@ -32,9 +34,9 @@ const Login = () => {
         .then(response => {
             setIsAuth(true);
 
-            const {_id, username, name, roles, email, imageUri} = response.data;
-            const storeData = {_id, username, name, roles, email, imageUri};
-            console.log(storeData);
+            const {_id, username, name, roles, email, imageUri, faculties, departments, groups} = response.data;
+            const storeData = {_id, username, name, roles, email, imageUri, faculties, departments, groups};
+            console.log('Login', storeData);
             dispatch(changeProfileData(storeData));
 
             localStorage.setItem('token', response.data.token)
@@ -47,6 +49,50 @@ const Login = () => {
                 alert('Сервер не отвечает');
             }
         });
+
+
+
+        const requestTeachers = $api.get('http://localhost:5000/api/users/teachers/');
+        const requestAudiences = $api.get('http://localhost:5000/api/audiences/');
+        const requestLessonsNames = $api.get('http://localhost:5000/api/lessons/');
+        const requestGroups = $api.get('http://localhost:5000/api/groups/');
+
+        axios.all([requestTeachers, requestAudiences, requestLessonsNames, requestGroups])
+        .then(axios.spread((...response) => {
+            const responseTeachers = response[0];
+            const responseAudiences = response[1];
+            const requestLessonsNames = response[2];
+            const requestGroups= response[3];
+
+            let newArrayTeachers = [];
+            for (const oneTeacher of responseTeachers.data) {
+                newArrayTeachers.push({id: oneTeacher._id, text: oneTeacher.name, email: oneTeacher.email});
+            }
+
+            let newArrayAudiences = [];
+            for (const oneAudience of responseAudiences.data) {
+                newArrayAudiences.push({id: oneAudience._id, text: oneAudience.name});
+            }
+
+            let newArrayLessonsNames = [];
+            for (const oneLessonName of requestLessonsNames.data) {
+                newArrayLessonsNames.push({id: oneLessonName._id, text: oneLessonName.name});
+            }
+
+            let newArrayGroups = [];
+            for (const oneGroup of requestGroups.data) {
+                newArrayGroups.push({id: oneGroup._id, text: oneGroup.name});
+            }
+
+            dispatch(changeInformationData({
+                teachers: newArrayTeachers,
+                audiences: newArrayAudiences, 
+                lessonsName: newArrayLessonsNames,
+                groups: newArrayGroups}));
+        }))
+        .catch(error => {
+            console.log(error);
+        })
     }
 
     return(

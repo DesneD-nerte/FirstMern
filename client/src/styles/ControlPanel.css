@@ -1,15 +1,14 @@
 .panelComponent {
     display: flex;
     flex-direction: column;
-    flex: 0.35;
-    margin-top: 40px;
+    flex: 0.30;
+    margin-top: 35px;
 }
 
 .mainPanelContainer {
     display: flex;
     flex-direction: column;
-    /* justify-content: center;
-    align-items: center; */
+    width: 100%;
 }
 
 

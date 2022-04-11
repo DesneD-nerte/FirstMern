@@ -27,7 +27,7 @@ export default function MenuComponent() {
 	
 	const logOut = (event) => {
 		localStorage.removeItem('token');
-
+		// localStorage.clear();
 		setIsAuth(false);
 	}
 

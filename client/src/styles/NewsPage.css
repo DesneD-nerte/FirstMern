@@ -1,12 +1,25 @@
-.mainContainer { 
+.mainContainer {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 0.95;
+    justify-content: center;
+}
+
+.newsContainer { 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .separatorColumn {
-    background-color: lightskyblue;
+    /* background-color: lightskyblue; */
     width: 1px;
     align-self: stretch;
 }

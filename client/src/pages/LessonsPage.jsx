@@ -1,100 +1,113 @@
 import MenuComponent from "../components/MenuComponent";
 import Scheduler, { Resource, View } from 'devextreme-react/scheduler';
 import ruMessages from "devextreme/localization/messages/ru.json";
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { TokenContext } from "../context/tokenContext";
 import $api from "../http";
 import { loadMessages, locale } from "devextreme/localization";
+import { useDispatch, useSelector } from "react-redux";
 
- const classRooms = [{
-    text: '451',
-    id: 1,
-    color: '#cc5c53',
-  }, {
-    text: '453',
-    id: 2,
-    color: '#ff9747',
-  }];
+import DxButtom from "devextreme/ui/button";
+import axios from "axios";
+
+import Appointment from '../components/LessonsComponents/Appointment';
+import notify from 'devextreme/ui/notify';
+import { changeInformationData } from "../store/informationReducer";
+import SchedulerComponent from '../components/LessonsComponents/SchedulerComponent';
 
 const currentDate = new Date();
 const Lessons = () => {
 
-    const {isAuth, setIsAuth} = useContext(TokenContext);
+	const information = useSelector((state) => ({...state.informationData}));
+    const dispatch = useDispatch();
 
     loadMessages(ruMessages);
     locale(navigator.language);
 
-    const onAppointmentFormOpeningAction = (e) => {
-        const form = e.form;
-        let mainGroupitems = form.itemOption('mainGroup').items;
-        form.itemOption("mainGroupitems.allDay", "visible", false);
-        //form.itemOption("mainGroupitems.repeat", "visible", false);
-    }
+	const [currentLessons, setCurrentLessons] = useState([])
 
-    const [allowActions, setAllowActions] = useState({
-        allowUpdating: true,
-        allowAdding: true,
-        allowDeleting: true,
-        allowResizing: true,
-        allowDragging: true,
-    })
+	// useEffect(() => {
 
-	const [lessons, setLessons] = useState([{
-		text: 'Staff Productivity Report',
-		startDate: new Date('2021-05-28T23:15:00.000Z'),
-		endDate: new Date('2021-05-29T02:30:00.000Z'),
-		teacherId: "61fe65bca9952e94f6a9321b",
-		classRoomId: 1,
-	}])
+    //     const requestTeachers = $api.get('http://localhost:5000/api/users/teachers/');
+    //     const requestAudiences = $api.get('http://localhost:5000/api/audiences/');
+    //     const requestLessonsNames = $api.get('http://localhost:5000/api/lessons/');
 
-	const [teachers, setTeachers] = useState([{
-		text: 'Тарасов Евгений Борисович',
-		id: "61fe65bca9952e94f6a9321b",
-		email: "teacheruser@gmail.com"
-	}])
+    //     axios.all([requestTeachers, requestAudiences, requestLessonsNames])
+    //     .then(axios.spread((...response) => {
+    //         const responseTeachers = response[0];
+    //         const responseAudiences = response[1];
+    //         const requestLessonsNames = response[2];
 
-	useEffect(() => {
-		$api.get(`http://localhost:5000/api/lessons/`)
+    //         let newArrayTeachers = [];
+    //         for (const oneTeacher of responseTeachers.data) {
+    //             newArrayTeachers.push({id: oneTeacher._id, text: oneTeacher.name, email: oneTeacher.email});
+    //         }
+
+    //         let newArrayAudiences = [];
+    //         for (const oneAudience of responseAudiences.data) {
+    //             newArrayAudiences.push({id: oneAudience._id, text: oneAudience.name});
+    //         }
+
+    //         let newArrayLessonsNames = [];
+    //         for (const oneLessonName of requestLessonsNames.data) {
+    //             newArrayLessonsNames.push({id: oneLessonName._id, text: oneLessonName.name});
+    //         }
+
+    //         // setInformation({
+    //         //     teachers: newArrayTeachers,
+    //         //     audiences: newArrayAudiences,
+    //         //     lessonsName: newArrayLessonsNames
+    //         // })
+
+    //         if(information.teachers.length !== newArrayTeachers.length ||
+    //             information.lessonsName.length !== newArrayLessonsNames.length ||
+    //             information.audiences.length !== newArrayAudiences.length) {
+
+    //             dispatch(changeInformationData(({
+    //                 teachers: newArrayTeachers,
+    //                 audiences: newArrayAudiences, 
+    //                 lessonsName: newArrayLessonsNames})));
+                
+    //             window.location.reload();
+    //         }
+    //     }))
+    //     .catch(error => {
+    //         console.log(error);
+    //     })
+	// }, [])
+
+    // useEffect(() => {
+    //     $api.post('http://localhost:5000/api/currentlessons/savenewcurrentlesson', {})
+    // }, [currentLessons])
+
+    useEffect(() => { 
+        $api.get('http://localhost:5000/api/currentlessons')
         .then(response => {
-            setLessons(...response.data);
-            console.log(lessons);
-        })
-        .catch(error => {
-            alert(error.response.data.message);
-            setIsAuth(false);
-        })
-	}, [])
+            const responseArrayLessons = response.data;
+            
+            const newCurrentLessons = [];
 
-    const views = ['agenda', 'month', 'week', 'day'];
+            for (const oneLesson of responseArrayLessons) {
+                newCurrentLessons.push({
+                    classRoomId: oneLesson.classroom._id,
+                    endDate: new Date(oneLesson.endDate),
+                    startDate: new Date(oneLesson.beginDate),
+                    teacherId: [oneLesson.teacher._id],
+                    text: oneLesson.name.name,
+                    lessonNameId: oneLesson.name._id,
+                    groupId: oneLesson.group._id
+                    // allDay: false
+                })
+            }
 
-     return(
+            setCurrentLessons(newCurrentLessons);
+        })
+    }, [])
+
+    return(
         <div>
             <MenuComponent></MenuComponent>
-            <Scheduler
-                dataSource={lessons}
-                defaultCurrentView="agenda"
-                defaultCurrentDate={currentDate}
-				// onCellClick={e=> }
-                // timeCellTemplate={e =>new Date(e.date).toLocaleString("en-GB", {hour: "2-digit", minute: "2-digit"})}
-                onAppointmentFormOpening={onAppointmentFormOpeningAction}
-                views={views}
-                startDayHour={8}
-                endDayHour={22}
-                editing={allowActions}
-                >
-                <Resource
-                    dataSource={teachers}
-                    allowMultiple={true}
-                    fieldExpr="teacherId"
-                    label="Преподаватель"
-                    useColorAsDefault={true}>
-                </Resource>
-                <Resource
-                    dataSource={classRooms}
-                    fieldExpr="classRoomId"
-                    label="Аудитория">
-                </Resource>
-            </Scheduler>
+            <SchedulerComponent information={information} currentLessons={currentLessons}></SchedulerComponent>
         </div>
     );
 };

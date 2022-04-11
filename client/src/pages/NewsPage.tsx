@@ -80,14 +80,18 @@ function NewsPage() {
 			<CreateNews visible={modal} setVisible={setModal} createNewNews={createNewNews}></CreateNews>
 
 			<div className='mainContainer'>
-				<NewsList news={searchedNews} deleteMode={deleteMode} arrayToDelete={arrayToDelete} setArrayToDelete={setArrayToDelete}></NewsList>
+				<div className='flexContainer'>
+					<div className='newsContainer'>
+						<NewsList news={searchedNews} deleteMode={deleteMode} arrayToDelete={arrayToDelete} setArrayToDelete={setArrayToDelete}></NewsList>
 
-				<div className='separatorColumn'></div>
+						{/* <div className='separatorColumn'></div> */}
 
-				<ControlPanel arrayToDelete={arrayToDelete} setModal={setModal} filter={filter} setFilter={setFilter} limit={limit} setLimit={setLimit} deleteMode={deleteMode} setDeleteMode={setDeleteMode}></ControlPanel>
+						<ControlPanel arrayToDelete={arrayToDelete} setModal={setModal} filter={filter} setFilter={setFilter} limit={limit} setLimit={setLimit} deleteMode={deleteMode} setDeleteMode={setDeleteMode}></ControlPanel>
+					</div>
+
+					<Pagination disabled={modal} style={{paddingTop: 15, paddingBottom: 15}} count={totalPages} page={page} onChange={handleChangePage} color="primary" size="large"></Pagination>
+				</div>
 			</div>
-
-			<Pagination disabled={modal} style={{paddingTop: 15, paddingBottom: 15}} count={totalPages} page={page} onChange={handleChangePage} color="primary" size="large"></Pagination>
 		</div>
 	)
 }

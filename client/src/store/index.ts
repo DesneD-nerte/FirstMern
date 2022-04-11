@@ -4,9 +4,11 @@ import { messagesReducer } from './messagesRecucer';
 
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' 
+import { informationReducer } from "./informationReducer";
 
 const rootReducer = combineReducers({
     profileData: profileDataReducer,
+    informationData: informationReducer,
     messages: messagesReducer
 })
 

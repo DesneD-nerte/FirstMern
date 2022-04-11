@@ -12,58 +12,6 @@ import { privateRoutes } from '../router/routes';
 const AppRouter = () => {
     const {isAuth, setIsAuth, isLoading} = useContext(TokenContext);
     const navigate = useNavigate();
-    // return(
-    //     <Routes>
-    //        {isAuth 
-    //             ? 
-    //             <>
-    //             <Route
-    //                 path="/"
-    //                 //</Routes>element={localStorage.getItem('token') ? <Main/> : navigate('/login', {replace: true})}>
-    //                 element={<Main />}
-    //                 key="/">
-    //             </Route>
-    //             <Route
-    //                 path="/lessons"
-    //                 element={<Lessons />}
-    //                 key="/lessons">
-    //             </Route>
-    //             <Route
-    //                 path="/students"
-    //                 element={<Students />}
-    //                 key="/students">
-    //             </Route>
-    //             <Route
-    //                 path="/myProfile"
-    //                 element={<MyProfile></MyProfile>}
-    //                 key="/myProfile">
-    //             </Route>
-    //             <Route
-    //                 path="/error"
-    //                 element={<Error />}
-    //                 key="/error">
-    //             </Route>
-    //             <Route
-    //                 path="/login"
-    //                 element={<Error />}
-    //                 key="/login">
-    //             </Route>
-    //             <Route
-    //                 path="*"
-    //                 element={<Navigate to="/" replace></Navigate>}
-    //                 key="*">
-    //             </Route>
-    //             </>
-    //             :
-    //             <>
-    //             <Route
-    //                 path="*"
-    //                 element={<Login/>}>
-    //             </Route>
-    //             </>
-    //        }
-    //     </Routes>
-    // );
 
     return(
         isAuth 

@@ -6,14 +6,17 @@ const initialState: User = {
     name: '',
     roles: [],
     email: '',
-	imageUri: ''
+	imageUri: '',
+	faculties: [],
+	departments: [],
+	groups: [],
 }
 
-const CHANGE_DATA = 'CHANGE_DATA';
+const CHANGE_PROFILE_DATA = 'CHANGE_PROFILE_DATA';
 
 export const profileDataReducer = (state = initialState, action) => {
 	switch(action.type) {
-		case CHANGE_DATA:
+		case CHANGE_PROFILE_DATA:
 			return {...state, ...action.payload}
 
 		default: 
@@ -21,4 +24,4 @@ export const profileDataReducer = (state = initialState, action) => {
 	}
 }
 
-export const changeProfileData = (payload) => ({type: CHANGE_DATA, payload: payload});
+export const changeProfileData = (payload) => ({type: CHANGE_PROFILE_DATA, payload: payload});

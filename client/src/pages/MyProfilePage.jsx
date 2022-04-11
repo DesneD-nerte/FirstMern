@@ -8,15 +8,21 @@ import "../styles/MyProfile.css";
 import { stringAvatar } from '../services/AvatarLetters';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProfileData } from '../store/profileDataReducer';
+import NestedList from '../components/ProfileComponents/ListLinks';
+import {useNavigate, Route, Routes, Navigate} from 'react-router-dom'
 
-export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ershov, string: role
+export default function MyProfile() {
 
     const {isAuth, setIsAuth} = useContext(TokenContext);
 
-	const myData = useSelector((state) => ({...state.profileData}));
+	// const myData = useSelector((state) => ({...state.profileData}));
+	const myData = useSelector((state) => (state.profileData));
+
     const dispatch = useDispatch();
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     //#region Menu 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -42,6 +48,10 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
         setIsLoading(true);
     }
 
+    const handleExcel = (e) => {
+        navigate('/addingUsers', {replace: true});
+    }
+
     // useEffect(() => {
     //     $api.get(`http://localhost:5000/myprofile`)
     //     .then(response => {
@@ -62,8 +72,9 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
         if(isLoading === true) {
             $api.get(`http://localhost:5000/myprofile`)
             .then(response => {
-                window.location.reload();
                 dispatch(changeProfileData(response.data))
+                window.location.reload();
+                console.log(response.data);
             })
             .catch(error => {
                 alert(error.response.data.message);
@@ -85,47 +96,84 @@ export default function MyProfile() { //{nameAndSurname, role}//string: Alex Ers
                     <div className='mainBoard'>
                         <div className='info'>
                             <div className='avatar'>
-                                <Avatar alt="user" {...stringAvatar(myData.name)} src={myData.imageUri} ></Avatar>
+                                <Avatar alt="user" {...stringAvatar(myData.name)} src={myData.imageUri} sx={{width: 225, height: 225}}></Avatar>
                             </div>
                             <div className='myData'>
-                                <div>Пользователь: {myData.name}</div>
-                                <div>Статус: {myData.roles}</div>
+                                <div className='oneProperty'>
+                                    <p className='propertyName'><strong>Пользователь: </strong></p>
+                                    {myData.name}</div>
+                                {
+                                    myData.faculties.length !== 0 &&
+                                    <div className='oneProperty'>
+                                        <p className='propertyName'><strong>Факультет: </strong></p>
+                                        {myData.faculties.map((item) => item.name + ' ')}
+                                    </div>
+                                }
+                                {
+                                    myData.departments.length !== 0 &&
+                                    <div className='oneProperty'>
+                                        <p className='propertyName'><strong>Кафедра: </strong></p>
+                                        {myData.departments.map((item) => item.name + ' ')}
+                                    </div>
+                                }
+                                {
+                                    myData.groups.length !== 0 &&
+                                    <div className='oneProperty'>
+                                        <p className='propertyName'><strong>Группа: </strong></p>
+                                        {myData.groups.map((item) => item.name + ' ')}
+                                    </div>
+                                }
+                                <div className='oneProperty'>
+                                    <p className='propertyName'><strong>Статус: </strong></p>
+                                    {myData.roles.map((item) => item.value + ' ')}
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <Button 
-                                id='options-Button'
-                                aria-controls='demo-customized-menu'
-                                variant='contained'
-                                onClick={handleClick}
-                            >
-                                Настройки
-                            </Button>
-                            <Menu 
-                                id='options-Menu'
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}
-                                MenuListProps={{
-                                    "aria-labelledby": "options-Button"
-                                }}
-                            >
-                                <MenuItem type='file' style={{padding: 0}}>
-                                    <label htmlFor="upload-photo">
-                                        <Input type="file"
-                                            id="upload-photo"
-                                            name="upload-photo"
-                                            style={{display: "none"}}
-                                            onChange={handleSubmit}>
-                                        </Input>
-                                        <Button component="span" style={{padding: '5px 15px 5px 15px'}}>
-                                            Изменить аватар
+                            {/* <div> */}
+                                <Button 
+                                    id='options-Button'
+                                    aria-controls='demo-customized-menu'
+                                    variant='contained'
+                                    onClick={handleClick}
+                                >
+                                    Настройки
+                                </Button>
+                                <Menu 
+                                    id='options-Menu'
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleClose}
+                                    MenuListProps={{
+                                        "aria-labelledby": "options-Button"
+                                    }}
+                                >
+                                    <MenuItem type='file' style={{padding: 0, justifyContent: 'center'}}>
+                                        <label htmlFor="upload-photo" style={{width: '100%'}}>
+                                            <Input type="file"
+                                                id="upload-photo"
+                                                name="upload-photo"
+                                                style={{display: "none"}}
+                                                onChange={handleSubmit}>
+                                            </Input>
+                                            <Button component="span" style={{padding: '5px 15px 5px 15px', width: '100%'}}>
+                                                Изменить аватар
+                                            </Button>{" "}
+                                        </label>
+                                    </MenuItem>
+                                    <MenuItem style={{padding: 0, justifyContent: 'center'}}>
+                                        <Button onClick={handleExcel} style={{padding: '5px 15px 5px 15px', width: '100%'}}>
+                                            Зарегистрировать пользователей
                                         </Button>{" "}
-                                    </label>
-                                </MenuItem>
-                                <MenuItem>More</MenuItem>
-                            </Menu>
+                                    </MenuItem>
+
+                                    <MenuItem style={{padding: 0, justifyContent: 'center'}}>
+                                        <Button component="span" style={{padding: '5px 15px 5px 15px', width: '100%'}}>
+                                            Выход
+                                        </Button>{" "}
+                                    </MenuItem>
+                                </Menu>
+                            {/* </div>  */}
                         </div>
+                        <NestedList></NestedList>
                     </div>
             }
             
