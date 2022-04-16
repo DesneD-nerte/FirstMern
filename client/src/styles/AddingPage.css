@@ -1,0 +1,6 @@
+.addingComponent {
+    display: 'flex';
+    flex-direction: 'column';
+    justify-content: center;
+    margin: 35px;
+}

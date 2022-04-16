@@ -4,15 +4,18 @@ import { Workbook } from "igniteui-react-excel";
 import { WorkbookSaveOptions } from "igniteui-react-excel";
 import { WorkbookFormat } from "igniteui-react-excel";
 import { ExcelUtility } from "./../services/ExcelUtility";
-import { Input, Button } from '@mui/material';
-
-
+import { Input, Button, CircularProgress } from '@mui/material';
+import ExcelUsers from '../services/ExcelUsers';
+import $api from '../http';
+import ExcelTable from '../components/ExcelTable';
+import '../styles/AddingPage.css';
+import '../styles/MyProfile.css'
 
 export default function AddingPage () {
     const [workbook, setWorkBook] = useState();
-    //var workbook = ExcelUtility.load(file);
-    //await ExcelUtility.save(workbook, file.shortName);
-    // console.log(workbook);
+    const [isLoading, setIsLoading] = useState(false);
+    //let workbook;
+    const [arrayUsers, setArrayUsers] = useState([{name: "Empty"}]);
     
     const handleSetFile = async (e) => {
         const filePath = e.target.value;
@@ -22,34 +25,60 @@ export default function AddingPage () {
         const myFileExcel = e.target.files[0];
         myFileExcel.shortName = fileName; 
         
-        const workbook = await ExcelUtility.load(myFileExcel);
-        // setFile(myFileExcel);
-        setWorkBook(workbook);
+        const loadedWorkBook = await ExcelUtility.load(myFileExcel);
+        setWorkBook(loadedWorkBook);
+
+        const arrayUsers = ExcelUsers.createArrayUsers(loadedWorkBook);
+        $api.post('http://localhost:5000/api/auth/registration/arrayusers', arrayUsers)
+            .then(res => {
+                const responseArrayUsers = res.data;
+                setArrayUsers(responseArrayUsers);
+            })
+            .catch(err => console.log(err));
     }
 
     const saveWorkBook = () => {
-        console.log(workbook.worksheets(0).rows(1).cells(1).value)
-        //ExcelUtility.save(workbook, `Новые пользователи:  ${new Date()}`);
+        const filledWorkBook = ExcelUsers.fillArrayUsers(workbook, arrayUsers);
+        ExcelUtility.save(filledWorkBook, `Новые пользователи:  ${new Date()}`);
+        setWorkBook(filledWorkBook);
     }
+
+    useEffect(() => {
+        setIsLoading(!isLoading);
+    }, [workbook])
+
+    useEffect(() => {
+        setIsLoading(false);
+    }, [arrayUsers])
 
     return(
         <div>
             <MenuComponent></MenuComponent>
-            <div>
+            <div className='addingComponent'>
                 <h1>Добавление пользователей</h1>
-                    <div>
+                    <div style={{marginBottom: 10}}>
                         <label htmlFor="upload-excel" style={{width: '100%'}}>
                             <Input type="file" inputProps={{accept: [".xlsx", ".xls"]}}
                                 id="upload-excel"
                                 style={{display: "none"}}
                                 onChange={(e) => handleSetFile(e)}/>
-                            <Button component="span" style={{padding: '5px 15px 5px 15px', width: '100%'}}>
+                            <Button component="span" style={{padding: '5px 15px 5px 15px', width: '100%', fontSize: 16}}>
                                 Загрузить Excel
                             </Button>{" "}
                         </label>
                     </div>
                     <div>
-                        <Button onClick={saveWorkBook}>
+                        {!isLoading
+                            ?
+                            <ExcelTable arrayUsers={arrayUsers}></ExcelTable>
+                            :
+                            <div className='loadingProfile'>
+                                <CircularProgress size={100}></CircularProgress>
+                            </div>
+                        }
+                    </div>
+                    <div style={{marginTop: 10}}>
+                        <Button onClick={saveWorkBook} style={{width: '100%', fontSize: 16}}>
                             Сохранить Excel файл
                         </Button>
                     </div>

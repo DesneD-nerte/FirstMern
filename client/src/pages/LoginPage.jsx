@@ -27,7 +27,7 @@ const Login = () => {
         setPassword(e.target.value);
     }
 
-    const loginEnter = async (event) => {
+    const loginEnter = async (event) => {//Я не кладу пароль в ответ
         event.preventDefault();
 
         await AuthService.login(username, password)
@@ -61,8 +61,8 @@ const Login = () => {
         .then(axios.spread((...response) => {
             const responseTeachers = response[0];
             const responseAudiences = response[1];
-            const requestLessonsNames = response[2];
-            const requestGroups= response[3];
+            const responseLessonsNames = response[2];
+            const responseGroups= response[3];
 
             let newArrayTeachers = [];
             for (const oneTeacher of responseTeachers.data) {
@@ -75,12 +75,12 @@ const Login = () => {
             }
 
             let newArrayLessonsNames = [];
-            for (const oneLessonName of requestLessonsNames.data) {
+            for (const oneLessonName of responseLessonsNames.data) {
                 newArrayLessonsNames.push({id: oneLessonName._id, text: oneLessonName.name});
             }
 
             let newArrayGroups = [];
-            for (const oneGroup of requestGroups.data) {
+            for (const oneGroup of responseGroups.data) {
                 newArrayGroups.push({id: oneGroup._id, text: oneGroup.name});
             }
 

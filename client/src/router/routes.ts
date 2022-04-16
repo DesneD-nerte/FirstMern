@@ -7,13 +7,13 @@ import MyProfilePage from "../pages/MyProfilePage";
 import StudentProfilePage from "../pages/StudentProfilePage";
 import NewsPage from "../pages/NewsPage";
 import AddingPage from "../pages/AddingPage";
-
+import JournalPage from '../pages/JournalPage';
 
 export const privateRoutes = [
     {path: '/', component: LessonsPage},
     {path: '/lessons', component: LessonsPage},
     {path: '/news', component: NewsPage},
-    {path: '/students', component: StudentsPage},
+    {path: '/journal', component: JournalPage},
     {path: '/myProfile', component: MyProfilePage},
     {path: '/users/:id', component: StudentProfilePage},
     // {path: '/admin', component: AdminPage},

@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import DxButtom from "devextreme/ui/button";
 import axios from "axios";
 
- import Appointment from './Appointment';
+import Appointment from './Appointment';
 import notify from 'devextreme/ui/notify';
 import $api from '../../http';
+
+import LessonService from '../../services/LessonService';
 
 const currentDate = new Date();
 const SchedulerComponent = ({information, currentLessons}) => {
@@ -56,9 +58,17 @@ const SchedulerComponent = ({information, currentLessons}) => {
     const [currentView, setCurrentView] = useState('agenda');
     let firstTime = true;
 
-    const saveNewCurrentLesson = (e) => {
+    const saveNewCurrentLesson = async (e) => {
         const {appointmentData} = e;
-        $api.post('http://localhost:5000/api/currentlessons/savenewcurrentlesson', appointmentData)
+        console.log(appointmentData);
+        if(!appointmentData.recurrenceRule) {
+            const newCurrentLesson = await (await($api.post('http://localhost:5000/api/currentlessons/savenewcurrentlesson', appointmentData))).data;
+            console.log(newCurrentLesson);
+            $api.post('http://localhost:5000/api/marks/savenewcurrentlesson', {appointmentData, newCurrentLesson});
+        } else {
+            $api.post('http://localhost:5000/api/currentlessons/savenewcurrentlessonsarray', currentLessons);
+            LessonService.separateLessons(appointmentData);
+        }
     }
     return(
         <Scheduler

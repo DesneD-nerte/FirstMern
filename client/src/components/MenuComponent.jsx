@@ -13,8 +13,8 @@ export default function MenuComponent() {
 		navigate('/lessons');
 	}
 	
-	const visits = (event) => {
-		navigate('/students');
+	const journal = (event) => {
+		navigate('/journal');
 	}
 
 	const news = (event) => {
@@ -35,7 +35,7 @@ export default function MenuComponent() {
 		<div className='wrapperMenu'>
 			<div className='elementsMenu'>
 				<Button onClick={schedule}>Расписание</Button>
-				<Button onClick={visits}>Журнал посещений</Button>
+				<Button onClick={journal}>Журнал посещений</Button>
 				<Button onClick={news}>Лента новостей</Button>
 				<Button onClick={myProfile}>Личный кабинет</Button>
 

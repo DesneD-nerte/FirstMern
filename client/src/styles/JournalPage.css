@@ -1,0 +1,26 @@
+.pageComponent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.h1-Text {
+    align-self: flex-start;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+.formComponent {
+    width: 97.5%;
+    margin-top: 15px;
+}
+
+.lessonComponent {
+    width: 50%
+}
+
+.groupsComponent {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

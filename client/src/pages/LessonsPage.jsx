@@ -84,11 +84,11 @@ const Lessons = () => {
         $api.get('http://localhost:5000/api/currentlessons')
         .then(response => {
             const responseArrayLessons = response.data;
-            
             const newCurrentLessons = [];
 
             for (const oneLesson of responseArrayLessons) {
                 newCurrentLessons.push({
+                    _id: oneLesson._id,
                     classRoomId: oneLesson.classroom._id,
                     endDate: new Date(oneLesson.endDate),
                     startDate: new Date(oneLesson.beginDate),
