@@ -70,6 +70,7 @@ const SchedulerComponent = ({information, currentLessons}) => {
             LessonService.separateLessons(appointmentData);
         }
     }
+
     return(
         <Scheduler
             dataSource={currentLessons}

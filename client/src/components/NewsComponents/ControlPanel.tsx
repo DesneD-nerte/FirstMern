@@ -58,7 +58,7 @@ const ControlPanel = ({arrayToDelete, filter, setFilter, limit, setLimit, delete
 				</div>
 
 				<div className='deleteContainer'>
-					<FormControlLabel control={<Switch value={deleteMode} onChange={() => setDeleteMode(!deleteMode)} defaultChecked={false}/>} label="Режим удаления" />
+					<FormControlLabel control={<Switch value={deleteMode} checked={deleteMode} onChange={() => setDeleteMode(!deleteMode)} defaultChecked={false}/>} label="Режим удаления" />
 					<Button variant="contained" onClick={handleDelete} disabled={!deleteMode}>Удалить выделенное</Button>
 				</div>
 

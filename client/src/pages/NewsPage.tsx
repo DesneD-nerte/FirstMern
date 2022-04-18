@@ -58,11 +58,17 @@ function NewsPage() {
 	const createNewNews = (newNews: News) => {
 		$api.post('http://localhost:5000/news/postnews', {data: {newNews: newNews}})
 		.then(response => {
+			$api.get('http://localhost:5000/news/getnews')
+			.then(response => {
+				const ratio = Math.ceil(response.data.length / limit); // 29 / 10 = 3 страницы
+				setTotalPages(ratio);
+			})
+			.catch(error => console.log(error))
+			
 			$api.get('http://localhost:5000/news/getnews', {params: {limit: limit, page: page}})
 			.then(response => {
 				setNews(response.data);
 			})
-			.catch(error => console.log(error))
 		})
 		.catch(error => alert('Ошибка загрузки на сервер' + error));
 
@@ -72,6 +78,8 @@ function NewsPage() {
 	const handleChangePage = (event, newNumberPage) => {
 		setPage(newNumberPage);
 	}
+
+	console.log(totalPages);
 
 	return (
 		<div className="newsComponent">

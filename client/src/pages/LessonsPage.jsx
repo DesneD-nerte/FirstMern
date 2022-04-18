@@ -24,7 +24,7 @@ const Lessons = () => {
     loadMessages(ruMessages);
     locale(navigator.language);
 
-	const [currentLessons, setCurrentLessons] = useState([])
+	const [currentLessons, setCurrentLessons] = useState();//[]
 
 	// useEffect(() => {
 
