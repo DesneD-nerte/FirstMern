@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import OneNews from './OneNews';
 import '../../styles/NewsList.css';
 import { News } from '../../../types'
@@ -22,7 +22,7 @@ const NewsList = (props: newsArrayProps) => {
 				?
 				<div>
 					{news.map((oneNews, index) => 
-						<div>
+						<div key={oneNews._id as React.Key}>
 							<OneNews deleteMode={deleteMode} news={{...oneNews}} arrayToDelete={arrayToDelete} setArrayToDelete={setArrayToDelete}/>
 							<div className='separator'></div>
 						</div>

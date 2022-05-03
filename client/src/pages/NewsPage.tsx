@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useRef} from 'react';
 import MenuComponent from '../components/MenuComponent';
 import { BottomNavigation, Button, CircularProgress, Pagination } from "@mui/material";
 import CreateNews from '../components/NewsComponents/CreateNews';
@@ -20,6 +20,7 @@ function NewsPage() {
 
 	const [limit, setLimit] = useState(5);
 	const [page, setPage] = useState(1);
+	const previousLimit = useRef(5);
 
 	const [filter, setFilter] = useState({query:''});
 	const searchedNews = useNews(news, filter.query);
@@ -50,8 +51,11 @@ function NewsPage() {
 		if(deleteMode) {
 			setPage(1);
 			setLimit(Number.MAX_SAFE_INTEGER);
+
+			setArrayToDelete([]);
+			previousLimit.current = limit;
 		} else {
-			setLimit(5);
+			setLimit(previousLimit.current);
 		}
 	}, [deleteMode])
 
@@ -78,8 +82,6 @@ function NewsPage() {
 	const handleChangePage = (event, newNumberPage) => {
 		setPage(newNumberPage);
 	}
-
-	console.log(totalPages);
 
 	return (
 		<div className="newsComponent">

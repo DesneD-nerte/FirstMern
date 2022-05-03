@@ -12,6 +12,7 @@ export type User = {
 }
 
 export type News = {
+    _id?: String,
 	name: string,
 	content: string,
 	createdAt: Date
@@ -104,7 +105,20 @@ type UserMarks = {
     groups?:Array<Group>
 }
 
-export type Marks = {
+// export type Marks = {
+//     _id: String,
+//     user: UserMarks,
+//     lesson: Lesson,
+//     allCurrentLessons: [
+//         {
+//             _id: String,
+//             currentLesson: CurrentLesson,
+//             mark: String
+//         }
+//     ]
+// }
+
+export interface Marks extends Record<string, any> {
     _id: String,
     user: UserMarks,
     lesson: Lesson,

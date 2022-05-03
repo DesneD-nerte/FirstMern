@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { DataGrid, GridCellParams, GridColumns, GridRowsProp, GridToolbar, ruRU } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import CustomToolBar from './CustomToolBar';
@@ -12,23 +12,23 @@ type DataGridProps = {
 	marks: Array<Marks>,
 }
 
-export default function BasicEditingGrid(DataGridProps) {
-	const {marks} = DataGridProps;
+export default function BasicEditingGrid(dataGridProps: DataGridProps) {
+	const {marks} = dataGridProps;
 
 	const columns: GridColumns = [
 		{field: 'user', headerName: "ФИО", editable: false, width: 300, valueFormatter: ({value}) => value.name},
 	]
 
-	marks.forEach((oneUser) => {
-		if(oneUser) {
-			oneUser.id = oneUser._id;
+	marks.forEach((oneUserMarks) => {
+		if(oneUserMarks) {
+			oneUserMarks.id = oneUserMarks._id;
 		}
 	});
 
 	const oneUserToFill = marks.find(elem => elem);
 	oneUserToFill?.allCurrentLessons.forEach((oneMark, index) => {
 		columns.push({
-			field: oneMark.currentLesson._id,
+			field: oneMark.currentLesson._id.toString(),
 			headerName: moment(oneMark.currentLesson.beginDate).format('LL'),
 			editable: true,
 			width: 150,
@@ -42,7 +42,7 @@ export default function BasicEditingGrid(DataGridProps) {
 	})
 
 	const handleCellEdit = async(params: GridCellParams) => {
-		const result = await $api.put('http://localhost:5000/api/marks/updatecurrentlesson', params.row);
+		await $api.put('http://localhost:5000/api/marks/updatecurrentlesson', params.row);
 	}
 
 	return (
@@ -54,7 +54,12 @@ export default function BasicEditingGrid(DataGridProps) {
 					rowsPerPageOptions={[10, 20, 50, 100]}
 					experimentalFeatures={{ newEditingApi: true }}
 					components={{
-						Toolbar: CustomToolBar,
+						Toolbar: function() {
+							if(marks.length > 0)
+								return CustomToolBar(true);
+							else 
+								return CustomToolBar(false);
+						}
 					}}
 					localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
 					onCellEditStop={handleCellEdit}

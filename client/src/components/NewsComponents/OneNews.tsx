@@ -8,8 +8,6 @@ import { array } from 'prop-types';
 
 moment.locale('ru');  
 
-interface myCallbackType { (myArray: React.SetStateAction<News[]>): Array<News> }
-
 type OneNewsProps = {
 	news: News,
 	deleteMode: boolean,
@@ -35,13 +33,10 @@ const OneNews = (props: OneNewsProps) => {
 
 	return (
 		<div className='mainOneNewsContainer'>
-			{props.deleteMode
-				?
-					<div className='checkboxContainer'>
-						<Checkbox defaultChecked={false} onChange={handleChange}/>
-					</div>
-				:
-					null
+			{props.deleteMode &&
+				<div className='checkboxContainer'>
+					<Checkbox onChange={handleChange}/>
+				</div>
 			}
 			
 			<div className='headOneNewsContainer'>

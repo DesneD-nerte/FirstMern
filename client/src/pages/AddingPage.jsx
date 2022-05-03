@@ -18,6 +18,7 @@ export default function AddingPage () {
     const [arrayUsers, setArrayUsers] = useState([{name: "Empty"}]);
     
     const handleSetFile = async (e) => {
+        console.log(e.target.files);
         const filePath = e.target.value;
         let fileName = filePath.replace(/.*[\/\\]/, '');
         fileName = fileName.slice(0, fileName.lastIndexOf('.'));
@@ -40,7 +41,7 @@ export default function AddingPage () {
     const saveWorkBook = () => {
         const filledWorkBook = ExcelUsers.fillArrayUsers(workbook, arrayUsers);
         ExcelUtility.save(filledWorkBook, `Новые пользователи:  ${new Date()}`);
-        setWorkBook(filledWorkBook);
+        // setWorkBook(filledWorkBook);
     }
 
     useEffect(() => {
@@ -61,7 +62,8 @@ export default function AddingPage () {
                             <Input type="file" inputProps={{accept: [".xlsx", ".xls"]}}
                                 id="upload-excel"
                                 style={{display: "none"}}
-                                onChange={(e) => handleSetFile(e)}/>
+                                onChange={(e) => handleSetFile(e)}
+                                onClick={(e) => e.target.value = null}/>
                             <Button component="span" style={{padding: '5px 15px 5px 15px', width: '100%', fontSize: 16}}>
                                 Загрузить Excel
                             </Button>{" "}
