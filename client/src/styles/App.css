@@ -1,6 +1,11 @@
-.App {
-  display: flex;
-  text-align: center;
+html, body .App {
+  /* display: flex;
+  text-align: center; */
+  height: 100%;
+}
+
+#root {
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -36,4 +41,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+h1 {
+  color:rgb(67, 117, 255);
 }

@@ -6,6 +6,7 @@ import { TokenContext } from "../context/tokenContext";
 import $api from "../http";
 import { loadMessages, locale } from "devextreme/localization";
 import { useDispatch, useSelector } from "react-redux";
+import { CircularProgress } from '@mui/material';
 
 import DxButtom from "devextreme/ui/button";
 import axios from "axios";
@@ -26,61 +27,57 @@ const Lessons = () => {
 
 	const [currentLessons, setCurrentLessons] = useState();//[]
 
-	// useEffect(() => {
-
-    //     const requestTeachers = $api.get('http://localhost:5000/api/users/teachers/');
-    //     const requestAudiences = $api.get('http://localhost:5000/api/audiences/');
-    //     const requestLessonsNames = $api.get('http://localhost:5000/api/lessons/');
-
-    //     axios.all([requestTeachers, requestAudiences, requestLessonsNames])
-    //     .then(axios.spread((...response) => {
-    //         const responseTeachers = response[0];
-    //         const responseAudiences = response[1];
-    //         const requestLessonsNames = response[2];
-
-    //         let newArrayTeachers = [];
-    //         for (const oneTeacher of responseTeachers.data) {
-    //             newArrayTeachers.push({id: oneTeacher._id, text: oneTeacher.name, email: oneTeacher.email});
-    //         }
-
-    //         let newArrayAudiences = [];
-    //         for (const oneAudience of responseAudiences.data) {
-    //             newArrayAudiences.push({id: oneAudience._id, text: oneAudience.name});
-    //         }
-
-    //         let newArrayLessonsNames = [];
-    //         for (const oneLessonName of requestLessonsNames.data) {
-    //             newArrayLessonsNames.push({id: oneLessonName._id, text: oneLessonName.name});
-    //         }
-
-    //         // setInformation({
-    //         //     teachers: newArrayTeachers,
-    //         //     audiences: newArrayAudiences,
-    //         //     lessonsName: newArrayLessonsNames
-    //         // })
-
-    //         if(information.teachers.length !== newArrayTeachers.length ||
-    //             information.lessonsName.length !== newArrayLessonsNames.length ||
-    //             information.audiences.length !== newArrayAudiences.length) {
-
-    //             dispatch(changeInformationData(({
-    //                 teachers: newArrayTeachers,
-    //                 audiences: newArrayAudiences, 
-    //                 lessonsName: newArrayLessonsNames})));
-                
-    //             window.location.reload();
-    //         }
-    //     }))
-    //     .catch(error => {
-    //         console.log(error);
-    //     })
-	// }, [])
-
     // useEffect(() => {
     //     $api.post('http://localhost:5000/api/currentlessons/savenewcurrentlesson', {})
     // }, [currentLessons])
 
     useEffect(() => { 
+
+
+        const requestTeachers = $api.get('http://localhost:5000/api/users/teachers/');
+        const requestAudiences = $api.get('http://localhost:5000/api/audiences/');
+        const requestLessonsNames = $api.get('http://localhost:5000/api/lessons/');
+        const requestGroups = $api.get('http://localhost:5000/api/groups/');
+
+        axios.all([requestTeachers, requestAudiences, requestLessonsNames, requestGroups])
+        .then(axios.spread((...response) => {
+            const responseTeachers = response[0];
+            const responseAudiences = response[1];
+            const responseLessonsNames = response[2];
+            const responseGroups= response[3];
+
+            let newArrayTeachers = [];
+            for (const oneTeacher of responseTeachers.data) {
+                newArrayTeachers.push({id: oneTeacher._id, text: oneTeacher.name, email: oneTeacher.email});
+            }
+
+            let newArrayAudiences = [];
+            for (const oneAudience of responseAudiences.data) {
+                newArrayAudiences.push({id: oneAudience._id, text: oneAudience.name});
+            }
+
+            let newArrayLessonsNames = [];
+            for (const oneLessonName of responseLessonsNames.data) {
+                newArrayLessonsNames.push({id: oneLessonName._id, text: oneLessonName.name});
+            }
+
+            let newArrayGroups = [];
+            for (const oneGroup of responseGroups.data) {
+                newArrayGroups.push({id: oneGroup._id, text: oneGroup.name});
+            }
+
+            dispatch(changeInformationData({
+                teachers: newArrayTeachers,
+                audiences: newArrayAudiences, 
+                lessonsName: newArrayLessonsNames,
+                groups: newArrayGroups})
+            );
+
+        }))
+        .catch(error => {
+            console.log(error);
+        })
+
         $api.get('http://localhost:5000/api/currentlessons')
         .then(response => {
             const responseArrayLessons = response.data;
@@ -107,7 +104,15 @@ const Lessons = () => {
     return(
         <div>
             <MenuComponent></MenuComponent>
-            <SchedulerComponent information={information} currentLessons={currentLessons}></SchedulerComponent>
+            {
+                currentLessons !== undefined && information !== undefined
+                ?
+                <SchedulerComponent information={information} currentLessons={currentLessons}></SchedulerComponent>
+                :
+                <div className='loadingProfile'>
+                    <CircularProgress size={100}></CircularProgress>
+                </div>
+            }
         </div>
     );
 };

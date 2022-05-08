@@ -5,7 +5,6 @@ import { loadMessages, locale } from "devextreme/localization";
 import { useDispatch, useSelector } from "react-redux";
 
 import DxButtom from "devextreme/ui/button";
-import axios from "axios";
 
 import Appointment from './Appointment';
 import notify from 'devextreme/ui/notify';
@@ -15,7 +14,6 @@ import LessonService from '../../services/LessonService';
 
 const currentDate = new Date();
 const SchedulerComponent = ({information, currentLessons}) => {
-
     loadMessages(ruMessages);
     locale(navigator.language);
 
@@ -52,7 +50,19 @@ const SchedulerComponent = ({information, currentLessons}) => {
         }
     }
 
-    const views = ['agenda', 'month', 'week', 'day'];
+    const views = [{
+        type: 'agenda'
+    },
+    {
+        type: 'month'
+    },
+    {
+        type: 'week'
+    },
+    {
+        type: 'day'
+    }];
+
     const timeRange = [15, 30, 60];
     const [selectedTimeRange, setSelectedTimeRange] = useState(timeRange[1]);
     const [currentView, setCurrentView] = useState('agenda');
@@ -61,13 +71,14 @@ const SchedulerComponent = ({information, currentLessons}) => {
     const saveNewCurrentLesson = async (e) => {
         const {appointmentData} = e;
         console.log(appointmentData);
+
         if(!appointmentData.recurrenceRule) {
             const newCurrentLesson = await (await($api.post('http://localhost:5000/api/currentlessons/savenewcurrentlesson', appointmentData))).data;
-            console.log(newCurrentLesson);
             $api.post('http://localhost:5000/api/marks/savenewcurrentlesson', {appointmentData, newCurrentLesson});
         } else {
-            $api.post('http://localhost:5000/api/currentlessons/savenewcurrentlessonsarray', currentLessons);
-            LessonService.separateLessons(appointmentData);
+            const newCurrentLessonsArray = await LessonService.addArrayLessons(appointmentData);
+            console.log(newCurrentLessonsArray);
+            $api.post('http://localhost:5000/api/marks/savenewcurrentlessonsarray', {appointmentData, newCurrentLessonsArray});
         }
     }
 
@@ -75,7 +86,7 @@ const SchedulerComponent = ({information, currentLessons}) => {
         <Scheduler
             dataSource={currentLessons}
             cellDuration={selectedTimeRange}
-            defaultCurrentView="agenda"
+            defaultCurrentView='month'
             defaultCurrentDate={currentDate}
             views={views}
             startDayHour={8}

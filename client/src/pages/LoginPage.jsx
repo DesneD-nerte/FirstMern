@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import AuthService from '../services/AuthService';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeProfileData } from "../store/profileDataReducer";
 import '../styles/Login.css';
 import { changeInformationData } from "../store/informationReducer";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import $api from "../http";
 
 const Login = () => {
@@ -50,81 +51,122 @@ const Login = () => {
             }
         });
 
+        // const requestTeachers = $api.get('http://localhost:5000/api/users/teachers/');
+        // const requestAudiences = $api.get('http://localhost:5000/api/audiences/');
+        // const requestLessonsNames = $api.get('http://localhost:5000/api/lessons/');
+        // const requestGroups = $api.get('http://localhost:5000/api/groups/');
 
+        // axios.all([requestTeachers, requestAudiences, requestLessonsNames, requestGroups])
+        // .then(axios.spread((...response) => {
+        //     const responseTeachers = response[0];
+        //     const responseAudiences = response[1];
+        //     const responseLessonsNames = response[2];
+        //     const responseGroups= response[3];
 
-        const requestTeachers = $api.get('http://localhost:5000/api/users/teachers/');
-        const requestAudiences = $api.get('http://localhost:5000/api/audiences/');
-        const requestLessonsNames = $api.get('http://localhost:5000/api/lessons/');
-        const requestGroups = $api.get('http://localhost:5000/api/groups/');
+        //     let newArrayTeachers = [];
+        //     for (const oneTeacher of responseTeachers.data) {
+        //         newArrayTeachers.push({id: oneTeacher._id, text: oneTeacher.name, email: oneTeacher.email});
+        //     }
 
-        axios.all([requestTeachers, requestAudiences, requestLessonsNames, requestGroups])
-        .then(axios.spread((...response) => {
-            const responseTeachers = response[0];
-            const responseAudiences = response[1];
-            const responseLessonsNames = response[2];
-            const responseGroups= response[3];
+        //     let newArrayAudiences = [];
+        //     for (const oneAudience of responseAudiences.data) {
+        //         newArrayAudiences.push({id: oneAudience._id, text: oneAudience.name});
+        //     }
 
-            let newArrayTeachers = [];
-            for (const oneTeacher of responseTeachers.data) {
-                newArrayTeachers.push({id: oneTeacher._id, text: oneTeacher.name, email: oneTeacher.email});
-            }
+        //     let newArrayLessonsNames = [];
+        //     for (const oneLessonName of responseLessonsNames.data) {
+        //         newArrayLessonsNames.push({id: oneLessonName._id, text: oneLessonName.name});
+        //     }
 
-            let newArrayAudiences = [];
-            for (const oneAudience of responseAudiences.data) {
-                newArrayAudiences.push({id: oneAudience._id, text: oneAudience.name});
-            }
+        //     let newArrayGroups = [];
+        //     for (const oneGroup of responseGroups.data) {
+        //         newArrayGroups.push({id: oneGroup._id, text: oneGroup.name});
+        //     }
 
-            let newArrayLessonsNames = [];
-            for (const oneLessonName of responseLessonsNames.data) {
-                newArrayLessonsNames.push({id: oneLessonName._id, text: oneLessonName.name});
-            }
-
-            let newArrayGroups = [];
-            for (const oneGroup of responseGroups.data) {
-                newArrayGroups.push({id: oneGroup._id, text: oneGroup.name});
-            }
-
-            dispatch(changeInformationData({
-                teachers: newArrayTeachers,
-                audiences: newArrayAudiences, 
-                lessonsName: newArrayLessonsNames,
-                groups: newArrayGroups}));
-        }))
-        .catch(error => {
-            console.log(error);
-        })
+        //     dispatch(changeInformationData({
+        //         teachers: newArrayTeachers,
+        //         audiences: newArrayAudiences, 
+        //         lessonsName: newArrayLessonsNames,
+        //         groups: newArrayGroups}));
+        // }))
+        // .catch(error => {
+        //     console.log(error);
+        // })
     }
+
+    useEffect( async () => {
+        document.body.style.overflow = "hidden";
+        //const arrayImages = await $api.get('http://localhost:5000/images');
+    }, []);
 
     return(
         <div className="loginDiv">
-            <h1>Логин</h1>
+            <div className="photos">
+                <div className="photos_column">
+                    <div className="column-image">
+                        <img src="http://localhost:5000/images/House.webp" alt="image" loading="lazy"></img>
+                    </div>
+                    <div className="column-image">
+                        <img src="http://localhost:5000/images/Sea.webp" alt="image" loading="lazy"></img>
+                    </div>
+                </div>
+                <div className="photos_column">
+                    <div className="column-image">
+                        <img src="http://localhost:5000/images/Lighthouse.webp" alt="image" loading="lazy"></img>
+                    </div>
+                    <div className="column-image">
+                        <img src="http://localhost:5000/images/Triangles.webp" alt="image" loading="lazy"></img>
+                    </div>
+                </div>
+                <div className="photos_column">
+                    <div className="column-image">
+                        <img src="http://localhost:5000/images/DarkLandscape.webp" alt="image" loading="lazy"></img>
+                    </div>
+                    <div className="column-image">
+                        <img src="http://localhost:5000/images/Wheel.webp" alt="image" loading="lazy"></img>
+                    </div>
+                </div>
+            </div>
 
-            <form className="formDiv">
-                <TextField 
-                    value={username}
-                    onChange={handleUsernameInput} 
-                    type="text" 
-                    placeholder="Введите логин"
-                    onKeyDown={e => {if(e.key ==="Enter") loginEnter(e)}}
-                    sx={{width: 450, marginTop: 2}}>
-                </TextField>
-                <TextField 
-                    value={password} 
-                    onChange={handlePasswordInput}
-                    type="password" 
-                    placeholder="Введите пароль"
-                    onKeyDown={e => {if(e.key ==="Enter") loginEnter(e)}}
-                    sx={{width: 450, marginTop: 1}}>
-                </TextField>
+            <div className="main-modal">
+                <div className="modal_overlay">
+                    <div className="modal_content">
+                        {/* <div>
+                            <AccountCircleIcon></AccountCircleIcon>
+                        </div> */}
+                        <div>
+                            <form className="formDiv">
+                                <h1 className="login-label">Логин</h1>
 
-                <Button 
-                    variant='contained'
-                    sx={{width: 150, marginTop: 5, fontSize: 16}}
-                    onClick={loginEnter}
-                >
-                    Войти
-                </Button>
-            </form>
+                                <TextField 
+                                    value={username}
+                                    onChange={handleUsernameInput} 
+                                    type="text" 
+                                    placeholder="Введите логин"
+                                    onKeyDown={e => {if(e.key ==="Enter") loginEnter(e)}}
+                                    sx={{width: '100%', marginTop: 2}}>
+                                </TextField>
+                                <TextField 
+                                    value={password} 
+                                    onChange={handlePasswordInput}
+                                    type="password" 
+                                    placeholder="Введите пароль"
+                                    onKeyDown={e => {if(e.key ==="Enter") loginEnter(e)}}
+                                    sx={{width: '100%', marginTop: 1}}>
+                                </TextField>
+
+                                <Button 
+                                    variant='contained'
+                                    sx={{width: '100%', marginTop: 5, fontSize: 16}}
+                                    onClick={loginEnter}
+                                >
+                                    Войти
+                                </Button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
         </div>
     );
