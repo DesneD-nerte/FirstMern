@@ -46,8 +46,10 @@ const SchedulerComponent = ({information, currentLessons}) => {
             formData.lessonNameId === undefined ||
             formData.groupId === undefined) {
                 data.cancel = true;
-                notify('Заполните все данные', 'warning', 1000)
+                notify('Заполните все данные', 'warning', 1000);
         }
+
+        $api.put('http://localhost:5000/api/currentlessons/updateCurrentLesson', formData);
     }
 
     const views = [{

@@ -95,14 +95,14 @@ const Login = () => {
     }
 
     useEffect( async () => {
-        document.body.style.overflow = "hidden";
+        // document.body.style.overflow = "hidden";
         //const arrayImages = await $api.get('http://localhost:5000/images');
     }, []);
 
     return(
         <div className="loginDiv">
             <div className="photos">
-                <div className="photos_column">
+                <div className="photos_column column_1">
                     <div className="column-image">
                         <img src="http://localhost:5000/images/House.webp" alt="image" loading="lazy"></img>
                     </div>
@@ -110,20 +110,20 @@ const Login = () => {
                         <img src="http://localhost:5000/images/Sea.webp" alt="image" loading="lazy"></img>
                     </div>
                 </div>
-                <div className="photos_column">
+                <div className="photos_column column_2">
                     <div className="column-image">
                         <img src="http://localhost:5000/images/Lighthouse.webp" alt="image" loading="lazy"></img>
                     </div>
                     <div className="column-image">
-                        <img src="http://localhost:5000/images/Triangles.webp" alt="image" loading="lazy"></img>
-                    </div>
-                </div>
-                <div className="photos_column">
-                    <div className="column-image">
                         <img src="http://localhost:5000/images/DarkLandscape.webp" alt="image" loading="lazy"></img>
                     </div>
+                </div>
+                <div className="photos_column column_3">
                     <div className="column-image">
-                        <img src="http://localhost:5000/images/Wheel.webp" alt="image" loading="lazy"></img>
+                        <img src="http://localhost:5000/images/Triangles.webp" alt="image" loading="lazy"></img>
+                    </div>
+                    <div className="column-image">
+                        <img src="http://localhost:5000/images/BlueSea.webp" alt="image" loading="lazy"></img>
                     </div>
                 </div>
             </div>
