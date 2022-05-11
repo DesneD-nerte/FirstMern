@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext, useRef} from 'react';
 import MenuComponent from '../components/MenuComponent';
-import { BottomNavigation, Button, CircularProgress, Pagination } from "@mui/material";
+import { Pagination } from "@mui/material";
 import CreateNews from '../components/NewsComponents/CreateNews';
 import { TokenContext } from "../context/tokenContext";
 import $api from '../http';
@@ -9,6 +9,8 @@ import ControlPanel from '../components/NewsComponents/ControlPanel';
 import '../styles/NewsPage.css';
 import { News } from '../../types';
 import { useNews } from '../hooks/useNews';
+
+const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 function NewsPage() {
 
@@ -29,7 +31,7 @@ function NewsPage() {
 	const [arrayToDelete, setArrayToDelete] = useState<Array<News>>([]);
 
 	useEffect(() => {
-		$api.get('http://localhost:5000/news/getnews')
+		$api.get(`${endpoint}/news/getnews`)
 		.then(response => {
 			const ratio = Math.ceil(response.data.length / limit); // 29 / 10 = 3 страницы
 			setTotalPages(ratio);
@@ -39,13 +41,13 @@ function NewsPage() {
 			setIsAuth(false);
 		})
 
-		$api.get('http://localhost:5000/news/getnews', {params: {limit: limit, page: page}})
+		$api.get(`${endpoint}/news/getnews`, {params: {limit: limit, page: page}})
 		.then(response => {
 			setNews(response.data);
 		})
 		.catch(error => console.log(error))
 
-	}, [page, limit])//news
+	}, [page, limit])
 
 	useEffect(() => {
 		if(deleteMode) {
@@ -60,16 +62,16 @@ function NewsPage() {
 	}, [deleteMode])
 
 	const createNewNews = (newNews: News) => {
-		$api.post('http://localhost:5000/news/postnews', {data: {newNews: newNews}})
+		$api.post(`${endpoint}/news/postnews`, {data: {newNews: newNews}})
 		.then(response => {
-			$api.get('http://localhost:5000/news/getnews')
+			$api.get(`${endpoint}/news/getnews`)
 			.then(response => {
 				const ratio = Math.ceil(response.data.length / limit); // 29 / 10 = 3 страницы
 				setTotalPages(ratio);
 			})
 			.catch(error => console.log(error))
 			
-			$api.get('http://localhost:5000/news/getnews', {params: {limit: limit, page: page}})
+			$api.get(`${endpoint}/news/getnews`, {params: {limit: limit, page: page}})
 			.then(response => {
 				setNews(response.data);
 			})

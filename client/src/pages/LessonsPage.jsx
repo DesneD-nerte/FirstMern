@@ -1,22 +1,16 @@
 import MenuComponent from "../components/MenuComponent";
-import Scheduler, { Resource, View } from 'devextreme-react/scheduler';
 import ruMessages from "devextreme/localization/messages/ru.json";
 import React, { useEffect, useState, useContext } from "react";
-import { TokenContext } from "../context/tokenContext";
 import $api from "../http";
 import { loadMessages, locale } from "devextreme/localization";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from '@mui/material';
-
-import DxButtom from "devextreme/ui/button";
 import axios from "axios";
-
-import Appointment from '../components/LessonsComponents/Appointment';
-import notify from 'devextreme/ui/notify';
 import { changeInformationData } from "../store/informationReducer";
 import SchedulerComponent from '../components/LessonsComponents/SchedulerComponent';
 
-const currentDate = new Date();
+const endpoint = process.env.REACT_APP_SERVICE_URI;
+
 const Lessons = () => {
 
 	const information = useSelector((state) => ({...state.informationData}));
@@ -27,17 +21,12 @@ const Lessons = () => {
 
 	const [currentLessons, setCurrentLessons] = useState();//[]
 
-    // useEffect(() => {
-    //     $api.post('http://localhost:5000/api/currentlessons/savenewcurrentlesson', {})
-    // }, [currentLessons])
-
     useEffect(() => { 
 
-
-        const requestTeachers = $api.get('http://localhost:5000/api/users/teachers/');
-        const requestAudiences = $api.get('http://localhost:5000/api/audiences/');
-        const requestLessonsNames = $api.get('http://localhost:5000/api/lessons/');
-        const requestGroups = $api.get('http://localhost:5000/api/groups/');
+        const requestTeachers = $api.get(`${endpoint}/api/users/teachers/`);
+        const requestAudiences = $api.get(`${endpoint}/api/audiences/`);
+        const requestLessonsNames = $api.get(`${endpoint}/api/lessons/`);
+        const requestGroups = $api.get(`${endpoint}/api/groups/`);
 
         axios.all([requestTeachers, requestAudiences, requestLessonsNames, requestGroups])
         .then(axios.spread((...response) => {
@@ -78,7 +67,7 @@ const Lessons = () => {
             console.log(error);
         })
 
-        $api.get('http://localhost:5000/api/currentlessons')
+        $api.get(`${endpoint}/api/currentlessons`)
         .then(response => {
             const responseArrayLessons = response.data;
             const newCurrentLessons = [];

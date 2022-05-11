@@ -1,18 +1,17 @@
-import Scheduler, { Resource, View } from 'devextreme-react/scheduler';
+import Scheduler, { Resource } from 'devextreme-react/scheduler';
 import ruMessages from "devextreme/localization/messages/ru.json";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState} from "react";
 import { loadMessages, locale } from "devextreme/localization";
-import { useDispatch, useSelector } from "react-redux";
-
 import DxButtom from "devextreme/ui/button";
-
 import Appointment from './Appointment';
 import notify from 'devextreme/ui/notify';
 import $api from '../../http';
-
 import LessonService from '../../services/LessonService';
 
+const endpoint = process.env.REACT_APP_SERVICE_URI;
+
 const currentDate = new Date();
+
 const SchedulerComponent = ({information, currentLessons}) => {
     loadMessages(ruMessages);
     locale(navigator.language);
@@ -49,7 +48,7 @@ const SchedulerComponent = ({information, currentLessons}) => {
                 notify('Заполните все данные', 'warning', 1000);
         }
 
-        $api.put('http://localhost:5000/api/currentlessons/updateCurrentLesson', formData);
+        $api.put(`${endpoint}/api/currentlessons/updateCurrentLesson`, formData);
     }
 
     const views = [{
@@ -75,12 +74,12 @@ const SchedulerComponent = ({information, currentLessons}) => {
         console.log(appointmentData);
 
         if(!appointmentData.recurrenceRule) {
-            const newCurrentLesson = await (await($api.post('http://localhost:5000/api/currentlessons/savenewcurrentlesson', appointmentData))).data;
-            $api.post('http://localhost:5000/api/marks/savenewcurrentlesson', {appointmentData, newCurrentLesson});
+            const newCurrentLesson = await (await($api.post(`${endpoint}/api/currentlessons/savenewcurrentlesson`, appointmentData))).data;
+            $api.post(`${endpoint}/api/marks/savenewcurrentlesson`, {appointmentData, newCurrentLesson});
         } else {
             const newCurrentLessonsArray = await LessonService.addArrayLessons(appointmentData);
             console.log(newCurrentLessonsArray);
-            $api.post('http://localhost:5000/api/marks/savenewcurrentlessonsarray', {appointmentData, newCurrentLessonsArray});
+            $api.post(`${endpoint}/api/marks/savenewcurrentlessonsarray`, {appointmentData, newCurrentLessonsArray});
         }
     }
 

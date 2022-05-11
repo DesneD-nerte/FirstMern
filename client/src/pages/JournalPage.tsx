@@ -1,4 +1,4 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import React, { useEffect, useState, useContext } from "react";
 import MenuComponent from "../components/MenuComponent";
 import DataGrid from '../components/JournalComponents/DataGrid';
@@ -13,6 +13,8 @@ type informationType = {
     currentLessons: Array<CurrentLesson>,
     marks: Array<Marks>,
 }
+
+const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 const Journal = () => {
 
@@ -45,10 +47,10 @@ const Journal = () => {
     }, [currentGroup, currentLesson])
 
     useEffect(() => {
-        const requestGroups = $api.get('http://localhost:5000/api/groups');
-        const requestLessons = $api.get('http://localhost:5000/api/lessons');
-        const requestCurrentLessons = $api.get('http://localhost:5000/api/currentlessons')
-        const requestMarks = $api.get('http://localhost:5000/api/marks')
+        const requestGroups = $api.get(`${endpoint}/api/groups`);
+        const requestLessons = $api.get(`${endpoint}/api/lessons`);
+        const requestCurrentLessons = $api.get(`${endpoint}/api/currentlessons`)
+        const requestMarks = $api.get(`${endpoint}/api/marks`)
 
         axios.all([requestGroups, requestLessons, requestCurrentLessons, requestMarks])
         .then(axios.spread((...response) => {

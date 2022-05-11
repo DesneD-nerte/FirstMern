@@ -9,6 +9,8 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import $api from '../../http/index.js';
 
+const endpoint = process.env.REACT_APP_SERVICE_URI;
+
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
         children: React.ReactElement<any, any>;
@@ -31,7 +33,7 @@ export default function AlertDialogSlide(props: propsAlert) {
     };
 
     const handleDownload = () => {
-        $api.get('http://localhost:5000/files/getExcelTemplate', {
+        $api.get(`${endpoint}/files/getExcelTemplate`, {
             responseType: 'arraybuffer',
             headers: {
                 'Content-Type': 'application/json',

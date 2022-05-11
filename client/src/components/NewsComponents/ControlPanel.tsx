@@ -1,10 +1,11 @@
-import { Button, ButtonGroup, FormControlLabel, FormGroup, Icon, Input, Switch, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Button, FormControlLabel, Switch, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
-import React, { useEffect, useState } from 'react';
-import OneNews from './OneNews';
+import React from 'react';
 import '../../styles/ControlPanel.css';
 import $api from '../../http';
+
+const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 const ControlPanel = ({arrayToDelete, filter, setFilter, limit, setLimit, deleteMode, setDeleteMode, setModal}) => {
 
@@ -15,7 +16,7 @@ const ControlPanel = ({arrayToDelete, filter, setFilter, limit, setLimit, delete
 	}
 
 	const handleDelete = () => {
-		$api.delete('http://localhost:5000/news/deletenews', {data: {oldNews: arrayToDelete}})
+		$api.delete(`${endpoint}/news/deletenews`, {data: {oldNews: arrayToDelete}})
 		.then(response => {
 			setDeleteMode(false);
 		})

@@ -11,6 +11,8 @@ import { changeProfileData } from '../store/profileDataReducer';
 import NestedList from '../components/ProfileComponents/ListLinks';
 import {useNavigate, Route, Routes, Navigate} from 'react-router-dom'
 
+const endpoint = process.env.REACT_APP_SERVICE_URI;
+
 export default function MyProfile() {
 
     const {isAuth, setIsAuth} = useContext(TokenContext);
@@ -43,7 +45,7 @@ export default function MyProfile() {
         data.append('file', e.target.files[0]);
         data.append('id', myData._id)
 
-        $api.post('http://localhost:5000/upload', data);
+        $api.post(`${endpoint}/upload`, data);
         
         setIsLoading(true);
     }
@@ -52,25 +54,9 @@ export default function MyProfile() {
         navigate('/addingUsers', {replace: true});
     }
 
-    // useEffect(() => {
-    //     $api.get(`http://localhost:5000/myprofile`)
-    //     .then(response => {
-    //         setId(response.data.id);
-    //         setNameAndSurname(response.data.name);
-    //         setRoles(response.data.roles);
-
-    //         setUriImagePath(`http://localhost:5000/api/users/${response.data.id}/avatar/${response.data.id}.jpeg`);
-    //         setIsLoading(false);
-    //     })
-    //     .catch(error => {
-    //         alert(error.response.data.message);
-    //         setIsAuth(false);
-    //     })
-    // }, [])
-
     useEffect(() => {
         if(isLoading === true) {
-            $api.get(`http://localhost:5000/myprofile`)
+            $api.get(`${endpoint}/myprofile`)
             .then(response => {
                 dispatch(changeProfileData(response.data))
                 window.location.reload();

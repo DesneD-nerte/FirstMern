@@ -1,5 +1,7 @@
-import { RRule, RRuleSet, rrulestr } from 'rrule'
+import { rrulestr } from 'rrule'
 import $api from '../http';
+
+const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 type currentLesson = {
     classRoomId: string,
@@ -50,7 +52,7 @@ class LessonService {
         });
         console.log('arrayCurrentLessons', arrayCurrentLessons);
 
-        return await (await $api.post('http://localhost:5000/api/currentlessons/savenewcurrentlessonsarray', arrayCurrentLessons)).data;
+        return await (await $api.post(`${endpoint}/api/currentlessons/savenewcurrentlessonsarray`, arrayCurrentLessons)).data;
     }
 }
 

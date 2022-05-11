@@ -7,6 +7,8 @@ import Menu from '@mui/material/Menu';
 import $api from '../http';
 import "../styles/MyProfile.css";
 
+const endpoint = process.env.REACT_APP_SERVICE_URI;
+
 //#region Разный цвет на основе букв
 function stringToColor(string) {
     let hash = 0;
@@ -58,7 +60,7 @@ export default function StudentProfile() { //{nameAndSurname, role}//string: Ale
     let { id } = useParams();
 
     useEffect(() => {
-        $api.get(`http://localhost:5000/api/users/students/${id}`)
+        $api.get(`${endpoint}/api/users/students/${id}`)
         .then(response => {
                 setNameAndSurname(response.data.name);
                 setRoles(response.data.roles);

@@ -12,6 +12,8 @@ import AlertDialogSlide from '../components/AddingUsersComponents/AlertDialogSli
 import '../styles/AddingPage.css';
 import '../styles/MyProfile.css'
 
+const endpoint = process.env.REACT_APP_SERVICE_URI;
+
 export default function AddingPage () {
     const [workbook, setWorkBook] = useState();
     const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +32,7 @@ export default function AddingPage () {
         setWorkBook(loadedWorkBook);
 
         const arrayUsers = ExcelUsers.createArrayUsers(loadedWorkBook);
-        $api.post('http://localhost:5000/api/auth/registration/arrayusers', arrayUsers)
+        $api.post(`${endpoint}/api/auth/registration/arrayusers`, arrayUsers)
             .then(res => {
                 const responseArrayUsers = res.data;
                 setArrayUsers(responseArrayUsers);
