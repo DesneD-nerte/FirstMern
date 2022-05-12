@@ -1,10 +1,18 @@
 import { useState, useContext, useEffect } from "react";
 import AuthService from '../services/AuthService';
 import { TokenContext } from "../context/tokenContext";
-import { Button, TextField } from "@mui/material";
+import { Button, FormControl, OutlinedInput, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { changeProfileData } from "../store/profileDataReducer";
 import '../styles/Login.css';
+
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import FormHelperText from '@mui/material/FormHelperText';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
@@ -14,8 +22,10 @@ const Login = () => {
 
     const {isAuth, setIsAuth} = useContext(TokenContext);
 
-    const [username, setUsername] = useState('');//string
-    const [password, setPassword] = useState('');//number
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showError, setShowError] = useState(false);
 
     const handleUsernameInput = (e) => {
         setUsername(e.target.value);
@@ -25,7 +35,21 @@ const Login = () => {
         setPassword(e.target.value);
     }
 
-    const loginEnter = async (event) => {//Я не кладу пароль в ответ
+    const handleClickShowPassword = (e) => {
+        setShowPassword(!showPassword);
+    }
+
+    const handleMouseDownPassword = (e) => {
+        e.preventDefault();
+    }
+
+    const handleSubmit = (e) => {
+        if(e.key ==="Enter") {
+            loginEnter(e)
+        }
+    }
+
+    const loginEnter = async (event) => {
         event.preventDefault();
 
         await AuthService.login(username, password)
@@ -34,15 +58,15 @@ const Login = () => {
 
             const {_id, username, name, roles, email, imageUri, faculties, departments, groups} = response.data;
             const storeData = {_id, username, name, roles, email, imageUri, faculties, departments, groups};
-            console.log('Login', storeData);
             dispatch(changeProfileData(storeData));
 
             localStorage.setItem('token', response.data.token)
         })
         .catch(error => {
             setIsAuth(false);
+
             if(error.response) {
-                alert(error.response.data.message);
+                setShowError(true);
             } else if (error.request) {
                 alert('Сервер не отвечает');
             }
@@ -54,26 +78,26 @@ const Login = () => {
             <div className="photos">
                 <div className="photos_column column_1">
                     <div className="column-image">
-                        <img src={`${endpoint}/images/House.webp`} alt="image" loading="lazy"></img>
+                        <img src={`${endpoint}/images/House.webp`} alt="House" loading="lazy"></img>
                     </div>
                     <div className="column-image">
-                        <img sr={`${endpoint}/images/Sea.webp`} alt="image" loading="lazy"></img>
+                        <img src={`${endpoint}/images/Sea.webp`} alt="Sea" loading="lazy"></img>
                     </div>
                 </div>
                 <div className="photos_column column_2">
                     <div className="column-image">
-                        <img src={`${endpoint}/images/Lighthouse.webp`} alt="image" loading="lazy"></img>
+                        <img src={`${endpoint}/images/Lighthouse.webp`} alt="Lighthouse" loading="lazy"></img>
                     </div>
                     <div className="column-image">
-                        <img src={`${endpoint}/images/DarkLandscape.webp`} alt="image" loading="lazy"></img>
+                        <img src={`${endpoint}/images/DarkLandscape.webp`} alt="DarkLandscape" loading="lazy"></img>
                     </div>
                 </div>
                 <div className="photos_column column_3">
                     <div className="column-image">
-                        <img src={`${endpoint}/images/Triangles.webp`} alt="image" loading="lazy"></img>
+                        <img src={`${endpoint}/images/Triangles.webp`} alt="Triangles" loading="lazy"></img>
                     </div>
                     <div className="column-image">
-                        <img src={`${endpoint}/images/BlueSea.webp`} alt="image" loading="lazy"></img>
+                        <img src={`${endpoint}/images/BlueSea.webp`} alt="BlueSea" loading="lazy"></img>
                     </div>
                 </div>
             </div>
@@ -90,21 +114,36 @@ const Login = () => {
                                     onChange={handleUsernameInput} 
                                     type="text" 
                                     placeholder="Введите логин"
-                                    onKeyDown={e => {if(e.key ==="Enter") loginEnter(e)}}
+                                    onKeyDown={handleSubmit}
                                     sx={{width: '100%', marginTop: 2}}>
                                 </TextField>
-                                <TextField 
-                                    value={password} 
-                                    onChange={handlePasswordInput}
-                                    type="password" 
-                                    placeholder="Введите пароль"
-                                    onKeyDown={e => {if(e.key ==="Enter") loginEnter(e)}}
-                                    sx={{width: '100%', marginTop: 1}}>
-                                </TextField>
+                                <FormControl sx={{width: '100%', marginTop: 1}} error={showError}>
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        placeholder="Введите пароль"
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={password}
+                                        onChange={handlePasswordInput}
+                                        onKeyDown={handleSubmit}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                    >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }>
+                                    </OutlinedInput>
+                                    <FormHelperText id="component-error-text" sx={{visibility: showError === true ? "visible" : "hidden"}}>Неправильный логин или пароль</FormHelperText>
+                                </FormControl>
 
                                 <Button 
                                     variant='contained'
-                                    sx={{width: '100%', marginTop: 5, fontSize: 16}}
+                                    sx={{width: '100%', marginTop: 3, fontSize: 16}}
                                     onClick={loginEnter}
                                 >
                                     Войти

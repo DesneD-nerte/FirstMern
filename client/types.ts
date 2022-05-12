@@ -26,22 +26,22 @@ export type Message = {
 }
 
 
-type AudienceLessonScheduler = {
+export type AudienceLessonScheduler = {
     id?: String;
     text: String;
 }
 
-type TeacherLessonScheduler = {
+export type TeacherLessonScheduler = {
     id?: String;
     text: String;
     email: String;
 }
 
-type LessonLessonScheduler = {
+export type LessonLessonScheduler = {
     id?: String;
     text: String;
 }
-type GroupLessonScheduler = {
+export type GroupLessonScheduler = {
     id?: String;
     text: String;
 }
@@ -51,6 +51,17 @@ export type InformationScheduler = {
     audiences: Array<AudienceLessonScheduler>;
     lessonsName: Array<LessonLessonScheduler>;
     groups: Array<GroupLessonScheduler>;
+}
+
+export type CurrentLessonScheduler = {
+    _id: string,
+    classRoomId: string,
+    endDate: Date,
+    startDate: Date,
+    teacherId: Array<string>,
+    text: string,
+    lessonNameId: string,
+    groupId: string
 }
 
 

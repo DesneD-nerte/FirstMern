@@ -8,6 +8,7 @@ import { CircularProgress } from '@mui/material';
 import axios from "axios";
 import { changeInformationData } from "../store/informationReducer";
 import SchedulerComponent from '../components/LessonsComponents/SchedulerComponent';
+import DataService from "../services/DataService";
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
@@ -22,72 +23,18 @@ const Lessons = () => {
 	const [currentLessons, setCurrentLessons] = useState();//[]
 
     useEffect(() => { 
-
-        const requestTeachers = $api.get(`${endpoint}/api/users/teachers/`);
-        const requestAudiences = $api.get(`${endpoint}/api/audiences/`);
-        const requestLessonsNames = $api.get(`${endpoint}/api/lessons/`);
-        const requestGroups = $api.get(`${endpoint}/api/groups/`);
-
-        axios.all([requestTeachers, requestAudiences, requestLessonsNames, requestGroups])
-        .then(axios.spread((...response) => {
-            const responseTeachers = response[0];
-            const responseAudiences = response[1];
-            const responseLessonsNames = response[2];
-            const responseGroups= response[3];
-
-            let newArrayTeachers = [];
-            for (const oneTeacher of responseTeachers.data) {
-                newArrayTeachers.push({id: oneTeacher._id, text: oneTeacher.name, email: oneTeacher.email});
-            }
-
-            let newArrayAudiences = [];
-            for (const oneAudience of responseAudiences.data) {
-                newArrayAudiences.push({id: oneAudience._id, text: oneAudience.name});
-            }
-
-            let newArrayLessonsNames = [];
-            for (const oneLessonName of responseLessonsNames.data) {
-                newArrayLessonsNames.push({id: oneLessonName._id, text: oneLessonName.name});
-            }
-
-            let newArrayGroups = [];
-            for (const oneGroup of responseGroups.data) {
-                newArrayGroups.push({id: oneGroup._id, text: oneGroup.name});
-            }
-
-            dispatch(changeInformationData({
-                teachers: newArrayTeachers,
-                audiences: newArrayAudiences, 
-                lessonsName: newArrayLessonsNames,
-                groups: newArrayGroups})
-            );
-
-        }))
-        .catch(error => {
-            console.log(error);
+        DataService.GetMainInformation()
+        .then(newInformation => {
+            console.log(newInformation);
+            dispatch(changeInformationData(newInformation));
         })
 
-        $api.get(`${endpoint}/api/currentlessons`)
-        .then(response => {
-            const responseArrayLessons = response.data;
-            const newCurrentLessons = [];
-
-            for (const oneLesson of responseArrayLessons) {
-                newCurrentLessons.push({
-                    _id: oneLesson._id,
-                    classRoomId: oneLesson.classroom._id,
-                    endDate: new Date(oneLesson.endDate),
-                    startDate: new Date(oneLesson.beginDate),
-                    teacherId: [oneLesson.teacher._id],
-                    text: oneLesson.name.name,
-                    lessonNameId: oneLesson.name._id,
-                    groupId: oneLesson.group._id
-                    // allDay: false
-                })
-            }
-
+        DataService.GetCurrentLessons()
+        .then(newCurrentLessons => {
+            console.log(newCurrentLessons);
             setCurrentLessons(newCurrentLessons);
         })
+        
     }, [])
 
     return(

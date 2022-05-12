@@ -31,7 +31,13 @@ export default function Appointment(model, teachers, audiences) {
                         {moment(targetedAppointmentData.startDate).format('LT') + ' : ' + moment(targetedAppointmentData.endDate).format('LT')}
                     </div>
                     <div style={{marginLeft: 50}}>
-                        {currentTeachers.map(oneTeacher => oneTeacher.text)}
+                        {currentTeachers.map((oneTeacher, index) => {
+                                if(index !== 0) {
+                                    return ', ' + oneTeacher.text;
+                                }
+                                return oneTeacher.text;
+                            }
+                        )} 
                     </div>
                 </div>
             </div>

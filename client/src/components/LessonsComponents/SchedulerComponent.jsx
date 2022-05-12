@@ -78,7 +78,6 @@ const SchedulerComponent = ({information, currentLessons}) => {
             $api.post(`${endpoint}/api/marks/savenewcurrentlesson`, {appointmentData, newCurrentLesson});
         } else {
             const newCurrentLessonsArray = await LessonService.addArrayLessons(appointmentData);
-            console.log(newCurrentLessonsArray);
             $api.post(`${endpoint}/api/marks/savenewcurrentlessonsarray`, {appointmentData, newCurrentLessonsArray});
         }
     }

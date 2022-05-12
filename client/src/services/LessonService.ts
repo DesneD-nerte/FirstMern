@@ -50,7 +50,6 @@ class LessonService {
 
             arrayCurrentLessons.push(newCurrentLesson);
         });
-        console.log('arrayCurrentLessons', arrayCurrentLessons);
 
         return await (await $api.post(`${endpoint}/api/currentlessons/savenewcurrentlessonsarray`, arrayCurrentLessons)).data;
     }
