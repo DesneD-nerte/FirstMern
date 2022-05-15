@@ -79,7 +79,7 @@ export default class ExcelUsers {
         const workSheet = workbook.worksheets(0);
         const countRows = workSheet.rows().count;
         const countColumns = 8;
-        console.log(arrayUsers);
+
         for(let i = 0; i < countRows - 1; i++) {//0-5
             const row = workSheet.rows(i + 1);//1,2,3,4,5,6
             console.log(arrayUsers[i]);

@@ -1,7 +1,6 @@
 import MenuComponent from "../components/MenuComponent";
 import ruMessages from "devextreme/localization/messages/ru.json";
 import React, { useEffect, useState, useContext } from "react";
-import $api from "../http";
 import { loadMessages, locale } from "devextreme/localization";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from '@mui/material';

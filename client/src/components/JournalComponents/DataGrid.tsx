@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import CustomToolBar from './CustomToolBar';
 import { CurrentLesson, Marks } from '../../../types';
 import moment from 'moment';
-import $api from '../../http';
+import axios from 'axios';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
@@ -44,7 +44,7 @@ export default function BasicEditingGrid(dataGridProps: DataGridProps) {
 	})
 
 	const handleCellEdit = async(params: GridCellParams) => {
-		await $api.put(`${endpoint}/api/marks/updatecurrentlesson`, params.row);
+		await axios.put(`${endpoint}/api/marks/updatecurrentlesson`, params.row);
 	}
 
 	return (

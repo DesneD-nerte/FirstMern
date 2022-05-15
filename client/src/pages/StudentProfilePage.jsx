@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
   
 import MenuComponent from '../components/MenuComponent';
 import Menu from '@mui/material/Menu';
-import $api from '../http';
+import axios from 'axios';
 import "../styles/MyProfile.css";
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
@@ -60,7 +60,7 @@ export default function StudentProfile() { //{nameAndSurname, role}//string: Ale
     let { id } = useParams();
 
     useEffect(() => {
-        $api.get(`${endpoint}/api/users/students/${id}`)
+        axios.get(`${endpoint}/api/users/students/${id}`)
         .then(response => {
                 setNameAndSurname(response.data.name);
                 setRoles(response.data.roles);

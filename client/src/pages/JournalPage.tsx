@@ -2,7 +2,6 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, ToggleBut
 import React, { useEffect, useState, useContext } from "react";
 import MenuComponent from "../components/MenuComponent";
 import DataGrid from '../components/JournalComponents/DataGrid';
-import $api from "../http";
 import axios from "axios";
 import '../styles/JournalPage.css';
 import {Group, Lesson, CurrentLesson, Marks} from '../../types'
@@ -47,10 +46,10 @@ const Journal = () => {
     }, [currentGroup, currentLesson])
 
     useEffect(() => {
-        const requestGroups = $api.get(`${endpoint}/api/groups`);
-        const requestLessons = $api.get(`${endpoint}/api/lessons`);
-        const requestCurrentLessons = $api.get(`${endpoint}/api/currentlessons`)
-        const requestMarks = $api.get(`${endpoint}/api/marks`)
+        const requestGroups = axios.get(`${endpoint}/api/groups`);
+        const requestLessons = axios.get(`${endpoint}/api/lessons`);
+        const requestCurrentLessons = axios.get(`${endpoint}/api/currentlessons`)
+        const requestMarks = axios.get(`${endpoint}/api/marks`)
 
         axios.all([requestGroups, requestLessons, requestCurrentLessons, requestMarks])
         .then(axios.spread((...response) => {

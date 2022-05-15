@@ -6,7 +6,7 @@ import { WorkbookFormat } from "igniteui-react-excel";
 import { ExcelUtility } from "./../services/ExcelUtility";
 import { Input, Button, CircularProgress } from '@mui/material';
 import ExcelUsers from '../services/ExcelUsers';
-import $api from '../http';
+import axios from 'axios';
 import ExcelTable from '../components/ExcelTable';
 import AlertDialogSlide from '../components/AddingUsersComponents/AlertDialogSlide';
 import '../styles/AddingPage.css';
@@ -32,7 +32,7 @@ export default function AddingPage () {
         setWorkBook(loadedWorkBook);
 
         const arrayUsers = ExcelUsers.createArrayUsers(loadedWorkBook);
-        $api.post(`${endpoint}/api/auth/registration/arrayusers`, arrayUsers)
+        axios.post(`${endpoint}/api/auth/registration/arrayusers`, arrayUsers)
             .then(res => {
                 const responseArrayUsers = res.data;
                 setArrayUsers(responseArrayUsers);

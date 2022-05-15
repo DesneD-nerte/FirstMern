@@ -1,6 +1,8 @@
 import { useState, useContext, useEffect } from "react";
 import AuthService from '../services/AuthService';
-import { TokenContext } from "../context/tokenContext";
+// import { TokenContext } from "../context/tokenContext";
+import { AuthContext } from '../context/authContext';
+
 import { Button, FormControl, OutlinedInput, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { changeProfileData } from "../store/profileDataReducer";
@@ -20,7 +22,8 @@ const Login = () => {
 
     const dispatch = useDispatch();
 
-    const {isAuth, setIsAuth} = useContext(TokenContext);
+    // const {isAuth, setIsAuth} = useContext(TokenContext);
+    const {state, authContext} = useContext(AuthContext);
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -54,16 +57,15 @@ const Login = () => {
 
         await AuthService.login(username, password)
         .then(response => {
-            setIsAuth(true);
 
             const {_id, username, name, roles, email, imageUri, faculties, departments, groups} = response.data;
             const storeData = {_id, username, name, roles, email, imageUri, faculties, departments, groups};
             dispatch(changeProfileData(storeData));
 
-            localStorage.setItem('token', response.data.token)
+            authContext.signIn(response.data.token);
         })
         .catch(error => {
-            setIsAuth(false);
+            authContext.signOut();
 
             if(error.response) {
                 setShowError(true);

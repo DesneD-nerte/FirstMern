@@ -3,10 +3,13 @@ import Button from '@mui/material/Button';
 import '../styles/MenuComponent.css';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { TokenContext } from '../context/tokenContext';
+// import { TokenContext } from '../context/tokenContext';
+import { AuthContext } from '../context/authContext';
 
 export default function MenuComponent() {
-	const {isAuth, setIsAuth, isLoading} = useContext(TokenContext);
+	// const {isAuth, setIsAuth, isLoading} = useContext(TokenContext);
+	const { authContext } = useContext(AuthContext);
+
 	const navigate = useNavigate();
 
 	const schedule = (event) => {
@@ -26,9 +29,7 @@ export default function MenuComponent() {
 	}
 	
 	const logOut = (event) => {
-		localStorage.removeItem('token');
-		// localStorage.clear();
-		setIsAuth(false);
+		authContext.signOut();
 	}
 
 	return (

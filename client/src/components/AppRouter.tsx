@@ -6,30 +6,35 @@ import LessonsPage from "../pages/LessonsPage";
 import MyProfilePage from '../pages/MyProfilePage';
 import LoginPage from "../pages/LoginPage";
 import { useContext, useEffect, useState } from 'react';
-import { TokenContext } from '../context/tokenContext';
+import { AuthContext } from '../context/authContext';
 import { privateRoutes } from '../router/routes';
+import RequestIncerceptor from '../http/RequestInterceptor';
 
 const AppRouter = () => {
-    const {isAuth, setIsAuth, isLoading} = useContext(TokenContext);
+
+    const { state } = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     return(
-        isAuth 
+        state.isAuth 
             ? 
-            <Routes>
-                {privateRoutes.map(route => 
+            <RequestIncerceptor>
+                <Routes>
+                    {privateRoutes.map(route => 
+                        <Route
+                            path={route.path}
+                            element={<route.component/>}
+                            key={route.path}>
+                        </Route>
+                    )}
                     <Route
-                        path={route.path}
-                        element={<route.component/>}
-                        key={route.path}>
+                        path='*'
+                        element={<Navigate to="/error" replace></Navigate>}
+                        key="*">
                     </Route>
-                )}
-                <Route
-                    path='*'
-                    element={<Navigate to="/error" replace></Navigate>}
-                    key="*">
-                </Route>
-            </Routes>
+                </Routes>
+            </RequestIncerceptor>
             :
             <Routes>
                 <Route

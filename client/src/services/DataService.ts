@@ -1,4 +1,3 @@
-import $api from "../http";
 import axios from "axios";
 import { 
     AudienceLessonScheduler,
@@ -14,10 +13,10 @@ const endpoint = process.env.REACT_APP_SERVICE_URI;
 class DataService {
 
     GetMainInformation () : Promise<InformationScheduler> {
-        const requestTeachers = $api.get(`${endpoint}/api/users/teachers/`);
-        const requestAudiences = $api.get(`${endpoint}/api/audiences/`);
-        const requestLessonsNames = $api.get(`${endpoint}/api/lessons/`);
-        const requestGroups = $api.get(`${endpoint}/api/groups/`);
+        const requestTeachers = axios.get(`${endpoint}/api/users/teachers/`);
+        const requestAudiences = axios.get(`${endpoint}/api/audiences/`);
+        const requestLessonsNames = axios.get(`${endpoint}/api/lessons/`);
+        const requestGroups = axios.get(`${endpoint}/api/groups/`);
 
         const newInformationScheduler = axios.all([requestTeachers, requestAudiences, requestLessonsNames, requestGroups])
         .then(axios.spread((...response) => {
@@ -71,7 +70,7 @@ class DataService {
     }
 
     GetCurrentLessons () : Promise<CurrentLessonScheduler[]> {
-        const newCurrentLessonPromise = $api.get(`${endpoint}/api/currentlessons`)
+        const newCurrentLessonPromise = axios.get(`${endpoint}/api/currentlessons`)
         .then(response => {
             const responseArrayLessons = response.data;
             const newCurrentLessons : Array<CurrentLessonScheduler> = [];

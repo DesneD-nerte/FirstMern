@@ -1,5 +1,5 @@
 import { rrulestr } from 'rrule'
-import $api from '../http';
+import axios from 'axios';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
@@ -51,7 +51,7 @@ class LessonService {
             arrayCurrentLessons.push(newCurrentLesson);
         });
 
-        return await (await $api.post(`${endpoint}/api/currentlessons/savenewcurrentlessonsarray`, arrayCurrentLessons)).data;
+        return await (await axios.post(`${endpoint}/api/currentlessons/savenewcurrentlessonsarray`, arrayCurrentLessons)).data;
     }
 }
 

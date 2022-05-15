@@ -3,7 +3,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
 import '../../styles/ControlPanel.css';
-import $api from '../../http';
+import axios from 'axios';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
@@ -16,7 +16,7 @@ const ControlPanel = ({arrayToDelete, filter, setFilter, limit, setLimit, delete
 	}
 
 	const handleDelete = () => {
-		$api.delete(`${endpoint}/news/deletenews`, {data: {oldNews: arrayToDelete}})
+		axios.delete(`${endpoint}/news/deletenews`, {data: {oldNews: arrayToDelete}})
 		.then(response => {
 			setDeleteMode(false);
 		})

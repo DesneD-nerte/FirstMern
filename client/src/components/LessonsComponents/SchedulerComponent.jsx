@@ -5,8 +5,8 @@ import { loadMessages, locale } from "devextreme/localization";
 import DxButtom from "devextreme/ui/button";
 import Appointment from './Appointment';
 import notify from 'devextreme/ui/notify';
-import $api from '../../http';
 import LessonService from '../../services/LessonService';
+import axios from 'axios';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
@@ -48,7 +48,7 @@ const SchedulerComponent = ({information, currentLessons}) => {
                 notify('Заполните все данные', 'warning', 1000);
         }
 
-        $api.put(`${endpoint}/api/currentlessons/updateCurrentLesson`, formData);
+        axios.put(`${endpoint}/api/currentlessons/updateCurrentLesson`, formData);
     }
 
     const views = [{
@@ -74,11 +74,11 @@ const SchedulerComponent = ({information, currentLessons}) => {
         console.log(appointmentData);
 
         if(!appointmentData.recurrenceRule) {
-            const newCurrentLesson = await (await($api.post(`${endpoint}/api/currentlessons/savenewcurrentlesson`, appointmentData))).data;
-            $api.post(`${endpoint}/api/marks/savenewcurrentlesson`, {appointmentData, newCurrentLesson});
+            const newCurrentLesson = await (await(axios.post(`${endpoint}/api/currentlessons/savenewcurrentlesson`, appointmentData))).data;
+            axios.post(`${endpoint}/api/marks/savenewcurrentlesson`, {appointmentData, newCurrentLesson});
         } else {
             const newCurrentLessonsArray = await LessonService.addArrayLessons(appointmentData);
-            $api.post(`${endpoint}/api/marks/savenewcurrentlessonsarray`, {appointmentData, newCurrentLessonsArray});
+            axios.post(`${endpoint}/api/marks/savenewcurrentlessonsarray`, {appointmentData, newCurrentLessonsArray});
         }
     }
 

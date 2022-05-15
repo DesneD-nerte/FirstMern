@@ -2,19 +2,19 @@ import React, {useEffect, useState, useContext, useRef} from 'react';
 import MenuComponent from '../components/MenuComponent';
 import { Pagination } from "@mui/material";
 import CreateNews from '../components/NewsComponents/CreateNews';
-import { TokenContext } from "../context/tokenContext";
-import $api from '../http';
+import { AuthContext } from '../context/authContext';
 import NewsList from '../components/NewsComponents/NewsList';
 import ControlPanel from '../components/NewsComponents/ControlPanel';
 import '../styles/NewsPage.css';
 import { News } from '../../types';
 import { useNews } from '../hooks/useNews';
+import axios from 'axios';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 function NewsPage() {
 
-    const {isAuth, setIsAuth} = useContext(TokenContext);
+	const {authContext} = useContext(AuthContext);
 
 	const [totalPages, setTotalPages] = useState(1);
 	const [modal, setModal] = useState(false);
@@ -31,21 +31,16 @@ function NewsPage() {
 	const [arrayToDelete, setArrayToDelete] = useState<Array<News>>([]);
 
 	useEffect(() => {
-		$api.get(`${endpoint}/news/getnews`)
+		axios.get(`${endpoint}/news/getnews`)
 		.then(response => {
 			const ratio = Math.ceil(response.data.length / limit); // 29 / 10 = 3 страницы
 			setTotalPages(ratio);
 		})
-		.catch(error => {
-			alert(error.response.data.message);
-			setIsAuth(false);
-		})
 
-		$api.get(`${endpoint}/news/getnews`, {params: {limit: limit, page: page}})
+		axios.get(`${endpoint}/news/getnews`, {params: {limit: limit, page: page}})
 		.then(response => {
 			setNews(response.data);
 		})
-		.catch(error => console.log(error))
 
 	}, [page, limit])
 
@@ -62,16 +57,16 @@ function NewsPage() {
 	}, [deleteMode])
 
 	const createNewNews = (newNews: News) => {
-		$api.post(`${endpoint}/news/postnews`, {data: {newNews: newNews}})
+		axios.post(`${endpoint}/news/postnews`, {data: {newNews: newNews}})
 		.then(response => {
-			$api.get(`${endpoint}/news/getnews`)
+			axios.get(`${endpoint}/news/getnews`)
 			.then(response => {
 				const ratio = Math.ceil(response.data.length / limit); // 29 / 10 = 3 страницы
 				setTotalPages(ratio);
 			})
 			.catch(error => console.log(error))
 			
-			$api.get(`${endpoint}/news/getnews`, {params: {limit: limit, page: page}})
+			axios.get(`${endpoint}/news/getnews`, {params: {limit: limit, page: page}})
 			.then(response => {
 				setNews(response.data);
 			})

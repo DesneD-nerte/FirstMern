@@ -1,21 +1,18 @@
 import { Avatar, Button, CircularProgress, Input, MenuItem } from '@mui/material';
 import React, { useState, useEffect, useContext } from 'react';
 import MenuComponent from '../components/MenuComponent';
-import { TokenContext } from "../context/tokenContext";
 import Menu from '@mui/material/Menu';
-import $api from '../http';
 import "../styles/MyProfile.css";
 import { stringAvatar } from '../services/AvatarLetters';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProfileData } from '../store/profileDataReducer';
 import NestedList from '../components/ProfileComponents/ListLinks';
 import {useNavigate, Route, Routes, Navigate} from 'react-router-dom'
+import axios from 'axios';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 export default function MyProfile() {
-
-    const {isAuth, setIsAuth} = useContext(TokenContext);
 
 	// const myData = useSelector((state) => ({...state.profileData}));
 	const myData = useSelector((state) => (state.profileData));
@@ -45,7 +42,7 @@ export default function MyProfile() {
         data.append('file', e.target.files[0]);
         data.append('id', myData._id)
 
-        $api.post(`${endpoint}/upload`, data);
+        axios.post(`${endpoint}/upload`, data);
         
         setIsLoading(true);
     }
@@ -56,15 +53,15 @@ export default function MyProfile() {
 
     useEffect(() => {
         if(isLoading === true) {
-            $api.get(`${endpoint}/myprofile`)
+            axios.get(`${endpoint}/myprofile`)
             .then(response => {
                 dispatch(changeProfileData(response.data))
                 window.location.reload();
                 console.log(response.data);
             })
             .catch(error => {
-                alert(error.response.data.message);
-                setIsAuth(false);
+                // alert(error.response.data.message);
+                // setIsAuth(false);
             })
         }
     }, [isLoading])

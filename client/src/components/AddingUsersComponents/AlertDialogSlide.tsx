@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
-import $api from '../../http/index.js';
+import axios from 'axios';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
@@ -33,7 +33,7 @@ export default function AlertDialogSlide(props: propsAlert) {
     };
 
     const handleDownload = () => {
-        $api.get(`${endpoint}/files/getExcelTemplate`, {
+        axios.get(`${endpoint}/files/getExcelTemplate`, {
             responseType: 'arraybuffer',
             headers: {
                 'Content-Type': 'application/json',
