@@ -1,17 +1,15 @@
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import AuthService from '../services/AuthService';
-// import { TokenContext } from "../context/tokenContext";
 import { AuthContext } from '../context/authContext';
 
 import { Button, FormControl, OutlinedInput, TextField } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { changeProfileData } from "../store/profileDataReducer";
 import '../styles/Login.css';
 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -138,8 +136,7 @@ const Login = () => {
                                                     {showPassword ? <VisibilityOff /> : <Visibility />}
                                                 </IconButton>
                                             </InputAdornment>
-                                        }>
-                                    </OutlinedInput>
+                                        }/>
                                     <FormHelperText id="component-error-text" sx={{visibility: showError === true ? "visible" : "hidden"}}>Неправильный логин или пароль</FormHelperText>
                                 </FormControl>
 

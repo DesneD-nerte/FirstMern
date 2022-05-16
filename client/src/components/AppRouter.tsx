@@ -1,11 +1,6 @@
 import {useNavigate, Route, Routes, Navigate} from 'react-router-dom'
-import ErrorPage from '../pages/ErrorPage';
-import MainPage from '../pages/MainPage';
-import StudentsPage from '../pages/StudentsPage';
-import LessonsPage from "../pages/LessonsPage";
-import MyProfilePage from '../pages/MyProfilePage';
 import LoginPage from "../pages/LoginPage";
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../context/authContext';
 import { privateRoutes } from '../router/routes';
 import RequestIncerceptor from '../http/RequestInterceptor';
