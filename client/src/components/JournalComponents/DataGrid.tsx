@@ -44,7 +44,7 @@ export default function BasicEditingGrid(dataGridProps: DataGridProps) {
 	})
 
 	const handleCellEdit = async(params: GridCellParams) => {
-		await axios.put(`${endpoint}/api/marks/updatecurrentlesson`, params.row);
+		await axios.put(`${endpoint}/marks/updatecurrentlesson`, params.row);
 	}
 
 	return (

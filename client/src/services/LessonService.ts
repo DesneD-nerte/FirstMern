@@ -51,7 +51,7 @@ class LessonService {
             arrayCurrentLessons.push(newCurrentLesson);
         });
 
-        return await (await axios.post(`${endpoint}/api/currentlessons/savenewcurrentlessonsarray`, arrayCurrentLessons)).data;
+        return await (await axios.post(`${endpoint}/currentlessons/savenewcurrentlessonsarray`, arrayCurrentLessons)).data;
     }
 }
 

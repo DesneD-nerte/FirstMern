@@ -48,7 +48,7 @@ const SchedulerComponent = ({information, currentLessons}) => {
                 notify('Заполните все данные', 'warning', 1000);
         }
 
-        axios.put(`${endpoint}/api/currentlessons/updateCurrentLesson`, formData);
+        axios.put(`${endpoint}/currentlessons/updateCurrentLesson`, formData);
     }
 
     const views = [{
@@ -74,11 +74,11 @@ const SchedulerComponent = ({information, currentLessons}) => {
         console.log(appointmentData);
 
         if(!appointmentData.recurrenceRule) {
-            const newCurrentLesson = await (await(axios.post(`${endpoint}/api/currentlessons/savenewcurrentlesson`, appointmentData))).data;
-            axios.post(`${endpoint}/api/marks/savenewcurrentlesson`, {appointmentData, newCurrentLesson});
+            const newCurrentLesson = await (await(axios.post(`${endpoint}/currentlessons/savenewcurrentlesson`, appointmentData))).data;
+            axios.post(`${endpoint}/marks/savenewcurrentlesson`, {appointmentData, newCurrentLesson});
         } else {
             const newCurrentLessonsArray = await LessonService.addArrayLessons(appointmentData);
-            axios.post(`${endpoint}/api/marks/savenewcurrentlessonsarray`, {appointmentData, newCurrentLessonsArray});
+            axios.post(`${endpoint}/marks/savenewcurrentlessonsarray`, {appointmentData, newCurrentLessonsArray});
         }
     }
 

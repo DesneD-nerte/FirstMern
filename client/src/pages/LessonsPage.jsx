@@ -22,6 +22,7 @@ const Lessons = () => {
 	const [currentLessons, setCurrentLessons] = useState();//[]
 
     useEffect(() => { 
+        
         DataService.GetMainInformation()
         .then(newInformation => {
             console.log(newInformation);

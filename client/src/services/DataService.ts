@@ -13,6 +13,7 @@ const endpoint = process.env.REACT_APP_SERVICE_URI;
 class DataService {
 
     GetMainInformation () : Promise<InformationScheduler> {
+
         const requestTeachers = axios.get(`${endpoint}/api/users/teachers/`);
         const requestAudiences = axios.get(`${endpoint}/api/audiences/`);
         const requestLessonsNames = axios.get(`${endpoint}/api/lessons/`);
@@ -70,7 +71,8 @@ class DataService {
     }
 
     GetCurrentLessons () : Promise<CurrentLessonScheduler[]> {
-        const newCurrentLessonPromise = axios.get(`${endpoint}/api/currentlessons`)
+
+        const newCurrentLessonPromise = axios.get(`${endpoint}/currentlessons`)
         .then(response => {
             const responseArrayLessons = response.data;
             const newCurrentLessons : Array<CurrentLessonScheduler> = [];

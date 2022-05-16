@@ -48,8 +48,8 @@ const Journal = () => {
     useEffect(() => {
         const requestGroups = axios.get(`${endpoint}/api/groups`);
         const requestLessons = axios.get(`${endpoint}/api/lessons`);
-        const requestCurrentLessons = axios.get(`${endpoint}/api/currentlessons`)
-        const requestMarks = axios.get(`${endpoint}/api/marks`)
+        const requestCurrentLessons = axios.get(`${endpoint}/currentlessons`)
+        const requestMarks = axios.get(`${endpoint}/marks`)
 
         axios.all([requestGroups, requestLessons, requestCurrentLessons, requestMarks])
         .then(axios.spread((...response) => {
