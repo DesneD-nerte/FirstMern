@@ -43,9 +43,10 @@ export default function MyProfile() {
         data.append('file', e.target.files[0]);
         data.append('id', myData._id)
 
-        axios.post(`${endpoint}/upload`, data);
-        
-        setIsLoading(true);
+        axios.post(`${endpoint}/upload`, data)
+        .then((response) => {
+            setIsLoading(true);
+        })
     }
 
     const handleExcel = (e) => {

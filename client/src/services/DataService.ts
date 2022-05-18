@@ -14,7 +14,7 @@ class DataService {
 
     GetMainInformation () : Promise<InformationScheduler> {
 
-        const requestTeachers = axios.get(`${endpoint}/api/users/teachers/`);
+        const requestTeachers = axios.get(`${endpoint}/users/teachers/`);
         const requestAudiences = axios.get(`${endpoint}/api/audiences/`);
         const requestLessonsNames = axios.get(`${endpoint}/api/lessons/`);
         const requestGroups = axios.get(`${endpoint}/api/groups/`);
