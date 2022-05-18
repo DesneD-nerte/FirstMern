@@ -65,6 +65,11 @@ export default function AddingPage () {
             <MenuComponent></MenuComponent>
             <div className='addingComponent'>
                 <h1>Добавление пользователей</h1>
+                <div style={{marginTop: 10}}>
+                    <Button onClick={() => setDisplayAlertDialog(true)} style={{width: '100%', fontSize: 16}}>
+                        Шаблон
+                    </Button>
+                </div>
                 <div style={{marginBottom: 10}}>
                     <label htmlFor="upload-excel" style={{width: '100%'}}>
                         <Input type="file" inputProps={{accept: [".xlsx", ".xls"]}}
