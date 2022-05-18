@@ -58,6 +58,7 @@ const Login = () => {
 
             const {_id, username, name, roles, email, imageUri, faculties, departments, groups} = response.data;
             const storeData = {_id, username, name, roles, email, imageUri, faculties, departments, groups};
+            console.log(storeData);
             dispatch(changeProfileData(storeData));
 
             authContext.signIn(response.data.token);

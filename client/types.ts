@@ -1,3 +1,16 @@
+export type MyData = {
+    _id?: String,
+    username: String,
+    password: String,
+    name: String,
+    roles: Array<Role>,
+    email: String,
+	imageUri?: String,
+    faculties?:Array<Faculty>,
+    departments?:Array<Department>,
+    groups?:Array<Group>
+}
+
 export type User = {
     _id?: String,
     username: String,

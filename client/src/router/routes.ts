@@ -19,6 +19,10 @@ export const privateRoutes = [
     // {path: '/admin', component: AdminPage},
     {path: '/login', component: LoginPage},
     {path: '/error', component: ErrorPage},
+    // {path: '/addingUsers', component: AddingPage},
+]
+
+export const adminRoutes = [
     {path: '/addingUsers', component: AddingPage},
 ]
 

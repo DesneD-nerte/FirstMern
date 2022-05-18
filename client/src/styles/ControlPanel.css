@@ -8,6 +8,7 @@
 .mainPanelContainer {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
 }
 
@@ -20,18 +21,22 @@
     margin-top: 20px;
 }
 
+.controlRolesContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 85%;
+}
+
 .buttonAddNews {
     display: flex;
     flex-direction: column;
-    align-self: center;
-    width: 55%;
+    width: 50%;
     margin-top: 20px;
 }
 
 .deleteContainer {
     display: flex;
     flex-direction: row;
-    align-self: center;
-    width: 85%;
     margin-top: 20px;
 }

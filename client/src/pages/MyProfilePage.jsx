@@ -1,5 +1,5 @@
 import { Avatar, Button, CircularProgress, Input, MenuItem } from '@mui/material';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import MenuComponent from '../components/MenuComponent';
 import Menu from '@mui/material/Menu';
 import "../styles/MyProfile.css";
@@ -7,8 +7,9 @@ import { stringAvatar } from '../services/AvatarLetters';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProfileData } from '../store/profileDataReducer';
 import NestedList from '../components/ProfileComponents/ListLinks';
-import {useNavigate, Route, Routes, Navigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
+import RoleService from '../services/RoleService';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
@@ -142,11 +143,13 @@ export default function MyProfile() {
                                             </Button>{" "}
                                         </label>
                                     </MenuItem>
-                                    <MenuItem style={{padding: 0, justifyContent: 'center'}}>
-                                        <Button onClick={handleExcel} style={{padding: '5px 15px 5px 15px', width: '100%'}}>
-                                            Зарегистрировать пользователей
-                                        </Button>{" "}
-                                    </MenuItem>
+                                    { RoleService.CheckAdminRole(myData.roles) &&
+                                        <MenuItem style={{padding: 0, justifyContent: 'center'}}>
+                                            <Button onClick={handleExcel} style={{padding: '5px 15px 5px 15px', width: '100%'}}>
+                                                Зарегистрировать пользователей
+                                            </Button>{" "}
+                                        </MenuItem>
+                                    }
 
                                     <MenuItem style={{padding: 0, justifyContent: 'center'}}>
                                         <Button component="span" style={{padding: '5px 15px 5px 15px', width: '100%'}}>

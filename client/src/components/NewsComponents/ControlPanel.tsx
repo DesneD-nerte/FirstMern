@@ -4,10 +4,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
 import '../../styles/ControlPanel.css';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import RoleService from '../../services/RoleService';
+import { RootState } from '../../store';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 const ControlPanel = ({arrayToDelete, filter, setFilter, limit, setLimit, deleteMode, setDeleteMode, setModal}) => {
+
+    const myData = useSelector((state: RootState) => ({...state.profileData}));
 
 	const handleChange = (event, newLimit) => {
 		if (newLimit !== null) {
@@ -61,15 +66,29 @@ const ControlPanel = ({arrayToDelete, filter, setFilter, limit, setLimit, delete
 						<ToggleButton value={25}>25</ToggleButton>
 					</ToggleButtonGroup>
 				</div>
+				
+				{/* <div className='controlRolesContainer'>
+					<div className='deleteContainer'>
+						<FormControlLabel control={<Switch value={deleteMode} checked={deleteMode} onChange={handleSwitchButton} />} label="Режим удаления" />
+						<Button variant="contained" onClick={handleDelete} disabled={!deleteMode}>Удалить выделенное</Button>
+					</div>
 
-				<div className='deleteContainer'>
-					<FormControlLabel control={<Switch value={deleteMode} checked={deleteMode} onChange={handleSwitchButton} />} label="Режим удаления" />
-					<Button variant="contained" onClick={handleDelete} disabled={!deleteMode}>Удалить выделенное</Button>
-				</div>
+					<div className='buttonAddNews'>
+						<Button variant="contained" disabled={deleteMode} onClick={() => setModal(true)}>Добавить новость</Button>
+					</div>
+				</div> */}
+				{RoleService.CheckControlRolePanel(myData.roles) &&
+					<div className='controlRolesContainer'>
+						<div className='deleteContainer'>
+							<FormControlLabel control={<Switch value={deleteMode} checked={deleteMode} onChange={handleSwitchButton} />} label="Режим удаления" />
+							<Button variant="contained" onClick={handleDelete} disabled={!deleteMode}>Удалить выделенное</Button>
+						</div>
 
-				<div className='buttonAddNews'>
-					<Button variant="contained" disabled={deleteMode} onClick={() => setModal(true)}>Добавить новость</Button>
-				</div>
+						<div className='buttonAddNews'>
+							<Button variant="contained" disabled={deleteMode} onClick={() => setModal(true)}>Добавить новость</Button>
+						</div>
+					</div>
+				}
 			</div>
 		</div>
 	)

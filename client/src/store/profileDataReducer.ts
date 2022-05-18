@@ -1,6 +1,6 @@
-import { User } from "../../types";
+import { MyData, User } from "../../types";
 
-const initialState: User = {
+const initialState: MyData = {
     _id: '',
     username: '',
 	password: '',

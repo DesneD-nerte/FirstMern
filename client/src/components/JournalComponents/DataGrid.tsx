@@ -1,10 +1,12 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { DataGrid, GridCellParams, GridColumns, GridRowsProp, GridToolbar, ruRU } from '@mui/x-data-grid';
-import { Button } from '@mui/material';
+import React from 'react';
+import { DataGrid, GridCellParams, GridColumns, ruRU } from '@mui/x-data-grid';
 import CustomToolBar from './CustomToolBar';
-import { CurrentLesson, Marks } from '../../../types';
+import { Marks } from '../../../types';
 import moment from 'moment';
 import axios from 'axios';
+import RoleService from '../../services/RoleService';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
@@ -15,10 +17,18 @@ type DataGridProps = {
 }
 
 export default function BasicEditingGrid(dataGridProps: DataGridProps) {
+	const myData = useSelector((state: RootState) => ({...state.profileData}))
+
 	const {marks} = dataGridProps;
 
 	const columns: GridColumns = [
-		{field: 'user', headerName: "ФИО", editable: false, width: 300, valueFormatter: ({value}) => value.name},
+		{
+			field: 'user',
+			headerName: "ФИО",
+			editable: false,
+			width: 300,
+			valueFormatter: ({value}) => value.name
+		},
 	]
 
 	marks.forEach((oneUserMarks) => {
@@ -32,7 +42,8 @@ export default function BasicEditingGrid(dataGridProps: DataGridProps) {
 		columns.push({
 			field: oneMark.currentLesson._id.toString(),
 			headerName: moment(oneMark.currentLesson.beginDate).format('LL'),
-			editable: true,
+			// editable: true,
+			editable: RoleService.CheckJournalRole(myData.roles),
 			width: 150,
 			valueGetter: (params) => params.row.allCurrentLessons[index].mark,
 			valueSetter: (params) => {
@@ -53,6 +64,7 @@ export default function BasicEditingGrid(dataGridProps: DataGridProps) {
 				<DataGrid
 					rows={marks}
 					columns={columns}
+					isCellEditable={(params) => params === params}
 					rowsPerPageOptions={[10, 20, 50, 100]}
 					experimentalFeatures={{ newEditingApi: true }}
 					components={{

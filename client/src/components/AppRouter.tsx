@@ -2,10 +2,14 @@ import {useNavigate, Route, Routes, Navigate} from 'react-router-dom'
 import LoginPage from "../pages/LoginPage";
 import { useContext } from 'react';
 import { AuthContext } from '../context/authContext';
-import { privateRoutes } from '../router/routes';
+import { adminRoutes, privateRoutes } from '../router/routes';
 import RequestIncerceptor from '../http/RequestInterceptor';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
+import RoleService from '../services/RoleService';
 
 const AppRouter = () => {
+    const myData = useSelector((state: RootState) => ({...state.profileData}))
 
     const { state } = useContext(AuthContext);
 
@@ -23,6 +27,16 @@ const AppRouter = () => {
                             key={route.path}>
                         </Route>
                     )}
+                    {
+                        RoleService.CheckAdminRole(myData.roles) &&
+                        adminRoutes.map(route => 
+                            <Route
+                                path={route.path}
+                                element={<route.component/>}
+                                key={route.path}>
+                            </Route>    
+                        )
+                    }
                     <Route
                         path='*'
                         element={<Navigate to="/error" replace></Navigate>}

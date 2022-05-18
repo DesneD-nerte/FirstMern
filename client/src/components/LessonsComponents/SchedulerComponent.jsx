@@ -1,12 +1,14 @@
 import Scheduler, { Resource } from 'devextreme-react/scheduler';
 import ruMessages from "devextreme/localization/messages/ru.json";
-import React, { useState} from "react";
+import React, { useEffect, useState} from "react";
 import { loadMessages, locale } from "devextreme/localization";
 import DxButtom from "devextreme/ui/button";
 import Appointment from './Appointment';
 import notify from 'devextreme/ui/notify';
 import LessonService from '../../services/LessonService';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import RoleService from '../../services/RoleService';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
@@ -16,6 +18,20 @@ const SchedulerComponent = ({information, currentLessons}) => {
     loadMessages(ruMessages);
     locale(navigator.language);
 
+    const myData = useSelector((state) => ({...state.profileData}));
+
+    const [allowActions, setAllowActions] = useState({
+        allowUpdating: true,
+        allowAdding: true,
+        allowDeleting: true,
+        allowResizing: true,
+        allowDragging: true,
+    });
+
+    useEffect(() => {
+        setAllowActions(RoleService.SchedulerSetActions(myData.roles));
+    }, [])
+    
     const onAppointmentFormOpeningAction = (e) => {
         const form = e.form;
         let mainGroupitems = form.itemOption('mainGroup').items;
@@ -89,6 +105,7 @@ const SchedulerComponent = ({information, currentLessons}) => {
             defaultCurrentView='month'
             defaultCurrentDate={currentDate}
             views={views}
+            editing={allowActions}
             startDayHour={8}
             endDayHour={22}
             onAppointmentUpdating={checkFormFields}
