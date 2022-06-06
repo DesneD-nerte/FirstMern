@@ -6,16 +6,6 @@ const RequestIncerceptor = ({ children }) => {
     const { authContext } = useContext(AuthContext);
     const { signIn, signOut } = authContext;
 
-    // if(axios.interceptors.request.handlers.length === 0) {
-        // axios.interceptors.request.use(config => {
-        //     const token = localStorage.getItem('token')
-        //     config.headers.Authorization = token;
-        //     return config;
-        // }, error => {
-        //     return Promise.reject(error);
-        // })
-    // }
-
     useLayoutEffect(() => {
         axios.interceptors.request.use(config => {
             const token = localStorage.getItem('token')

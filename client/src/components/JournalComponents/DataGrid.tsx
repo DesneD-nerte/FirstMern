@@ -27,7 +27,8 @@ export default function BasicEditingGrid(dataGridProps: DataGridProps) {
 			headerName: "ФИО",
 			editable: false,
 			width: 300,
-			valueFormatter: ({value}) => value.name
+			// valueFormatter: ({value}) => value.name,
+			valueGetter: (params) => params.value.name.toString()
 		},
 	]
 

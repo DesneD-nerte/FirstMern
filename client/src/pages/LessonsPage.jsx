@@ -20,6 +20,7 @@ const Lessons = () => {
     locale(navigator.language);
 
 	const [currentLessons, setCurrentLessons] = useState();//[]
+    let [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => { 
         
@@ -34,8 +35,10 @@ const Lessons = () => {
             console.log(newCurrentLessons);
             setCurrentLessons(newCurrentLessons);
         })
+
+        isLoading = false;
         
-    }, [])
+    }, [isLoading])
 
     return(
         <div>
@@ -43,7 +46,7 @@ const Lessons = () => {
             {
                 currentLessons !== undefined && information !== undefined
                 ?
-                <SchedulerComponent information={information} currentLessons={currentLessons}></SchedulerComponent>
+                <SchedulerComponent information={information} currentLessons={currentLessons} setIsLoading={setIsLoading}></SchedulerComponent>
                 :
                 <div className='loadingProfile'>
                     <CircularProgress size={100}></CircularProgress>

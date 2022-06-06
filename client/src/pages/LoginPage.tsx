@@ -20,7 +20,6 @@ const Login = () => {
 
     const dispatch = useDispatch();
 
-    // const {isAuth, setIsAuth} = useContext(TokenContext);
     const {state, authContext} = useContext(AuthContext);
 
     const [username, setUsername] = useState('');
@@ -138,7 +137,10 @@ const Login = () => {
                                                 </IconButton>
                                             </InputAdornment>
                                         }/>
-                                    <FormHelperText id="component-error-text" sx={{visibility: showError === true ? "visible" : "hidden"}}>Неправильный логин или пароль</FormHelperText>
+                                    <FormHelperText 
+                                        id="component-error-text"
+                                        sx={{visibility: showError === true ? "visible" : "hidden"}}>
+                                            Неправильный логин или пароль</FormHelperText>
                                 </FormControl>
 
                                 <Button 

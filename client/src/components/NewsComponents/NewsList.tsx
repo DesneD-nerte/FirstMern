@@ -21,7 +21,12 @@ const NewsList = (props: newsArrayProps) => {
 				<div>
 					{news.map((oneNews, index) => 
 						<div key={oneNews._id as React.Key}>
-							<OneNews deleteMode={deleteMode} news={{...oneNews}} arrayToDelete={arrayToDelete} setArrayToDelete={setArrayToDelete}/>
+							<OneNews 
+								deleteMode={deleteMode}
+								news={{...oneNews}}
+								arrayToDelete={arrayToDelete}
+								setArrayToDelete={setArrayToDelete}
+							/>
 							<div className='separator'></div>
 						</div>
 					)}

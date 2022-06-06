@@ -1,6 +1,4 @@
 import LoginPage from "../pages/LoginPage";
-import MainPage from "../pages/MainPage";
-import StudentsPage from "../pages/StudentsPage";
 import LessonsPage from "../pages/LessonsPage";
 import ErrorPage from "../pages/ErrorPage";
 import MyProfilePage from "../pages/MyProfilePage";
@@ -16,10 +14,8 @@ export const privateRoutes = [
     {path: '/journal', component: JournalPage},
     {path: '/myProfile', component: MyProfilePage},
     {path: '/users/:id', component: StudentProfilePage},
-    // {path: '/admin', component: AdminPage},
     {path: '/login', component: LoginPage},
     {path: '/error', component: ErrorPage},
-    // {path: '/addingUsers', component: AddingPage},
 ]
 
 export const adminRoutes = [

@@ -1,4 +1,4 @@
-import { rrulestr } from 'rrule'
+import RRule, { rrulestr } from 'rrule'
 import axios from 'axios';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
@@ -18,19 +18,54 @@ class LessonService {
     async addArrayLessons(appointmentData) {
         const {recurrenceRule, startDate, endDate} = appointmentData;
 
-        const year = startDate.getFullYear();
-        const month = startDate.getMonth();
-        const date = startDate.getDate();
-        const hours = startDate.getHours();
-        const minutes = startDate.getMinutes();
+        const yearStart = startDate.getFullYear();
+        const monthStart = startDate.getMonth();
+        const dateStart = startDate.getDate();
+        const hoursStart = startDate.getHours();
+        const minutesStart = startDate.getMinutes();
+        const secondsStart = startDate.getSeconds();
 
+        // const yearEnd = endDate.getFullYear();
+        // const monthEnd = endDate.getMonth();
+        // const dateEnd = endDate.getDate();
+        // const hoursEnd = endDate.getHours();
+        // const minutesEnd = endDate.getMinutes();
+        // const secondsEnd = endDate.getSeconds();
+        // console.log(dateEnd);
+
+
+        // let arrayRule: Array<string> = recurrenceRule.split(';');
+        // console.log(arrayRule);
+
+        // arrayRule = arrayRule.map(oneItem => {
+        //     if(oneItem.includes("UNTIL")) {
+        //         return oneItem = rule2.toString().slice(6);
+        //     }
+            
+        //     return oneItem;
+        // })
+
+        // console.log(arrayRule);
+
+        // const newRecurrenceRule = arrayRule.join(";");
+
+        console.log('recurrenceRule', recurrenceRule);
+        // console.log('newRecurrenceRule', newRecurrenceRule);
+        
         const rule = rrulestr(recurrenceRule);
-        rule.options.dtstart = new Date(Date.UTC(year, month, date, hours, minutes));
+        // const rule2 = new RRule({
+        //     ...rule.options,
+        //     dtstart: new Date(Date.UTC(yearStart, monthStart, dateStart, hoursStart, minutesStart, secondsStart)),
+        //     tzid: "America/New_York"
+        //     // until: new Date(Date.UTC(yearEnd, monthEnd, dateEnd, hoursEnd, minutesEnd, secondsEnd))
+        // })
+        rule.options.dtstart = new Date(Date.UTC(yearStart, monthStart, dateStart, hoursStart, minutesStart));
         const occurences = rule.all();
 
+        //const firstCurrentLesson: currentLesson = appointmentData;
         const arrayCurrentLessons: Array<currentLesson> = [];
-
-        console.log('rule', rule);
+        
+        console.log('ruleText', rule.toText());
         console.log('occurences', occurences);
 
         occurences.forEach(oneDate => {

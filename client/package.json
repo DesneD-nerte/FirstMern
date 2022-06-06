@@ -64,6 +64,7 @@
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
-    "devextreme-themebuilder": "^21.2.4"
+    "devextreme-themebuilder": "^21.2.4",
+    "mini-css-extract-plugin": "^2.6.0"
   }
 }

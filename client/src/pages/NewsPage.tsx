@@ -89,14 +89,33 @@ function NewsPage() {
 			<div className='mainContainer'>
 				<div className='flexContainer'>
 					<div className='newsContainer'>
-						<NewsList news={searchedNews} deleteMode={deleteMode} arrayToDelete={arrayToDelete} setArrayToDelete={setArrayToDelete}></NewsList>
+						<NewsList 
+							news={searchedNews} 
+							deleteMode={deleteMode} 
+							arrayToDelete={arrayToDelete} 
+							setArrayToDelete={setArrayToDelete}/>
 
 						{/* <div className='separatorColumn'></div> */}
 
-						<ControlPanel arrayToDelete={arrayToDelete} setModal={setModal} filter={filter} setFilter={setFilter} limit={limit} setLimit={setLimit} deleteMode={deleteMode} setDeleteMode={setDeleteMode}></ControlPanel>
+						<ControlPanel 
+							arrayToDelete={arrayToDelete} 
+							setModal={setModal} 
+							filter={filter} 
+							setFilter={setFilter} 
+							limit={limit} 
+							setLimit={setLimit} 
+							deleteMode={deleteMode} 
+							setDeleteMode={setDeleteMode}/>
 					</div>
 
-					<Pagination disabled={modal} style={{paddingTop: 15, paddingBottom: 15}} count={totalPages} page={page} onChange={handleChangePage} color="primary" size="large"></Pagination>
+					<Pagination 
+						disabled={modal} 
+						style={{paddingTop: 15, paddingBottom: 15}} 
+						count={totalPages} 
+						page={page} 
+						onChange={handleChangePage} 
+						color="primary" 
+						size="large"/>
 				</div>
 			</div>
 		</div>

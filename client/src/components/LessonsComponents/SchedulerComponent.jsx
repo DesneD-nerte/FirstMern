@@ -14,7 +14,7 @@ const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 const currentDate = new Date();
 
-const SchedulerComponent = ({information, currentLessons}) => {
+const SchedulerComponent = ({information, currentLessons, setIsLoading}) => {
     loadMessages(ruMessages);
     locale(navigator.language);
 
@@ -91,10 +91,12 @@ const SchedulerComponent = ({information, currentLessons}) => {
 
         if(!appointmentData.recurrenceRule) {
             const newCurrentLesson = await (await(axios.post(`${endpoint}/currentlessons/savenewcurrentlesson`, appointmentData))).data;
-            axios.post(`${endpoint}/marks/savenewcurrentlesson`, {appointmentData, newCurrentLesson});
+            await axios.post(`${endpoint}/marks/savenewcurrentlesson`, {appointmentData, newCurrentLesson});
+            setIsLoading(true);
         } else {
             const newCurrentLessonsArray = await LessonService.addArrayLessons(appointmentData);
-            axios.post(`${endpoint}/marks/savenewcurrentlessonsarray`, {appointmentData, newCurrentLessonsArray});
+            await axios.post(`${endpoint}/marks/savenewcurrentlessonsarray`, {appointmentData, newCurrentLessonsArray});
+            setIsLoading(true);
         }
     }
 
