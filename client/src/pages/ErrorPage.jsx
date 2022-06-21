@@ -1,14 +1,10 @@
-import MenuComponent from "../components/MenuComponent";
-import '../styles/ErrorPage.css';
+import "../styles/ErrorPage.css";
 
 const ErrorPage = () => {
-    return(
+    return (
         <div>
-            <MenuComponent></MenuComponent>
             <div className="error-component">
-                <div className="error_code">
-                    404
-                </div>
+                <div className="error_code">404</div>
                 <div className="error_description">
                     Ресурс не найден
                 </div>

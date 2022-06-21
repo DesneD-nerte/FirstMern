@@ -1,62 +1,62 @@
 export type MyData = {
-    _id?: String,
-    username: String,
-    password: String,
-    name: String,
+    _id?: string,
+    username: string,
+    password: string,
+    name: string,
     roles: Array<Role>,
-    email: String,
-	imageUri?: String,
+    email: string,
+	imageUri?: string,
     faculties?:Array<Faculty>,
     departments?:Array<Department>,
     groups?:Array<Group>
 }
 
 export type User = {
-    _id?: String,
-    username: String,
-    password: String,
-    name: String,
-    roles: Array<String>,
-    email: String,
-	imageUri?: String,
-    faculties?:Array<String>,
-    departments?:Array<String>,
-    groups?:Array<String>
+    _id?: string,
+    username: string,
+    password: string,
+    name: string,
+    roles: Array<string>,
+    email: string,
+	imageUri?: string,
+    faculties?:Array<string>,
+    departments?:Array<string>,
+    groups?:Array<string>
 }
 
 export type News = {
-    _id?: String,
+    _id?: string,
 	name: string,
 	content: string,
 	createdAt: Date
 }
 
 export type Message = {
-    _id?: String;
-    content: String;
+    _id?: string;
+    content: string;
     createdAt: Date;/////Number
     user?: User;
 }
 
 
 export type AudienceLessonScheduler = {
-    id?: String;
-    text: String;
+    id?: string;
+    text: string;
 }
 
 export type TeacherLessonScheduler = {
-    id?: String;
-    text: String;
-    email: String;
+    id?: string;
+    text: string;
+    email: string;
 }
 
 export type LessonLessonScheduler = {
-    id?: String;
-    text: String;
+    id?: string;
+    text: string;
 }
 export type GroupLessonScheduler = {
-    id?: String;
-    text: String;
+    id?: string;
+    text: string;
 }
 
 export type InformationScheduler = {
@@ -79,35 +79,35 @@ export type CurrentLessonScheduler = {
 
 
 export type Audience = {
-    _id: String;
-    name: String;
+    _id: string;
+    name: string;
 }
 
 export type Lesson = {
-    _id: String;
-    name: String;
+    _id: string;
+    name: string;
 }
 export type Group = {
-    _id: String;
-    name: String;
+    _id: string;
+    name: string;
 }
 export type Department = {
-    _id: String;
-    name: String;
+    _id: string;
+    name: string;
 }
 export type Faculty = {
-    _id: String;
+    _id: string;
     name: String;
 }
 export type Role = {
-    _id: String;
-    value: String
+    _id: string;
+    value: string
 }
 
 export type CurrentLesson = {
-    _id: String,
+    _id: string,
     name: Lesson,
-    teacher: User,
+    teachers: Array<User>,
     beginDate: Date,
     endDate: Date,
     classroom: Audience,
@@ -117,40 +117,27 @@ export type CurrentLesson = {
 
 
 type UserMarks = {
-    _id?: String,
-    username: String,
-    password: String,
-    name: String,
+    _id?: string,
+    username: string,
+    password: string,
+    name: string,
     roles: Array<Role>,
-    email: String,
-	imageUri?: String,
+    email: string,
+	imageUri?: string,
     faculties?:Array<Faculty>,
     departments?:Array<Department>,
     groups?:Array<Group>
 }
 
-// export type Marks = {
-//     _id: String,
-//     user: UserMarks,
-//     lesson: Lesson,
-//     allCurrentLessons: [
-//         {
-//             _id: String,
-//             currentLesson: CurrentLesson,
-//             mark: String
-//         }
-//     ]
-// }
-
 export interface Marks extends Record<string, any> {
-    _id: String,
+    _id: string,
     user: UserMarks,
     lesson: Lesson,
     allCurrentLessons: [
         {
-            _id: String,
+            _id: string,
             currentLesson: CurrentLesson,
-            mark: String
+            mark: string
         }
     ]
 }

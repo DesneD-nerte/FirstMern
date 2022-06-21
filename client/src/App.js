@@ -1,10 +1,10 @@
 import 'devextreme/dist/css/dx.common.css';
 import 'devextreme/dist/css/dx.light.css';
-import { useEffect, useLayoutEffect, useState } from "react"
+import { useEffect } from "react"
 import { BrowserRouter } from 'react-router-dom';
 
 import './styles/App.css';
-import AppRouter from './components/AppRouter';
+import AppRouter from './router/AppRouter';
 
 import {AuthContext} from './context/authContext';
 import { useAuth } from './hooks/useAuth';

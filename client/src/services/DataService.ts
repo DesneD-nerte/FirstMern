@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { 
     AudienceLessonScheduler,
+    CurrentLesson,
     CurrentLessonScheduler,
     GroupLessonScheduler,
     InformationScheduler,
@@ -75,31 +76,56 @@ class DataService {
         const newCurrentLessonPromise = axios.get(`${endpoint}/currentlessons`)
         .then(response => {
             const responseArrayLessons = response.data;
-            const newCurrentLessons : Array<CurrentLessonScheduler> = [];
 
-            for (const oneLesson of responseArrayLessons) {
+            const arrayScheduler = this.#fillArrayScheduler(responseArrayLessons);
 
-                const teachersId : Array<string> = [];
-                for (const oneTeacher of oneLesson.teachers) {
-                    teachersId.push(oneTeacher._id);
-                }
-
-                newCurrentLessons.push({
-                    _id: oneLesson._id,
-                    classRoomId: oneLesson.classroom._id,
-                    endDate: new Date(oneLesson.endDate),
-                    startDate: new Date(oneLesson.beginDate),
-                    teacherId: teachersId,
-                    text: oneLesson.name.name,
-                    lessonNameId: oneLesson.name._id,
-                    groupId: oneLesson.group._id
-                })
-            }
-
-            return newCurrentLessons;
+            return arrayScheduler;
         })
 
         return newCurrentLessonPromise;
+    }
+
+    async TransformCurrentLessonsDbToScheduler(currentLessonsDb: Array<CurrentLesson>) {
+        const currentLessonDbIdArray: Array<string> = [];
+
+        for(const lesson of currentLessonsDb) {
+            currentLessonDbIdArray.push(lesson._id);
+        }
+
+        const responseArrayLessons: Array<CurrentLesson> = await (await axios.put(`${endpoint}/currentlessons/schedulercurrentlessons`, {data: currentLessonDbIdArray})).data;
+        
+        const arrayScheduler = this.#fillArrayScheduler(responseArrayLessons);
+
+        return arrayScheduler;
+    }
+
+    
+    #fillArrayScheduler(responseArrayLessons: Array<any>) {
+        const newCurrentLessons: Array<CurrentLessonScheduler> = [];
+
+        for(const oneLesson of responseArrayLessons) {
+            newCurrentLessons.push(this.#changeObjectKeyNames(oneLesson));
+        }
+
+        return newCurrentLessons;
+    }
+
+    #changeObjectKeyNames(oneLessonDb) {
+        const teachersId: Array<string> = [];
+        for (const oneTeacher of oneLessonDb.teachers) {
+            teachersId.push(oneTeacher._id);
+        }
+
+        return {
+            _id: oneLessonDb._id,
+            classRoomId: oneLessonDb.classroom._id,
+            endDate: new Date(oneLessonDb.endDate),
+            startDate: new Date(oneLessonDb.beginDate),
+            teacherId: teachersId,
+            text: oneLessonDb.name.name,
+            lessonNameId: oneLessonDb.name._id,
+            groupId: oneLessonDb.group._id
+        }
     }
 }
 

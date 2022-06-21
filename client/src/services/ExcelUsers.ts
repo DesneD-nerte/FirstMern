@@ -18,7 +18,7 @@ export default class ExcelUsers {
         for(let i = 1; i < countRows; i++) {
             let newUser: User;
             const row = workSheet.rows(i);
-            const roles: String = row.getCellValue(1);
+            const roles: string = row.getCellValue(1);
             const rolesArray = roles.toLowerCase().split(/[, ]+/);
 
             const modifiedRolesArray = rolesArray.map(oneRole => {
@@ -41,21 +41,21 @@ export default class ExcelUsers {
                 return oneRole;
             })
 
-            let facultiesArray: Array<String> = [];
-            let groupsArray: Array<String> = [];
-            let departmentsArray: Array<String> = [];
+            let facultiesArray: Array<string> = [];
+            let groupsArray: Array<string> = [];
+            let departmentsArray: Array<string> = [];
 
-            const faculties: String = row.getCellValue(5);
+            const faculties: string = row.getCellValue(5);
             if(faculties) {
                 facultiesArray = (faculties.charAt(0).toUpperCase() + faculties.slice(1)).split(/[, ]+/);//First Letter Upper
             }
 
-            const groups: String = row.getCellValue(6);
+            const groups: string = row.getCellValue(6);
             if(groups) {
                 groupsArray = groups.toUpperCase().split(/[, ]+/);//All letter Upper
             }
 
-            const departments: String = row.getCellValue(7);
+            const departments: string = row.getCellValue(7);
             if(departments) {
                 departmentsArray = (departments.charAt(0).toUpperCase() + departments.slice(1)).split(/[,]+/);//First Letter Upper
             }

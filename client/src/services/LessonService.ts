@@ -11,83 +11,67 @@ type currentLesson = {
     text: string,
     lessonNameId: string,
     groupId: string,
-    recurrenceRule?: string
+    recurrenceRule: string
 }
 
 class LessonService {
-    async addArrayLessons(appointmentData) {
-        const {recurrenceRule, startDate, endDate} = appointmentData;
 
-        const yearStart = startDate.getFullYear();
-        const monthStart = startDate.getMonth();
-        const dateStart = startDate.getDate();
-        const hoursStart = startDate.getHours();
-        const minutesStart = startDate.getMinutes();
-        const secondsStart = startDate.getSeconds();
+    appointmentData: currentLesson;
 
-        // const yearEnd = endDate.getFullYear();
-        // const monthEnd = endDate.getMonth();
-        // const dateEnd = endDate.getDate();
-        // const hoursEnd = endDate.getHours();
-        // const minutesEnd = endDate.getMinutes();
-        // const secondsEnd = endDate.getSeconds();
-        // console.log(dateEnd);
+    constructor(appointmentData: currentLesson) {
+        this.appointmentData = appointmentData; 
+    }
 
+    async addArrayLessons() {
+        const {recurrenceRule, startDate} = this.appointmentData;
 
-        // let arrayRule: Array<string> = recurrenceRule.split(';');
-        // console.log(arrayRule);
+        const occurences = this.#getOccurencies(recurrenceRule, startDate);
 
-        // arrayRule = arrayRule.map(oneItem => {
-        //     if(oneItem.includes("UNTIL")) {
-        //         return oneItem = rule2.toString().slice(6);
-        //     }
-            
-        //     return oneItem;
-        // })
-
-        // console.log(arrayRule);
-
-        // const newRecurrenceRule = arrayRule.join(";");
-
-        console.log('recurrenceRule', recurrenceRule);
-        // console.log('newRecurrenceRule', newRecurrenceRule);
-        
-        const rule = rrulestr(recurrenceRule);
-        // const rule2 = new RRule({
-        //     ...rule.options,
-        //     dtstart: new Date(Date.UTC(yearStart, monthStart, dateStart, hoursStart, minutesStart, secondsStart)),
-        //     tzid: "America/New_York"
-        //     // until: new Date(Date.UTC(yearEnd, monthEnd, dateEnd, hoursEnd, minutesEnd, secondsEnd))
-        // })
-        rule.options.dtstart = new Date(Date.UTC(yearStart, monthStart, dateStart, hoursStart, minutesStart));
-        const occurences = rule.all();
-
-        //const firstCurrentLesson: currentLesson = appointmentData;
         const arrayCurrentLessons: Array<currentLesson> = [];
-        
-        console.log('ruleText', rule.toText());
-        console.log('occurences', occurences);
 
         occurences.forEach(oneDate => {
-            const year = oneDate.getFullYear();
-            const month = oneDate.getMonth();
-            const date = oneDate.getDate();
-
-            const startHours = startDate.getHours();
-            const startMinutes = startDate.getMinutes();
-            const endHours = endDate.getHours();
-            const endMinutes = endDate.getMinutes();
-            
-            const newCurrentLesson: currentLesson = {...appointmentData,
-                startDate: new Date(year, month, date, startHours, startMinutes),
-                endDate: new Date(year, month, date, endHours, endMinutes)
-            };
+            const newCurrentLesson = this.#getNewCurrentLessons(oneDate);
 
             arrayCurrentLessons.push(newCurrentLesson);
         });
 
         return await (await axios.post(`${endpoint}/currentlessons/savenewcurrentlessonsarray`, arrayCurrentLessons)).data;
     }
+
+    #getOccurencies(recurrenceRule: string, startDate: Date) {
+        const yearStart = startDate.getFullYear();
+        const monthStart = startDate.getMonth();
+        const dateStart = startDate.getDate();
+        const hoursStart = startDate.getHours();
+        const minutesStart = startDate.getMinutes();
+        
+        const rule = rrulestr(recurrenceRule);
+
+        rule.options.dtstart = new Date(Date.UTC(yearStart, monthStart, dateStart, hoursStart, minutesStart));
+        const occurences = rule.all();
+
+        return occurences;
+    }
+
+    #getNewCurrentLessons(oneDateFromRule: Date) {
+        const {startDate, endDate} = this.appointmentData;
+        
+        const year = oneDateFromRule.getFullYear();
+        const month = oneDateFromRule.getMonth();
+        const date = oneDateFromRule.getDate();
+
+        const startHours = startDate.getHours();
+        const startMinutes = startDate.getMinutes();
+        const endHours = endDate.getHours();
+        const endMinutes = endDate.getMinutes();
+        
+        const newCurrentLesson: currentLesson = {...this.appointmentData,
+            startDate: new Date(year, month, date, startHours, startMinutes),
+            endDate: new Date(year, month, date, endHours, endMinutes)
+        };
+
+        return newCurrentLesson;
+    }
 }
 
-export default new LessonService();
+export default LessonService;
