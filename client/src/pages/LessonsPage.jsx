@@ -1,5 +1,5 @@
 import ruMessages from "devextreme/localization/messages/ru.json";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { loadMessages, locale } from "devextreme/localization";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
@@ -18,6 +18,8 @@ const Lessons = () => {
     loadMessages(ruMessages);
     locale(navigator.language);
 
+    const counter = useRef(0);
+
     useEffect(() => {
         dispatch(loadCurrentLessons());
     }, []);
@@ -27,6 +29,7 @@ const Lessons = () => {
             <SchedulerComponent
                 information={information}
                 currentLessons={currentLessons}
+                counter={counter}
             ></SchedulerComponent>
             {/* <div className="loadingProfile">
                     <CircularProgress size={100}></CircularProgress>
