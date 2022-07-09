@@ -3,6 +3,11 @@
     flex-direction: column;
     flex: 0.68;
     overflow-wrap: anywhere;
+
+    padding: 0 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px #005e99;
     /* width: 75%; */
 }
 
