@@ -1,20 +1,15 @@
-import {Navigate, Route, Routes} from 'react-router-dom'
-import ErrorPage from '../pages/ErrorPage';
-import LoginPage from '../pages/LoginPage';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import ErrorPage from "../pages/ErrorPage";
+import LoginPage from "../pages/LoginPage";
 
 const AuthRouter = () => {
-    return(
+    return (
         <Routes>
-            <Route 
-                path="/login"
-                element={<LoginPage/>}>
-            </Route>
-            <Route 
-                path="/error"
-                element={<ErrorPage/>}>
-            </Route>
+            <Route path="/login" element={<LoginPage />}></Route>
+            <Route path="/error" element={<ErrorPage />}></Route>
         </Routes>
     );
-}
+};
 
 export default AuthRouter;

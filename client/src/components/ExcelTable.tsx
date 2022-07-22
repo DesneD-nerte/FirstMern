@@ -30,7 +30,6 @@ type propsType = {
 }
 
 export default function ExcelTable(props: propsType) {
-    console.log(props.arrayUsers)
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">

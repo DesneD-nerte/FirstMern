@@ -27,7 +27,6 @@ export default function BasicEditingGrid(dataGridProps: DataGridProps) {
 			headerName: "ФИО",
 			editable: false,
 			width: 300,
-			// valueFormatter: ({value}) => value.name,
 			valueGetter: (params) => params.value.name.toString()
 		},
 	]
@@ -43,7 +42,6 @@ export default function BasicEditingGrid(dataGridProps: DataGridProps) {
 		columns.push({
 			field: oneMark.currentLesson._id.toString(),
 			headerName: moment(oneMark.currentLesson.beginDate).format('LL'),
-			// editable: true,
 			editable: RoleService.CheckJournalRole(myData.roles),
 			width: 150,
 			valueGetter: (params) => params.row.allCurrentLessons[index].mark,

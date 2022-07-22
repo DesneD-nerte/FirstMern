@@ -1,9 +1,4 @@
-import {
-    useNavigate,
-    Route,
-    Routes,
-    Navigate,
-} from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import { useContext } from "react";
 import { AuthContext } from "../context/authContext";
@@ -13,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import RoleService from "../services/RoleService";
 import WrapperMenu from "../components/WrapperMenu";
+import React from "react";
 
 const AppRouter = () => {
     const myData = useSelector((state: RootState) => ({
@@ -49,9 +45,7 @@ const AppRouter = () => {
                     ))}
                 <Route
                     path="*"
-                    element={
-                        <Navigate to="/error" replace></Navigate>
-                    }
+                    element={<Navigate to="/error" replace></Navigate>}
                     key="*"
                 ></Route>
             </Routes>
