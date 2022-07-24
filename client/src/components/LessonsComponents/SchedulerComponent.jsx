@@ -17,7 +17,7 @@ const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 const currentDate = new Date();
 
-const SchedulerComponent = ({ information, currentLessons, counter }) => {
+const SchedulerComponent = ({ information, currentLessons }) => {
     const scheduler = React.useRef(null);
 
     loadMessages(ruMessages);
@@ -84,9 +84,9 @@ const SchedulerComponent = ({ information, currentLessons, counter }) => {
     };
 
     const views = [
-        {
-            type: "agenda",
-        },
+        // {
+        //     type: "agenda",
+        // },
         {
             type: "month",
         },
@@ -115,62 +115,62 @@ const SchedulerComponent = ({ information, currentLessons, counter }) => {
 
     //Big trouble with DataSource and Agenda view, couldn't fix completely and properly,
     //DevExtreme team know the problem but their various solutions don't help
-    if (counter.current >= 4) {
-        return (
-            <Scheduler
-                ref={scheduler}
-                dataSource={currentLessons}
-                cellDuration={selectedTimeRange}
-                defaultCurrentView="agenda"
-                defaultCurrentDate={currentDate}
-                views={views}
-                editing={allowActions}
-                startDayHour={8}
-                endDayHour={22}
-                onAppointmentUpdating={checkFormFields}
-                onAppointmentAdding={checkFormFields}
-                onAppointmentFormOpening={onAppointmentFormOpeningAction}
-                appointmentComponent={(e) =>
-                    Appointment(e, information.teachers, information.audiences)
+    // if (counter.current >= 4) {
+    return (
+        <Scheduler
+            ref={scheduler}
+            dataSource={currentLessons}
+            cellDuration={selectedTimeRange}
+            defaultCurrentView="agenda"
+            defaultCurrentDate={currentDate}
+            views={views}
+            editing={allowActions}
+            startDayHour={8}
+            endDayHour={22}
+            onAppointmentUpdating={checkFormFields}
+            onAppointmentAdding={checkFormFields}
+            onAppointmentFormOpening={onAppointmentFormOpeningAction}
+            appointmentComponent={(e) =>
+                Appointment(e, information.teachers, information.audiences)
+            }
+            onAppointmentAdded={saveCurrentLesson}
+            onCurrentViewChange={(view) => setCurrentView(view)}
+            onContentReady={() => {
+                if (
+                    firstTime === true &&
+                    currentView !== "agenda" &&
+                    currentView !== "month" &&
+                    currentView !== undefined
+                ) {
+                    TimeButtonsHandler(setSelectedTimeRange, timeRange);
+                    firstTime = false;
                 }
-                onAppointmentAdded={saveCurrentLesson}
-                onCurrentViewChange={(view) => setCurrentView(view)}
-                onContentReady={() => {
-                    if (
-                        firstTime === true &&
-                        currentView !== "agenda" &&
-                        currentView !== "month" &&
-                        currentView !== undefined
-                    ) {
-                        TimeButtonsHandler(setSelectedTimeRange, timeRange);
-                        firstTime = false;
-                    }
-                }}
-            >
-                <Resource
-                    dataSource={information.teachers}
-                    allowMultiple={true}
-                    fieldExpr="teacherId"
-                    label="Преподаватель"
-                    useColorAsDefault={true}
-                ></Resource>
-                <Resource
-                    dataSource={information.audiences}
-                    fieldExpr="classRoomId"
-                    label="Аудитория"
-                ></Resource>
-                <Resource
-                    dataSource={information.groups}
-                    fieldExpr="groupId"
-                    label="Группа"
-                ></Resource>
-            </Scheduler>
-        );
-    }
+            }}
+        >
+            <Resource
+                dataSource={information.teachers}
+                allowMultiple={true}
+                fieldExpr="teacherId"
+                label="Преподаватель"
+                useColorAsDefault={true}
+            ></Resource>
+            <Resource
+                dataSource={information.audiences}
+                fieldExpr="classRoomId"
+                label="Аудитория"
+            ></Resource>
+            <Resource
+                dataSource={information.groups}
+                fieldExpr="groupId"
+                label="Группа"
+            ></Resource>
+        </Scheduler>
+    );
+    // }
 
-    counter.current += 1;
+    // counter.current += 1;
 
-    return <div>Loading...</div>;
+    // return <div>Loading...</div>;
 };
 
 export default SchedulerComponent;

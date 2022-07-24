@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataGrid,GridFilterModel,GridToolbarColumnsButton, GridToolbarFilterButton, GridToolbarDensitySelector, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import { GridToolbarColumnsButton, GridToolbarFilterButton, GridToolbarDensitySelector, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 
 export default function CustomToolbar(rowsExisting) {
 	return (

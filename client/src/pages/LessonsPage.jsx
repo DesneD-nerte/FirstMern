@@ -1,12 +1,9 @@
 import ruMessages from "devextreme/localization/messages/ru.json";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { loadMessages, locale } from "devextreme/localization";
 import { useDispatch, useSelector } from "react-redux";
-import { CircularProgress } from "@mui/material";
 import SchedulerComponent from "../components/LessonsComponents/SchedulerComponent";
 import { loadCurrentLessons } from "../store/currentLessonsReducer";
-
-const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 const Lessons = () => {
     const information = useSelector((state) => ({
@@ -18,7 +15,7 @@ const Lessons = () => {
     loadMessages(ruMessages);
     locale(navigator.language);
 
-    const counter = useRef(0);
+    // const counter = useRef(0);
 
     useEffect(() => {
         dispatch(loadCurrentLessons());
@@ -29,11 +26,8 @@ const Lessons = () => {
             <SchedulerComponent
                 information={information}
                 currentLessons={currentLessons}
-                counter={counter}
+                // counter={counter}
             ></SchedulerComponent>
-            {/* <div className="loadingProfile">
-                    <CircularProgress size={100}></CircularProgress>
-                </div> */}
         </div>
     );
 };
