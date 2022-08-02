@@ -17,7 +17,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import MmsIcon from "@mui/icons-material/Mms";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 
-export default function NestedList() {
+export default function ListLinks() {
     const [open, setOpen] = React.useState(false);
 
     const handleClick = () => {

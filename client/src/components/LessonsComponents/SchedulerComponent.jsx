@@ -121,7 +121,7 @@ const SchedulerComponent = ({ information, currentLessons }) => {
             ref={scheduler}
             dataSource={currentLessons}
             cellDuration={selectedTimeRange}
-            defaultCurrentView="agenda"
+            defaultCurrentView="month"
             defaultCurrentDate={currentDate}
             views={views}
             editing={allowActions}

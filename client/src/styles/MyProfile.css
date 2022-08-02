@@ -4,7 +4,6 @@
     justify-content: center;
     align-items: center;
     padding: 15px 15px 15px 15px;
-    /* background-color: currentColor; */
 }
 
 .info {
@@ -18,16 +17,12 @@
     font-size: 18px;
 }
 
-/* .myData :nth-child(n) {
-    margin-top: 15px;
-} */
+.settingsContainer {
+    align-self: end;
+}
+
 
 .loadingProfile {
-    /* margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-self: center; */
-
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -39,9 +34,6 @@
 .oneProperty {
     margin-bottom: 10px;
     font-size: 20px;
-    /* color: white; */
-    /* display: flex;
-    align-items: center; */
 }
 
 .propertyName {
@@ -50,6 +42,5 @@
 }
 
 #options-Button {
-    /* margin: 15px 0px 0px 130px; */
     align-self: flex-end;
 }
