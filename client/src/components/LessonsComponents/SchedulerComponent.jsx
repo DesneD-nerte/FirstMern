@@ -23,7 +23,7 @@ const SchedulerComponent = ({ information, currentLessons }) => {
     loadMessages(ruMessages);
     locale(navigator.language);
 
-    const myData = useSelector((state) => ({ ...state.profileData }));
+    const { myData } = useSelector((state) => state.profileData);
     const dispatch = useDispatch();
 
     const [allowActions, setAllowActions] = useState({

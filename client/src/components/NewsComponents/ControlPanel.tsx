@@ -27,7 +27,7 @@ const ControlPanel = ({
     setDeleteMode,
     setModal,
 }) => {
-    const myData = useSelector((state: RootState) => ({ ...state.profileData }));
+    const { myData } = useSelector((state: RootState) => ({ ...state.profileData }));
 
     const handleChange = (event, newLimit) => {
         if (newLimit !== null) {

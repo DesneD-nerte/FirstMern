@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import RoleService from "../../services/RoleService";
-import { RootState } from "../../store";
-
-const endpoint = process.env.REACT_APP_SERVICE_URI;
+import { AppDispatch, RootState } from "../../store";
+import { updateAndGetProfileData } from "../../store/profileData/profileDataThunks";
 
 function SettingsPanel() {
-    const myData = useSelector((state: RootState) => state.profileData);
+    const { myData } = useSelector((state: RootState) => state.profileData);
+
+    const dispatch = useDispatch<AppDispatch>();
 
     const [anchorEl, setAnchorEl] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-
     const open = Boolean(anchorEl);
 
     const navigate = useNavigate();
@@ -27,29 +25,13 @@ function SettingsPanel() {
     };
 
     const handleExcel = (e) => {
-        navigate("/addingUsers", { replace: true });
+        navigate("/addingUsers");
     };
-
-    // useEffect(() => {
-    //     if (isLoading === true) {
-    //         axios.get(`${endpoint}/myprofile`).then((response) => {
-    //             dispatch(changeProfileData(response.data));
-    //             window.location.reload();
-    //             console.log(response.data);
-    //         });
-    //     }
-    // }, [isLoading]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const data = new FormData();
-        data.append("file", e.target.files[0]);
-        data.append("id", myData._id);
-
-        axios.post(`${endpoint}/upload`, data).then((response) => {
-            setIsLoading(true);
-        });
+        dispatch(updateAndGetProfileData(myData, e));
     };
 
     return (
@@ -72,7 +54,7 @@ function SettingsPanel() {
                 }}
             >
                 <MenuItem
-                    href="https://www.youtube.com/channel/UCb6AZy0_D1y661PMZck3jOw"
+                    href=""
                     type="file"
                     style={{
                         padding: 0,

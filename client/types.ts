@@ -1,7 +1,7 @@
 export type MyData = {
     _id?: string,
     username: string,
-    password: string,
+    // password: string,
     name: string,
     roles: Array<Role>,
     email: string,

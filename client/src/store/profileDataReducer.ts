@@ -1,7 +1,7 @@
 import { MyData, User } from "../../types";
 
 interface ProfileState {
-	data: MyData,
+	myData: MyData,
 	isLoading: boolean,
 	isError: boolean
 }
@@ -20,10 +20,10 @@ interface ProfileState {
 // }
 
 const initialState: ProfileState = {
-	data: {
+	myData: {
 		_id: '',
 		username: '',
-		password: '',
+		// password: '',
 		name: '',
 		roles: [],
 		email: '',
@@ -43,7 +43,7 @@ const CHANGE_ISERROR = 'CHANGE_ISERROR';
 export const profileDataReducer = (state = initialState, action) => {
 	switch(action.type) {
 		case CHANGE_PROFILE_DATA:
-			return {...state, ...action.payload}
+			return {myData: action.payload, isLoading: false, isError: false}
 		case CHANGE_ISLOADING: 
 			return {...state, isLoading: action.payload}
 		case CHANGE_ISERROR: 

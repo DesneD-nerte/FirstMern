@@ -11,9 +11,7 @@ import WrapperMenu from "../components/WrapperMenu";
 import React from "react";
 
 const AppRouter = () => {
-    const myData = useSelector((state: RootState) => ({
-        ...state.profileData,
-    }));
+    const { myData } = useSelector((state: RootState) => state.profileData);
 
     const { state } = useContext(AuthContext);
 
