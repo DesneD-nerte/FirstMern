@@ -13,6 +13,18 @@ import { Provider } from 'react-redux';
 import {store, persistor} from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const mediaQueryTheme = createTheme({
+	components: {
+		MuiUseMediaQuery: {
+			defaultProps: {
+				noSsr: true,
+			},
+		},
+	},
+});
+
 function App() {
 
 	const [state, authContext] = useAuth();
@@ -26,15 +38,17 @@ function App() {
 
 	return (
 
-		<Provider store={store}>
-			<PersistGate loading={null} persistor={persistor}>
-				<AuthContext.Provider value={{state, authContext}}>
-					<BrowserRouter>
-						<AppRouter></AppRouter>
-					</BrowserRouter>
-				</AuthContext.Provider>
-			</PersistGate>
+		<ThemeProvider theme={mediaQueryTheme}>
+			<Provider store={store}>
+				<PersistGate loading={null} persistor={persistor}>
+					<AuthContext.Provider value={{state, authContext}}>
+						<BrowserRouter>
+							<AppRouter></AppRouter>
+						</BrowserRouter>
+					</AuthContext.Provider>
+				</PersistGate>
 		</Provider>
+		</ThemeProvider>
   	);
 }
 

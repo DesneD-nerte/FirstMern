@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import AuthService from "../services/AuthService";
 import { AuthContext } from "../context/authContext";
 
-import { Button, FormControl, OutlinedInput, TextField } from "@mui/material";
+import { Button, FormControl, OutlinedInput } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { changeProfileData } from "../store/profileDataReducer";
 import "../styles/Login.css";
@@ -151,14 +151,15 @@ const Login = () => {
                             <form className="formDiv">
                                 <h1 className="login-label">Логин</h1>
 
-                                <TextField
-                                    value={username}
-                                    onChange={handleUsernameInput}
-                                    type="text"
-                                    placeholder="Введите логин"
-                                    onKeyDown={handleSubmit}
-                                    sx={{ width: "100%", marginTop: 2 }}
-                                ></TextField>
+                                <FormControl sx={{ width: "100%", marginTop: 2 }}>
+                                    <OutlinedInput
+                                        value={username}
+                                        onChange={handleUsernameInput}
+                                        type="text"
+                                        placeholder="Введите логин"
+                                        onKeyDown={handleSubmit}
+                                    />
+                                </FormControl>
                                 <FormControl
                                     sx={{ width: "100%", marginTop: 1 }}
                                     error={showError}
