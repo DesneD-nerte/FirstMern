@@ -147,67 +147,65 @@ const Login = () => {
             <div className="main-modal">
                 <div className="modal_overlay">
                     <div className="modal_content">
-                        <div>
-                            <form className="formDiv">
-                                <h1 className="login-label">Логин</h1>
+                        <form className="formDiv">
+                            <h1 className="login-label">Логин</h1>
 
-                                <FormControl sx={{ width: "100%", marginTop: 2 }}>
-                                    <OutlinedInput
-                                        value={username}
-                                        onChange={handleUsernameInput}
-                                        type="text"
-                                        placeholder="Введите логин"
-                                        onKeyDown={handleSubmit}
-                                    />
-                                </FormControl>
-                                <FormControl
-                                    sx={{ width: "100%", marginTop: 1 }}
-                                    error={showError}
+                            <FormControl sx={{ width: "100%", marginTop: 2 }}>
+                                <OutlinedInput
+                                    value={username}
+                                    onChange={handleUsernameInput}
+                                    type="text"
+                                    placeholder="Введите логин"
+                                    onKeyDown={handleSubmit}
+                                />
+                            </FormControl>
+                            <FormControl
+                                sx={{ width: "100%", marginTop: 1 }}
+                                error={showError}
+                            >
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
+                                    placeholder="Введите пароль"
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={handlePasswordInput}
+                                    onKeyDown={handleSubmit}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                            >
+                                                {showPassword ? (
+                                                    <VisibilityOff />
+                                                ) : (
+                                                    <Visibility />
+                                                )}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                                <FormHelperText
+                                    id="component-error-text"
+                                    sx={{
+                                        visibility:
+                                            showError === true ? "visible" : "hidden",
+                                    }}
                                 >
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        placeholder="Введите пароль"
-                                        type={showPassword ? "text" : "password"}
-                                        value={password}
-                                        onChange={handlePasswordInput}
-                                        onKeyDown={handleSubmit}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
-                                                        <Visibility />
-                                                    )}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                    <FormHelperText
-                                        id="component-error-text"
-                                        sx={{
-                                            visibility:
-                                                showError === true ? "visible" : "hidden",
-                                        }}
-                                    >
-                                        Неправильный логин или пароль
-                                    </FormHelperText>
-                                </FormControl>
+                                    Неправильный логин или пароль
+                                </FormHelperText>
+                            </FormControl>
 
-                                <Button
-                                    variant="contained"
-                                    sx={{ width: "100%", marginTop: 3, fontSize: 16 }}
-                                    onClick={loginEnter}
-                                >
-                                    Войти
-                                </Button>
-                            </form>
-                        </div>
+                            <Button
+                                variant="contained"
+                                sx={{ width: "100%", marginTop: 3, fontSize: 16 }}
+                                onClick={loginEnter}
+                            >
+                                Войти
+                            </Button>
+                        </form>
                     </div>
                 </div>
             </div>

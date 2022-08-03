@@ -23,3 +23,11 @@
     width: 1px;
     align-self: stretch;
 }
+
+
+
+@media screen and (max-width: 1000px) {
+    .newsContainer {
+        flex-direction: column-reverse;
+    }
+}
