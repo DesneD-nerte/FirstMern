@@ -1,14 +1,10 @@
-.wrapperMenu {
+.elementsMenu {
+    display: flex;
+    flex-direction: row;
+    
     background-color:rgb(249, 251, 255);
     border-bottom: solid 1px;
     border-color: lightgray;
-}
-
-.elementsMenu {
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    justify-content:space-between;
 }
 
 .elementsMenu :nth-child(n) {
