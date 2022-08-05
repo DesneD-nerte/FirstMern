@@ -5,17 +5,21 @@ import storage from 'redux-persist/lib/storage'
 import { informationReducer } from "./informationReducer";
 import { currentLessonsReducers } from "./currentLessonsReducer";
 import thunkMiddleware from 'redux-thunk';
+import { newsReducer } from "./news/newsData/newsReducer";
+import { newsDeleteReducer } from "./news/newsDelete/newsDeleteReducer";
 
 const rootReducer = combineReducers({
     profileData: profileDataReducer,
     informationData: informationReducer,
-    currentLessonsData: currentLessonsReducers
+    currentLessonsData: currentLessonsReducers,
+    newsData: newsReducer,
+    newsDeleteData: newsDeleteReducer
 })
 
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: ['informationData', 'currentLessonsData']
+    blacklist: ['informationData', 'currentLessonsData', 'newsData', 'newsDeleteData']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

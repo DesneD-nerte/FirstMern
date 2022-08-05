@@ -1,23 +1,10 @@
-import { MyData, User } from "../../types";
+import { MyData } from "../../types";
 
 interface ProfileState {
 	myData: MyData,
 	isLoading: boolean,
 	isError: boolean
 }
-
-// const initialState: MyData = {
-//     _id: '',
-//     username: '',
-// 	password: '',
-//     name: '',
-//     roles: [],
-//     email: '',
-// 	imageUri: '',
-// 	faculties: [],
-// 	departments: [],
-// 	groups: [],
-// }
 
 const initialState: ProfileState = {
 	myData: {

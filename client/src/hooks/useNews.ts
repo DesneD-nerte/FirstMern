@@ -1,12 +1,17 @@
 import { useMemo } from "react";
 import { News } from '../../types';
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
-export const useNews = (posts: Array<News>, query: string) => {
+export const useNews = () => {
+    const { news, filter } = useSelector(
+        (state: RootState) => state.newsData
+    );
 
-    const stringArray = query.split(/[;,— ]+/)
+    const stringArray = filter.query.split(/[;,— ]+/)
 
     const searchedPosts = useMemo(() => {
-        return posts.filter(post => {
+        return news.filter(post => {
             for (const element of stringArray) {
                 if(post.content.toLowerCase().includes(element.toLowerCase()) || post.name.toLowerCase().includes(element.toLowerCase())) {
                     return true;
@@ -15,7 +20,7 @@ export const useNews = (posts: Array<News>, query: string) => {
         }
             
         );
-    }, [posts, query])
+    }, [news, filter])
 
     return searchedPosts;
 }

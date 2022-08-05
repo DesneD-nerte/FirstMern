@@ -8,43 +8,58 @@ import {
 } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/ControlPanel.css";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import RoleService from "../../services/RoleService";
-import { RootState } from "../../store";
+import { AppDispatch, RootState } from "../../store";
+import {
+    setFilterNews,
+    setLimitNews,
+    setPageNews,
+} from "../../store/news/newsData/newsReducer";
+import CreateNews from "./CreateNews";
+import { changeDeleteMode } from "../../store/news/newsDelete/newsDeleteReducer";
+import { DeleteNews } from "../../store/news/newsDelete/newsDeleteThunk";
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
-const ControlPanel = ({
-    arrayToDelete,
-    filter,
-    setFilter,
-    limit,
-    setLimit,
-    deleteMode,
-    setDeleteMode,
-    setModal,
-}) => {
-    const { myData } = useSelector((state: RootState) => ({ ...state.profileData }));
+const ControlPanel = () => {
+    const { myData } = useSelector((state: RootState) => state.profileData);
+    const { limit, page, range, filter } = useSelector(
+        (state: RootState) => state.newsData
+    );
+    const { newsDelete, deleteMode } = useSelector(
+        (state: RootState) => state.newsDeleteData
+    );
 
-    const handleChange = (event, newLimit) => {
+    const dispatch = useDispatch<AppDispatch>();
+
+    const [openCreatingNews, setOpenCreatingNews] = useState(false);
+
+    const handleChangeInput = (e) => {
+        dispatch(setFilterNews(e.target.value));
+    };
+
+    const handleChangeLimit = (e, newLimit) => {
+        if (Math.ceil(range / limit) == page) {
+            dispatch(setPageNews(Math.ceil(range / newLimit)));
+        }
         if (newLimit !== null) {
-            setLimit(newLimit);
+            dispatch(setLimitNews(newLimit));
         }
     };
 
+    const handleAddNews = () => {
+        setOpenCreatingNews(true);
+    };
+
     const handleDelete = () => {
-        axios
-            .delete(`${endpoint}/news/deletenews`, { data: { oldNews: arrayToDelete } })
-            .then((response) => {
-                setDeleteMode(false);
-            });
+        dispatch(DeleteNews(newsDelete, limit));
     };
 
     const handleSwitchButton = () => {
-        setDeleteMode(!deleteMode);
+        dispatch(changeDeleteMode(!deleteMode));
     };
 
     return (
@@ -53,7 +68,7 @@ const ControlPanel = ({
                 <TextField
                     style={{ width: "85%", alignSelf: "center" }}
                     value={filter.query}
-                    onChange={(e) => setFilter({ ...filter, query: e.target.value })}
+                    onChange={handleChangeInput}
                     id="input-with-icon-textfield"
                     label="Поиск"
                     disabled={deleteMode}
@@ -70,7 +85,7 @@ const ControlPanel = ({
                     <label>Показывать по:</label>
                     <ToggleButtonGroup
                         value={limit}
-                        onChange={handleChange}
+                        onChange={handleChangeLimit}
                         color="primary"
                         style={{ marginTop: 10 }}
                         exclusive
@@ -109,7 +124,7 @@ const ControlPanel = ({
                             <Button
                                 variant="contained"
                                 disabled={deleteMode}
-                                onClick={() => setModal(true)}
+                                onClick={handleAddNews}
                             >
                                 Добавить новость
                             </Button>
@@ -117,6 +132,7 @@ const ControlPanel = ({
                     </div>
                 )}
             </div>
+            {openCreatingNews && <CreateNews setVisible={setOpenCreatingNews} />}
         </div>
     );
 };
