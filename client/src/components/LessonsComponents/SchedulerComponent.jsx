@@ -11,7 +11,7 @@ import TimeButtonsHandler from "./TimeButtonsHandler";
 import {
     saveNewCurrentLesson,
     saveNewCurrentLessonsArray,
-} from "../../store/currentLessonsReducer";
+} from "../../store/lessons/currentLessons/currentLessonsThunks";
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 

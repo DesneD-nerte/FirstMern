@@ -1,5 +1,5 @@
 import axios from "axios";
-import { changeIsError, changeIsLoading, changeProfileData } from "../profileDataReducer";
+import { changeIsError, changeIsLoading, changeProfileData } from "./profileDataReducer";
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 

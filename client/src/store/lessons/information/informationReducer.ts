@@ -1,4 +1,4 @@
-import { InformationScheduler } from "../../types";
+import { InformationScheduler } from "../../../../types";
 
 const initialState: InformationScheduler = {
     teachers: [{

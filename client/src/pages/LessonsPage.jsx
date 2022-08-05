@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { loadMessages, locale } from "devextreme/localization";
 import { useDispatch, useSelector } from "react-redux";
 import SchedulerComponent from "../components/LessonsComponents/SchedulerComponent";
-import { loadCurrentLessons } from "../store/currentLessonsReducer";
+import { loadCurrentLessons } from "../store/lessons/currentLessons/currentLessonsThunks";
 
 const Lessons = () => {
     const information = useSelector((state) => ({

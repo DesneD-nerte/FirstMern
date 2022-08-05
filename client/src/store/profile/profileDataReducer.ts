@@ -1,4 +1,4 @@
-import { MyData } from "../../types";
+import { MyData } from "../../../types";
 
 interface ProfileState {
 	myData: MyData,

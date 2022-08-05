@@ -4,7 +4,7 @@ import { AuthContext } from "../context/authContext";
 
 import { Button, FormControl, OutlinedInput } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { changeProfileData } from "../store/profileDataReducer";
+import { changeProfileData } from "../store/profile/profileDataReducer";
 import "../styles/Login.css";
 
 import Visibility from "@mui/icons-material/Visibility";

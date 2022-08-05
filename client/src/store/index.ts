@@ -1,9 +1,9 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
-import { profileDataReducer } from "./profileDataReducer";
+import { profileDataReducer } from "./profile/profileDataReducer";
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' 
-import { informationReducer } from "./informationReducer";
-import { currentLessonsReducers } from "./currentLessonsReducer";
+import { informationReducer } from "./lessons/information/informationReducer";
+import { currentLessonsReducers } from "./lessons/currentLessons/currentLessonsReducer";
 import thunkMiddleware from 'redux-thunk';
 import { newsReducer } from "./news/newsData/newsReducer";
 import { newsDeleteReducer } from "./news/newsDelete/newsDeleteReducer";

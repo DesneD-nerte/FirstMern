@@ -4,7 +4,7 @@ import { Button, Input, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import RoleService from "../../services/RoleService";
 import { AppDispatch, RootState } from "../../store";
-import { updateAndGetProfileData } from "../../store/profileData/profileDataThunks";
+import { updateAndGetProfileData } from "../../store/profile/profileDataThunks";
 
 function SettingsPanel() {
     const { myData } = useSelector((state: RootState) => state.profileData);
