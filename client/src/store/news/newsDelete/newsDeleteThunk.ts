@@ -11,9 +11,8 @@ export const DeleteNews = (newsDelete: News[], pageLimit: number) => {
     return async (dispatch) => {
         try {
             dispatch(changeNewsIsLoading(true));
-
             axios
-            .delete(`${endpoint}/news/deletenews`, { data: { oldNews: newsDelete } })
+            .delete(`${endpoint}/news/deletenews`, { data: { arrayIdNews: newsDelete.map(prop => prop._id)} })
             .then((response) => {
                 dispatch(GetNews(1, pageLimit));
                 dispatch(changeDeleteMode(false));

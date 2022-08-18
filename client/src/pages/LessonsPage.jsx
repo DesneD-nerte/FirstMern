@@ -6,16 +6,12 @@ import SchedulerComponent from "../components/LessonsComponents/SchedulerCompone
 import { loadCurrentLessons } from "../store/lessons/currentLessons/currentLessonsThunks";
 
 const Lessons = () => {
-    const information = useSelector((state) => ({
-        ...state.informationData,
-    }));
+    const information = useSelector((state) => state.informationData);
     const currentLessons = useSelector((state) => state.currentLessonsData);
     const dispatch = useDispatch();
 
     loadMessages(ruMessages);
     locale(navigator.language);
-
-    // const counter = useRef(0);
 
     useEffect(() => {
         dispatch(loadCurrentLessons());
@@ -26,7 +22,6 @@ const Lessons = () => {
             <SchedulerComponent
                 information={information}
                 currentLessons={currentLessons}
-                // counter={counter}
             ></SchedulerComponent>
         </div>
     );

@@ -32,6 +32,7 @@ function App() {
 	useEffect(() => {
 		const token = localStorage.getItem('token')
 		if(token) {
+			console.log(token);
             authContext.signIn(token);
         } 
     }, [])

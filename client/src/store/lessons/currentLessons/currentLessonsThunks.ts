@@ -44,9 +44,9 @@ export const saveNewCurrentLessonsArray = (appointmentData) => {
         const schedulerArray = await DataService.TransformCurrentLessonsDbToScheduler(newCurrentLessonsArray);
         dispatch(addCurrentLessons(schedulerArray));
 
-        await axios.post(`${endpoint}/marks/savenewcurrentlessonsarray`, {
-            appointmentData,
-            newCurrentLessonsArray,
-        });
+        // await axios.post(`${endpoint}/marks/savenewcurrentlessonsarray`, {
+        //     appointmentData,
+        //     newCurrentLessonsArray,
+        // });
     }
 }

@@ -30,12 +30,14 @@ export const AddNews = (newNews: News, pageLimit: number) => {
         try {
             dispatch(changeNewsIsLoading(true));
             axios.post(`${endpoint}/news/postnews`, {
-                data: { newNews: newNews },
+                data: newNews
             })
-            
-            dispatch(changeNewsIsLoading(false));
-            dispatch(GetNews(1, pageLimit));
-            dispatch(setPageNews(1));
+            .then(res => {
+                dispatch(changeNewsIsLoading(false));
+                dispatch(GetNews(1, pageLimit));
+                dispatch(setPageNews(1));
+            })
+
         } catch(e) {
             dispatch(changeNewsIsError(true));
         }

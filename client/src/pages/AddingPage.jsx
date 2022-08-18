@@ -27,15 +27,12 @@ export default function AddingPage() {
         const loadedWorkBook = await ExcelUtility.load(myFileExcel);
         setWorkBook(loadedWorkBook);
 
-        const arrayUsers =
-            ExcelUsers.createArrayUsers(loadedWorkBook);
+        const arrayUsers = ExcelUsers.createArrayUsers(loadedWorkBook);
         axios
-            .post(
-                `${endpoint}/api/auth/registration/arrayusers`,
-                arrayUsers
-            )
+            .post(`${endpoint}/api/auth/registration/arrayusers`, arrayUsers)
             .then((res) => {
                 const responseArrayUsers = res.data;
+                console.log(responseArrayUsers);
                 setArrayUsers(responseArrayUsers);
             })
             .catch((err) => console.log(err));
@@ -43,14 +40,8 @@ export default function AddingPage() {
 
     const saveWorkBook = () => {
         if (workbook) {
-            const filledWorkBook = ExcelUsers.fillArrayUsers(
-                workbook,
-                arrayUsers
-            );
-            ExcelUtility.save(
-                filledWorkBook,
-                `Новые пользователи:  ${new Date()}`
-            );
+            const filledWorkBook = ExcelUsers.fillArrayUsers(workbook, arrayUsers);
+            ExcelUtility.save(filledWorkBook, `Новые пользователи:  ${new Date()}`);
         } else {
             setDisplayAlertDialog(true);
         }
@@ -64,8 +55,7 @@ export default function AddingPage() {
         setIsLoading(false);
     }, [arrayUsers]);
 
-    const [dispayAlertDialog, setDisplayAlertDialog] =
-        useState(false);
+    const [dispayAlertDialog, setDisplayAlertDialog] = useState(false);
 
     return (
         <div>
@@ -80,10 +70,7 @@ export default function AddingPage() {
                     </Button>
                 </div>
                 <div style={{ marginBottom: 10 }}>
-                    <label
-                        htmlFor="upload-excel"
-                        style={{ width: "100%" }}
-                    >
+                    <label htmlFor="upload-excel" style={{ width: "100%" }}>
                         <Input
                             type="file"
                             inputProps={{ accept: [".xlsx", ".xls"] }}
@@ -107,9 +94,7 @@ export default function AddingPage() {
                 <div>
                     {isLoading === false ? (
                         <div>
-                            <ExcelTable
-                                arrayUsers={arrayUsers}
-                            ></ExcelTable>
+                            <ExcelTable arrayUsers={arrayUsers}></ExcelTable>
 
                             <div style={{ marginTop: 10 }}>
                                 <Button
@@ -125,9 +110,7 @@ export default function AddingPage() {
                         </div>
                     ) : (
                         <div className="loadingProfile">
-                            <CircularProgress
-                                size={100}
-                            ></CircularProgress>
+                            <CircularProgress size={100}></CircularProgress>
                         </div>
                     )}
                 </div>
