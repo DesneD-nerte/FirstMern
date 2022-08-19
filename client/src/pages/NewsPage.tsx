@@ -12,9 +12,7 @@ import { setPageNews } from "../store/news/newsData/newsReducer";
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
 function NewsPage() {
-    const { news, page, limit, range, isLoading } = useSelector(
-        (state: RootState) => state.newsData
-    );
+    const { page, limit, range } = useSelector((state: RootState) => state.newsData);
 
     const dispatch = useDispatch<AppDispatch>();
 

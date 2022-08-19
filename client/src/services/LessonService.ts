@@ -1,46 +1,34 @@
 import RRule, { rrulestr } from 'rrule'
 import axios from 'axios';
+import { CurrentLessonScheduler } from '../../types';
 
 const endpoint = process.env.REACT_APP_SERVICE_URI;
 
-type currentLesson = {
-    classRoomId: string,
-    endDate: Date,
-    startDate: Date,
-    teacherId: Array<string>,
-    text: string,
-    lessonNameId: string,
-    groupId: string,
-    recurrenceRule: string
-}
-
 class LessonService {
 
-    appointmentData: currentLesson;
+    appointmentData: CurrentLessonScheduler;
 
-    constructor(appointmentData: currentLesson) {
+    constructor(appointmentData: CurrentLessonScheduler) {
         this.appointmentData = appointmentData; 
     }
 
     async addArrayLessons() {
         const {recurrenceRule, startDate} = this.appointmentData;
 
-        const occurences = this.#getOccurencies(recurrenceRule, startDate);
+        const occurences = this.getOccurencies(recurrenceRule as string, startDate);
 
-        const arrayCurrentLessons: Array<currentLesson> = [];
+        const arrayCurrentLessons: Array<CurrentLessonScheduler> = [];
 
         occurences.forEach(oneDate => {
-            const newCurrentLesson = this.#getNewCurrentLessons(oneDate);
+            const newCurrentLesson = this.getNewCurrentLessons(oneDate);
 
             arrayCurrentLessons.push(newCurrentLesson);
         });
 
-        console.log(arrayCurrentLessons);
-
         return await (await axios.post(`${endpoint}/currentlessons/savenewcurrentlessonsarray`, arrayCurrentLessons)).data;
     }
 
-    #getOccurencies(recurrenceRule: string, startDate: Date) {
+    private getOccurencies(recurrenceRule: string, startDate: Date) {
         const yearStart = startDate.getFullYear();
         const monthStart = startDate.getMonth();
         const dateStart = startDate.getDate();
@@ -55,7 +43,7 @@ class LessonService {
         return occurences;
     }
 
-    #getNewCurrentLessons(oneDateFromRule: Date) {
+    private getNewCurrentLessons(oneDateFromRule: Date) {
         const {startDate, endDate} = this.appointmentData;
         
         const year = oneDateFromRule.getFullYear();
@@ -67,7 +55,7 @@ class LessonService {
         const endHours = endDate.getHours();
         const endMinutes = endDate.getMinutes();
         
-        const newCurrentLesson: currentLesson = {...this.appointmentData,
+        const newCurrentLesson: CurrentLessonScheduler = {...this.appointmentData,
             startDate: new Date(year, month, date, startHours, startMinutes),
             endDate: new Date(year, month, date, endHours, endMinutes)
         };

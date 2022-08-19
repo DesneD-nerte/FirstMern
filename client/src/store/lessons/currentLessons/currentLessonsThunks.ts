@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CurrentLesson, CurrentLessonScheduler } from "../../../../types";
 import DataService from "../../../services/DataService";
 import LessonService from "../../../services/LessonService";
 import { changeInformationData } from "../information/informationReducer";
@@ -18,29 +19,29 @@ export const loadCurrentLessons = () => {
     }
 }
 
-export const saveNewCurrentLesson = (appointmentData) => {
+export const saveNewCurrentLesson = (appointmentData: CurrentLessonScheduler) => {
     return async function loadCurrentLessonsThunk (dispatch) {
-        const newCurrentLesson = await (
+        const newCurrentLesson: CurrentLesson = await (
             await axios.post(
                 `${endpoint}/currentlessons/savenewcurrentlesson`,
                 appointmentData
             )
         ).data;
+        const schedulerLesson = await DataService.TransformCurrentLessonsDbToScheduler(newCurrentLesson);
+        dispatch(addCurrentLessons(schedulerLesson))
 
-        dispatch(addCurrentLessons(newCurrentLesson))
-
-        await axios.post(`${endpoint}/marks/savenewcurrentlesson`, {
-            appointmentData,
-            newCurrentLesson,
-        });
+        // await axios.post(`${endpoint}/marks/savenewcurrentlesson`, {
+        //     appointmentData,
+        //     newCurrentLesson,
+        // });
     }
 }
 
-export const saveNewCurrentLessonsArray = (appointmentData) => {
+export const saveNewCurrentLessonsArray = (appointmentData: CurrentLessonScheduler) => {
     return async function loadCurrentLessonsThunk (dispatch) {
         const lessonServiceInstance = new LessonService(appointmentData);
         const newCurrentLessonsArray = await lessonServiceInstance.addArrayLessons();
-        
+
         const schedulerArray = await DataService.TransformCurrentLessonsDbToScheduler(newCurrentLessonsArray);
         dispatch(addCurrentLessons(schedulerArray));
 

@@ -13,7 +13,7 @@ const NewsList = (props: newsArrayProps) => {
     return (
         <div className="newsListComponent">
             <>
-                {news.length !== 0 ? (
+                {news.length ? (
                     <div>
                         {news.map((oneNews, index) => (
                             <div key={oneNews._id as React.Key}>

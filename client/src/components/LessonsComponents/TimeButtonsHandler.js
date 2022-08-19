@@ -12,30 +12,20 @@ function TimeButtonsHandler(setSelectedTimeRange, timeRange) {
     mainDiv.classList.add("d-none", "d-sm-block");
     mainContainer.appendChild(mainDiv);
 
-    let element1 = document.createElement("div");
-    mainDiv.appendChild(element1);
-    let instance1 = new DxButton(element1, {
-        text: "15 минут",
-        focusStateEnabled: false,
-        onClick: () => setSelectedTimeRange(timeRange[0]),
-    });
+    for(let i = 0; i < 3; i++) {
+        const dxButtonOptions = {
+            text: 15 * (i + 1) + "минут",
+            focusStateEnabled: false,
+            onClick: () => setSelectedTimeRange(timeRange[i])
+        }
+        if(i === 2) {
+            dxButtonOptions.text = "1 час";
+        }
+        let element = document.createElement("div");
+        new DxButton(element, dxButtonOptions);
 
-    let element2 = document.createElement("div");
-    mainDiv.appendChild(element2);
-    let instance2 = new DxButton(element2, {
-        text: "30 минут",
-        focusStateEnabled: false,
-        onClick: () => setSelectedTimeRange(timeRange[1]),
-    });
-
-    let element3 = document.createElement("div");
-    mainDiv.appendChild(element3);
-    let instance3 = new DxButton(element3, {
-        text: "1 час",
-        focusStateEnabled: false,
-        onClick: () => setSelectedTimeRange(timeRange[2]),
-    });
-
+        mainDiv.appendChild(element);
+    }
 }
 
 export default TimeButtonsHandler

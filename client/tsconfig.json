@@ -10,7 +10,8 @@
     "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
     "useUnknownInCatchVariables": true,
     "noImplicitAny": false,
-    "allowJs": true
+    "allowJs": true,
+    "resolveJsonModule": true
   },
   "exclude":[
     "./node_modules"

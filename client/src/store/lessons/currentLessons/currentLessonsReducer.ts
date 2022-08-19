@@ -3,8 +3,6 @@ import { CurrentLessonScheduler } from "../../../../types";
 const ADD_CURRENTLESSONS_DATA = 'ADD_CURRENTLESSONS_DATA';
 const DELETE_CURRENTLESSONS_DATA = 'ADD_CURRENTLESSONS_DATA';
 
-const endpoint = process.env.REACT_APP_SERVICE_URI;
-
 const initialState: Array<CurrentLessonScheduler> = []
 
 //DevExtreme Scheduler seems to work with Redux, cuz while adding lessons, it change state somehow

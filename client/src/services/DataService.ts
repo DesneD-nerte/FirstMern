@@ -75,9 +75,9 @@ class DataService {
 
         const newCurrentLessonPromise = axios.get(`${endpoint}/currentlessons`)
         .then(response => {
-            const responseArrayLessons = response.data;
+            const responseArrayLessons: Array<CurrentLesson> = response.data;
 
-            const arrayScheduler = this.#fillArrayScheduler(responseArrayLessons);
+            const arrayScheduler = this.fillArrayScheduler(responseArrayLessons);
 
             return arrayScheduler;
         })
@@ -85,35 +85,30 @@ class DataService {
         return newCurrentLessonPromise;
     }
 
-    async TransformCurrentLessonsDbToScheduler(currentLessonsDb: Array<CurrentLesson>) {
-        const currentLessonDbIdArray: Array<string> = [];
-
-        for(const lesson of currentLessonsDb) {
-            currentLessonDbIdArray.push(lesson._id);
+    async TransformCurrentLessonsDbToScheduler(currentLessonsDb: CurrentLesson | Array<CurrentLesson>) {
+        if(Array.isArray(currentLessonsDb)) {
+            return this.fillArrayScheduler(currentLessonsDb);
+        } else {
+            return this.changeObjectKeyNames(currentLessonsDb);
         }
-
-        const responseArrayLessons: Array<CurrentLesson> = await (await axios.put(`${endpoint}/currentlessons/schedulercurrentlessons`, {data: currentLessonDbIdArray})).data;
-        
-        const arrayScheduler = this.#fillArrayScheduler(responseArrayLessons);
-
-        return arrayScheduler;
     }
 
     
-    #fillArrayScheduler(responseArrayLessons: Array<any>) {
+    private fillArrayScheduler(responseArrayLessons: Array<CurrentLesson>) {
         const newCurrentLessons: Array<CurrentLessonScheduler> = [];
-
+        
         for(const oneLesson of responseArrayLessons) {
-            newCurrentLessons.push(this.#changeObjectKeyNames(oneLesson));
+            newCurrentLessons.push(this.changeObjectKeyNames(oneLesson));
         }
 
         return newCurrentLessons;
     }
 
-    #changeObjectKeyNames(oneLessonDb) {
+    private changeObjectKeyNames(oneLessonDb: CurrentLesson): CurrentLessonScheduler {
         const teachersId: Array<string> = [];
+
         for (const oneTeacher of oneLessonDb.teachers) {
-            teachersId.push(oneTeacher._id);
+            teachersId.push(oneTeacher._id as string);
         }
 
         return {

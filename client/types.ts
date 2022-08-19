@@ -74,7 +74,8 @@ export type CurrentLessonScheduler = {
     teacherId: Array<string>,
     text: string,
     lessonNameId: string,
-    groupId: string
+    groupId: string,
+    recurrenceRule?: string
 }
 
 
