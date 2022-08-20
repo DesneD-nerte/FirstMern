@@ -30,10 +30,7 @@ export const saveNewCurrentLesson = (appointmentData: CurrentLessonScheduler) =>
         const schedulerLesson = await DataService.TransformCurrentLessonsDbToScheduler(newCurrentLesson);
         dispatch(addCurrentLessons(schedulerLesson))
 
-        // await axios.post(`${endpoint}/marks/savenewcurrentlesson`, {
-        //     appointmentData,
-        //     newCurrentLesson,
-        // });
+        await axios.post(`${endpoint}/marks/savenewcurrentlesson`, newCurrentLesson);
     }
 }
 
@@ -45,9 +42,6 @@ export const saveNewCurrentLessonsArray = (appointmentData: CurrentLessonSchedul
         const schedulerArray = await DataService.TransformCurrentLessonsDbToScheduler(newCurrentLessonsArray);
         dispatch(addCurrentLessons(schedulerArray));
 
-        // await axios.post(`${endpoint}/marks/savenewcurrentlessonsarray`, {
-        //     appointmentData,
-        //     newCurrentLessonsArray,
-        // });
+        await axios.post(`${endpoint}/marks/savenewcurrentlessonsarray`, newCurrentLessonsArray);
     }
 }
