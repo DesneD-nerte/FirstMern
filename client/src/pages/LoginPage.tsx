@@ -53,29 +53,7 @@ const Login = () => {
 
         await AuthService.login(username, password)
             .then((response) => {
-                const {
-                    _id,
-                    username,
-                    name,
-                    roles,
-                    email,
-                    imageUri,
-                    faculties,
-                    departments,
-                    groups,
-                } = response.data;
-                const storeData = {
-                    _id,
-                    username,
-                    name,
-                    roles,
-                    email,
-                    imageUri,
-                    faculties,
-                    departments,
-                    groups,
-                };
-
+                const storeData = response.data;
                 dispatch(changeProfileData(storeData));
 
                 authContext.signIn(response.data.token);
