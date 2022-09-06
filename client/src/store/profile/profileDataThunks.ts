@@ -17,6 +17,7 @@ export const updateAndGetProfileData = (myData, event) => {
             
             window.location.reload();//Необходимо для обновления аватара, иначе пока не получается обновить
         } catch(e) {
+            dispatch(changeIsLoading(false));
             dispatch(changeIsError(true));
         }
     }
