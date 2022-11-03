@@ -14,10 +14,7 @@ export default function Appointment(model, teachers, audiences) {
         );
 
         return (
-            <div
-                className="showtime-preview"
-                style={{ display: "flex", flexDirection: "row" }}
-            >
+            <div className="showtime-preview" style={{ display: "flex", flexDirection: "row" }}>
                 <div
                     style={{
                         backgroundColor: "#337ab7",

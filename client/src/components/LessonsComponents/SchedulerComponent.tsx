@@ -16,12 +16,11 @@ const currentDate = new Date();
 
 const SchedulerComponent = ({ information, currentLessons }) => {
     loadMessages(ruMessages);
-    locale(navigator.language);
+    locale("ru");
 
     const dispatch = useDispatch();
 
-    const [allowActions, onAppointmentFormOpeningAction, checkFormFields] =
-        useScheduler(information);
+    const [allowActions, onAppointmentFormOpeningAction, checkFormFields] = useScheduler(information);
 
     const timeRange = [15, 30, 60];
     const [selectedTimeRange, setSelectedTimeRange] = useState(timeRange[1]);
@@ -60,9 +59,7 @@ const SchedulerComponent = ({ information, currentLessons }) => {
             onAppointmentUpdating={checkFormFields}
             onAppointmentAdding={checkFormFields}
             onAppointmentFormOpening={onAppointmentFormOpeningAction}
-            appointmentComponent={(e) =>
-                Appointment(e, information.teachers, information.audiences)
-            }
+            appointmentComponent={(e) => Appointment(e, information.teachers, information.audiences)}
             onAppointmentAdded={saveCurrentLesson}
             onCurrentViewChange={(view) => setCurrentView(view)}
             onContentReady={addTimeButtons}
@@ -74,16 +71,8 @@ const SchedulerComponent = ({ information, currentLessons }) => {
                 label="Преподаватель"
                 useColorAsDefault={true}
             ></Resource>
-            <Resource
-                dataSource={information.audiences}
-                fieldExpr="classRoomId"
-                label="Аудитория"
-            ></Resource>
-            <Resource
-                dataSource={information.groups}
-                fieldExpr="groupId"
-                label="Группа"
-            ></Resource>
+            <Resource dataSource={information.audiences} fieldExpr="classRoomId" label="Аудитория"></Resource>
+            <Resource dataSource={information.groups} fieldExpr="groupId" label="Группа"></Resource>
         </Scheduler>
     );
 };

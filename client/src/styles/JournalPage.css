@@ -5,7 +5,7 @@
     align-items: center;
 }
 
-.h1-Text {
+.h1-text {
     align-self: flex-start;
     margin-top: 20px;
     margin-left: 30px;
@@ -17,7 +17,13 @@
 }
 
 .lessonComponent {
-    width: 50%
+    width: 50%;
+}
+
+@media screen and (max-width: 768px) {
+    .lessonComponent {
+        width: 100%;
+    }
 }
 
 .groupsComponent {

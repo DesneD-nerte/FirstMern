@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { ExcelUtility } from "./../services/ExcelUtility";
 import { Input, Button, CircularProgress } from "@mui/material";
 import ExcelUsers from "../services/ExcelUsers";
@@ -16,7 +16,6 @@ export default function AddingPage() {
     const [arrayUsers, setArrayUsers] = useState([{ name: "Empty" }]);
 
     const handleSetFile = async (e) => {
-        console.log(e.target.files);
         const filePath = e.target.value;
         let fileName = filePath.replace(/.*[\/\\]/, "");
         fileName = fileName.slice(0, fileName.lastIndexOf("."));
@@ -62,10 +61,7 @@ export default function AddingPage() {
             <div className="addingComponent">
                 <h1>Добавление пользователей</h1>
                 <div style={{ marginTop: 10 }}>
-                    <Button
-                        onClick={() => setDisplayAlertDialog(true)}
-                        style={{ width: "100%", fontSize: 16 }}
-                    >
+                    <Button onClick={() => setDisplayAlertDialog(true)} style={{ width: "100%", fontSize: 16 }}>
                         Шаблон
                     </Button>
                 </div>
@@ -116,10 +112,7 @@ export default function AddingPage() {
                 </div>
             </div>
             {dispayAlertDialog === true && (
-                <AlertDialogSlide
-                    displayAlertDialog
-                    setDisplayAlertDialog={setDisplayAlertDialog}
-                ></AlertDialogSlide>
+                <AlertDialogSlide displayAlertDialog setDisplayAlertDialog={setDisplayAlertDialog}></AlertDialogSlide>
             )}
         </div>
     );
